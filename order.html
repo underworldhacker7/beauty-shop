@@ -5,6 +5,9 @@
     <title>My Orders - G&G Beauty</title>
     <link rel="stylesheet" href="order.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
     <div class="order-container">
@@ -27,6 +30,57 @@
         </div>
         <div id="order-history"></div>
     </div>
+    <div class="container">
+        <h1>Order Summary</h1>
+        <p><strong>User:</strong> <span id="order-user"></span></p>
+        <table id="order-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Line Total</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p><strong>Overall Total: $<span id="order-total"></span></strong></p>
+        <button onclick="proceedToPay()" class="btn primary-btn">Proceed to Pay</button>
+    </div>
+    <script>
+  // Use the same firebaseConfig as above
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(async function(user) {
+    if (user) {
+      const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+      const userInfo = snapshot.val();
+      document.getElementById('order-user').textContent = userInfo ? userInfo.name : user.email;
+    }
+  });
+
+  // Display cart/order info as before
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('gg_beauty_cart')) || [];
+    let total = 0;
+    let rows = '';
+    cart.forEach(item => {
+      const lineTotal = item.price * item.quantity;
+      total += lineTotal;
+      rows += `<tr>
+        <td>${item.name}</td>
+        <td>${item.quantity}</td>
+        <td>$${item.price}</td>
+        <td>$${lineTotal.toFixed(2)}</td>
+      </tr>`;
+    });
+    document.querySelector('#order-table tbody').innerHTML = rows;
+    document.getElementById('order-total').textContent = total.toFixed(2);
+  });
+  function proceedToPay() {
+    alert('Proceeding to payment...');
+  }
+</script>
     <script>
 async function loadCustomerInfo() {
     const token = localStorage.getItem('token');

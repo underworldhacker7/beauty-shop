@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - G&G Beauty</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="signout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">G&G Beauty</a>
+            </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <h1 class="section-title">Join Us Today!!</h1>
+            <div class="auth-container">
+                <section id="login-section">
+                    <form id="login-form" class="simple-form">
+                        <h2>Login</h2>
+                        <input type="email" placeholder="Email Address" required >
+                        <input type="password" placeholder="Password"  required> 
+                        <button type="submit" class="btn primary-btn">Log In</button>
+                        <p class="switch-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                    </form>
+                </section>
+
+                <section id="signup-section" style="display:none;">
+                    <form id="signup-form" class="simple-form">
+                        <h2>Sign Up</h2>
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="password" placeholder="Password" required>
+                        <input type="password" placeholder="Confirm Password" required>
+                        <button type="submit" class="btn primary-btn">Sign Up</button>
+                        <p class="switch-link">Already have an account? <a href="#" id="show-login">Login</a></p>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.getElementById('show-signup').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('signup-section').style.display = 'block';
+        };
+        document.getElementById('show-login').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('signup-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        };
+    </script>
+</body>
+</html>

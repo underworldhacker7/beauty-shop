@@ -1,0 +1,77 @@
+.order-container {
+    max-width: 400px;
+    margin: 4rem auto;
+    background:rgb(93, 93, 99) ;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.order-container h2 {
+    font-family: 'Playfair Display', serif;
+    color: #bfa14a;
+    margin-bottom: 2rem;
+}
+
+#track-order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#track-order-form input {
+    padding: 18px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+#track-order-form button {
+    padding: 18px;
+    background: linear-gradient(90deg, #bfa14a, #f7e7b0);
+    color: #222;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+#track-order-form button:hover {
+    background: linear-gradient(90deg, #f7e7b0, #bfa14a);
+}
+
+.order-status {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    background: #f9f7ed;
+    border-radius: 8px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(191,161,74,0.07);
+}
+
+.place-order-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #bfa14a, #f7e7b0);
+    color: #222;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 14px 38px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(191,161,74,0.13);
+    transition: background 0.3s, color 0.2s, transform 0.2s;
+    margin-top: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.place-order-btn:hover {
+    background: linear-gradient(90deg, #f7e7b0, #bfa14a);
+    color: #0A192F;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(191,161,74,0.2);
+}

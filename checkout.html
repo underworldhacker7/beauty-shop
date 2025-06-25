@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - G&G Beauty</title>
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">G&G Beauty</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    </ul>
+            </nav>
+            <div class="header-icons">
+                <button class="icon-button"><i class="fas fa-user"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <h1 class="section-title">Secure Checkout</h1>
+            <div class="checkout-form-container">
+                <p>This is where your payment and shipping forms would go.</p>
+                <p>Total items: <span id="checkout-item-count"></span></p>
+                <p>Order Total: $<span id="checkout-total"></span></p>
+                <form class="simple-form">
+                    <h3>Shipping Information</h3>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="text" placeholder="Address Line 1" required>
+                    <input type="text" placeholder="City" required>
+                    <input type="text" placeholder="Postal Code" required>
+                    <input type="text" placeholder="Country" required>
+
+                    <h3>Payment Information</h3>
+                    <input type="text" placeholder="Card Number" required>
+                    <input type="text" placeholder="MM/YY" required>
+                    <input type="text" placeholder="CVC" required>
+
+                    <button type="submit" class="btn primary-btn">Place Order</button>
+                </form>
+                <form id="login-form">
+                    <input type="email" id="login-email" required>
+                    <input type="password" id="login-password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <form id="signup-form">
+                    <input type="text" id="signup-name" placeholder="Full Name" required>
+                    <input type="email" id="signup-email" placeholder="Email" required>
+                    <input type="password" id="signup-password" placeholder="Password" required>
+                    <input type="text" id="signup-address" placeholder="Address" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2023 G&G Beauty. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Shipping & Returns</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = JSON.parse(localStorage.getItem('gg_beauty_cart')) || [];
+            let total = 0;
+            let itemCount = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                itemCount += item.quantity;
+            });
+            document.getElementById('checkout-item-count').textContent = itemCount;
+            document.getElementById('checkout-total').textContent = total.toFixed(2);
+        });
+    </script>
+    <script src="backend.js"></script>
+    <script>
+    document.getElementById('login-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const res = await fetch('http://localhost:4000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            window.location.href = "shop.html";
+        } else {
+            alert(data.message);
+        }
+    };
+
+    document.getElementById('signup-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const address = document.getElementById('signup-address').value;
+        const res = await fetch('http://localhost:4000/api/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password, address })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            alert('Signup successful! Please login.');
+            window.location.href = "login.html";
+        } else {
+            alert(data.message);
+        }
+    };
+    </script>
+</body>
+</html>

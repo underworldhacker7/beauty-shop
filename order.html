@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - G&G Beauty</title>
+    <link rel="stylesheet" href="order.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap">
+</head>
+<body>
+    <div class="order-container">
+        <h2>My Orders</h2>
+        <div class="customer-info" id="customer-info"></div>
+        <div class="order-list">
+            <h3>Order Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th><th>Qty</th><th>Price</th><th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="order-products"></tbody>
+            </table>
+            <div class="order-summary">
+                <strong>Order Total: $<span id="order-total">0</span></strong>
+            </div>
+            <button id="place-order-btn">Place Order</button>
+        </div>
+        <div id="order-history"></div>
+    </div>
+    <script>
+async function loadCustomerInfo() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const res = await fetch('http://localhost:3307/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ token })
+    });
+    const user = JSON.parse(localStorage.getItem('user')) || {};
+    document.getElementById('customer-info').innerHTML = `
+        <h3>Customer Information</h3>
+        <p><strong>Name:</strong> ${user.name || ''}</p>
+        <p><strong>Email:</strong> ${user.email || ''}</p>
+        <p><strong>Address:</strong> ${user.address || ''}</p>
+    `;
+}
+function renderCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let tbody = document.getElementById('order-products');
+    tbody.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        let lineTotal = item.price * item.qty;
+        total += lineTotal;
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>$${item.price}</td>
+            <td>$${lineTotal}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    document.getElementById('order-total').textContent = total;
+}
+document.getElementById('place-order-btn').onclick = async function() {
+    const token = localStorage.getItem('token');
+    if (!token) return alert('Please login first!');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) return alert('Cart is empty!');
+    const res = await fetch('http://localhost:3307/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ cart })
+    });
+    const data = await res.json();
+    if (res.ok) {
+        alert('Order placed!');
+        localStorage.removeItem('cart');
+        renderCart();
+        loadOrderHistory();
+    } else {
+        alert(data.message);
+    }
+};
+async function loadOrderHistory() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const res = await fetch('http://localhost:3307/api/orders', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const orders = await res.json();
+    let html = '<h3>Order History</h3>';
+    orders.forEach(order => {
+        html += `<div class="order-history-item">
+            <strong>Order #${order.id}</strong> - ${new Date(order.date).toLocaleString()}<br>
+            Total: $${order.total}<br>
+            <ul>${order.items.map(i => `<li>${i.name} x${i.quantity} ($${i.price})</li>`).join('')}</ul>
+        </div>`;
+    });
+    document.getElementById('order-history').innerHTML = html;
+}
+document.getElementById('add-product-form').onsubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('product-name').value;
+    const price = parseFloat(document.getElementById('product-price').value);
+    if (!name || isNaN(price)) return alert('Please enter valid product details.');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({ name, price, qty: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+    document.getElementById('product-name').value = '';
+    document.getElementById('product-price').value = '';
+};
+loadCustomerInfo();
+renderCart();
+loadOrderHistory();
+</script>
+</body>
+</html>

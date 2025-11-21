@@ -8,137 +8,152 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap">
 </head>
-<script>
-document.getElementById('menu-toggle').onclick = function() {
-    document.getElementById('nav-list').classList.toggle('open');
-};
-</script>
 <body>
 
     <header class="main-header">
         <div class="container">
-            <a href="#" class="logo">G&G Beauty</a>
-            <nav class="main-nav">
-                
-                <ul id="nav-list">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
+            <a href="index.html" class="logo">G&G Beauty</a>
+            
+            <nav class="main-nav" aria-label="Main Navigation">
+                <ul id="nav-list" role="menu">
+                    <li role="menuitem"><a href="index.html" class="active">Home</a></li>
+                    <li role="menuitem"><a href="shop.html">Shop</a></li>
+                    <li role="menuitem"><a href="#about">About Us</a></li>
+                    <li role="menuitem"><a href="#contact">Contact Us</a></li>
                 </ul>
             </nav>
+            
             <div class="header-icons">
-                <a href="shop.html"> <button class="icon-button cart-button">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </button></a>
-                <a href="signout.html"> <button class="icon-button"><i class="fas fa-user"></i></button></a>
-                 <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+                <a href="shop.html" aria-label="View Shopping Cart"> 
+                    <button class="icon-button cart-button">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </a>
+                <a href="signout.html" aria-label="User Account/Sign In"> 
+                    <button class="icon-button"><i class="fas fa-user" aria-hidden="true"></i></button>
+                </a>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-controls="nav-list" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </button>
             </div>
         </div>
+    </header>
 
-   <section class="hero-section" id="hero">
-    <video class="hero-bg-video" autoplay muted loop playsinline>
-        <source src="media/background.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Fall in love with <br> Our Signature Perfumes</h1>
-                <p class="hero-description">Discover the perfect fragrance for you with our wide selection of perfumes.</p>
-                <a href="shop.html" class="shop-now-btn">Shop Now!</a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number">90+</span>
-                    <span class="stat-text">Products</span>
+    <main>
+        
+        <section class="hero-section" id="hero" aria-label="Discover Signature Perfumes">
+            <video class="hero-bg-video" autoplay muted loop playsinline>
+                <source src="media/background.mp4" type="video/mp4">
+                </video>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Fall in love with <br> Our Signature Perfumes</h1>
+                    <p class="hero-description">Discover the perfect fragrance for you with our wide selection of perfumes.</p>
+                    <a href="shop.html" class="shop-now-btn">Shop Now!</a>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">15M+</span>
-                    <span class="stat-text">Customers</span>
-                </div>
-            </div>
-        </div>
-    </section>
-<section id="gallery-section"></section>
-<div class="gallery-section">
-    <h1>Amaizing Products Gallery<h1/>
-  <div class="gallery-track gallery-track-top">
-    <div class="gallery-item"><img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Gallery 1"></div>
-    <div class="gallery-item"><img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Gallery 2"></div>
-    <div class="gallery-item"><img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Gallery 3"></div>
-    <div class="gallery-item"><img src="media/0bf5f2ffce85b6e84c17c76320edb3e3.jpg" alt="Gallery 4"></div>
-    <div class="gallery-item"><img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Gallery 1"></div>
-    <div class="gallery-item"><img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Gallery 2"></div>
-    <div class="gallery-item"><img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Gallery 3"></div>
-    <div class="gallery-item"><img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Gallery 4"></div>
-  </div>
-  <div class="gallery-track gallery-track-bottom">
-    <div class="gallery-item"><img src="scroll/2.jpg" alt="Gallery 5"></div>
-    <div class="gallery-item"><img src="scroll/3.jpg" alt="Gallery 6"></div>
-    <div class="gallery-item"><img src="scroll/4.jpg" alt="Gallery 7"></div>
-    <div class="gallery-item"><img src="scroll/6.jpg" alt="Gallery 8"></div>
-    <div class="gallery-item"><img src="scroll/1.jpg" alt="Gallery 5"></div>
-    <div class="gallery-item"><img src="scroll/5.jpg" alt="Gallery 6"></div>
-    <div class="gallery-item"><img src="scroll/7.jpg" alt="Gallery 7"></div>
-    <div class="gallery-item"><img src="scroll/8.jpg" alt="Gallery 8"></div>
-    <div class="gallery-item"><img src="1.jpg" alt="Gallery 9"></div>
-  </div>
-</div>
-
-    <section class="customer-reviews-section" id="about">
-        <div class="container">
-            <h2 class="section-title">Customer Reviews</h2>
-            <div class="review-grid">
-                <div class="review-card">
-                    <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">90+</span>
+                        <span class="stat-text">Products</span>
                     </div>
-                    <p class="review-text">"I absolutely love Rosewood Bliss. This scent is so beautiful and unique. I get so many compliments when I wear it. I highly recommend!"</p>
-                </div>
-                <div class="review-card">
-                    <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                    <div class="stat-item">
+                        <span class="stat-number">15M+</span>
+                        <span class="stat-text">Customers</span>
                     </div>
-                    <p class="review-text">"Citrus Zest is my go-to summer fragrance. It's light and refreshing and the scent lasts a good 6 hours. Plus, it lasts a long time on my skin."</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="main-footer" id="contact">
+        <section class="gallery-section" aria-labelledby="gallery-title">
+            <h1 id="gallery-title">Amazing Products Gallery</h1>
+            <div class="gallery-track gallery-track-top" aria-hidden="true">
+                <div class="gallery-item"><img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Skincare Product Yawona"></div>
+                <div class="gallery-item"><img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Skincare Product Main Land"></div>
+                <div class="gallery-item"><img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Perfume Bottle 1"></div>
+                <div class="gallery-item"><img src="media/0bf5f2ffce85b6e84c17c76320edb3e3.jpg" alt="Perfume Bottle Rosewood Bliss"></div>
+                <div class="gallery-item"><img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Skincare Product Vaseline"></div>
+                <div class="gallery-item"><img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Skincare Product Gernier"></div>
+                <div class="gallery-item"><img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Skincare Product Dr Rashed"></div>
+                <div class="gallery-item"><img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Perfume Bottle Acua Banan"></div>
+            </div>
+            <div class="gallery-track gallery-track-bottom" aria-hidden="true">
+                <div class="gallery-item"><img src="scroll/2.jpg" alt="Product 5"></div>
+                <div class="gallery-item"><img src="scroll/3.jpg" alt="Product 6"></div>
+                <div class="gallery-item"><img src="scroll/4.jpg" alt="Product 7"></div>
+                <div class="gallery-item"><img src="scroll/6.jpg" alt="Product 8"></div>
+                <div class="gallery-item"><img src="scroll/1.jpg" alt="Product 9"></div>
+                <div class="gallery-item"><img src="scroll/5.jpg" alt="Product 10"></div>
+                <div class="gallery-item"><img src="scroll/7.jpg" alt="Product 11"></div>
+                <div class="gallery-item"><img src="scroll/8.jpg" alt="Product 12"></div>
+                <div class="gallery-item"><img src="1.jpg" alt="Product 13"></div>
+            </div>
+        </section>
+
+        <section class="customer-reviews-section" id="about" aria-labelledby="reviews-title">
+            <div class="container">
+                <h2 id="reviews-title" class="section-title">Customer Reviews</h2>
+                <div class="review-grid">
+                    <article class="review-card">
+                        <div class="star-rating" role="img" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <p class="review-text">"I absolutely love **Rosewood Bliss**. This scent is so beautiful and unique. I get so many compliments when I wear it. I highly recommend!"</p>
+                    </article>
+                    <article class="review-card">
+                        <div class="star-rating" role="img" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <p class="review-text">"**Citrus Zest** is my go-to summer fragrance. It's light and refreshing and the scent lasts a good 6 hours. Plus, it lasts a long time on my skin."</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="main-footer" id="contact" aria-labelledby="footer-heading">
         <div class="container">
-            <p>&copy; The Beauty Queen</p>
+            <p id="footer-heading">&copy; 2025 G&G Beauty Queen. All rights reserved.</p>
             <div class="footer-links">
-                For More Information Or Inquiry  Reach Us Through:<br/>
-                <a href="#">Info@G&G@gmail.Com</a><br/>
-                +254703-161-031 | +254115-725-146 | +254786-493-506 <br/>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Shipping & Returns</a>
-                <a href="#">FAQ</a>
+                <p>For More Information Or Inquiry Reach Us Through:</p>
+                <address>
+                    <a href="mailto:Info@G&G@gmail.Com">Info@G&G@gmail.Com</a><br>
+                    +254703-161-031 | +254115-725-146 | +254786-493-506 
+                </address>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Shipping & Returns</a>
+                    <a href="#">FAQ</a>
+                </div>
             </div>
             <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on Pinterest"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
             </div>
-            
         </div>
     </footer>
 
+    <script>
+    // Menu toggle logic moved from <head> to <body> end
+    document.getElementById('menu-toggle').onclick = function() {
+        const navList = document.getElementById('nav-list');
+        const isExpanded = navList.classList.toggle('open');
+        this.setAttribute('aria-expanded', isExpanded);
+    };
+    </script>
     <script src="js/script.js"></script>
     <script src="backend.js"></script>
 </body>

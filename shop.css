@@ -28,6 +28,7 @@ body {
     padding: 0 20px;
 }
 
+/* --- Header & Navigation (Mostly unchanged) --- */
 .main-header {
     background-color: var(--primary-blue);
     padding: 15px 0;
@@ -105,6 +106,7 @@ body {
     transition: 0.3s;
 }
 
+/* --- Cart Dropdown (Mostly unchanged) --- */
 #cart-dropdown-btn {
     position: fixed;
     top: 24px;
@@ -148,13 +150,16 @@ body {
 #cart-dropdown-list table {
     width: 100%;
     font-size: 0.97em;
+    border-collapse: collapse;
 }
 #cart-dropdown-list td {
-    padding: 4px 2px;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 #cart-dropdown-total {
     padding: 10px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--accent-gold);
+    text-align: right;
 }
 #cart-dropdown button {
     width: 100%;
@@ -172,6 +177,7 @@ body {
     color: var(--accent-gold);
 }
 
+/* --- Shop Hero Section (Mostly unchanged) --- */
 .shop-hero-section {
     position: relative;
     width: 100%;
@@ -180,7 +186,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem; /* Increased margin */
 }
 .bg-video {
     position: absolute;
@@ -200,92 +206,138 @@ body {
     z-index: 2;
     text-align: center;
     width: 100%;
-    color: #222;
+    color: #fff; /* Changed to white for better contrast over dark video overlay */
     padding: 2rem 1rem;
 }
 .shop-hero-overlay h1 {
-    font-size: 2.2rem;
+    font-size: 2.8rem; /* Increased size */
     margin-bottom: 0.5rem;
     color: var(--accent-gold);
-    text-shadow: 0 2px 8px rgba(255,255,255,0.4);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 .shop-hero-overlay p {
-    font-size: 1.1rem;
-    color: var(--primary-blue);
-    text-shadow: 0 1px 6px rgba(255,255,255,0.3);
+    font-size: 1.2rem;
+    color: var(--text-light);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
 }
+
+/* =================================== */
+/* 6. Product Grid & Card Component    */
+/* (PROFESSIONALIZED LAYOUT)           */
+/* =================================== */
 
 .product-grid {
     display: grid;
+    /* Default to 3 columns for desktop */
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .product-card {
     background: var(--card-bg);
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25); /* Stronger shadow */
+    padding: 0; /* Remove padding from card itself */
     text-align: center;
     position: relative;
-    width: 180px;
-    min-width: 160px;
-    max-width: 220px;
-    margin: 0 auto;
+    /* Removed max/min width constraints, let the grid handle sizing */
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden; /* Ensure image corners are clipped */
 }
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15); /* Goldish hover shadow */
+}
+
+.product-image {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent grid look */
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    transition: opacity 0.3s;
+}
+
+.product-card:hover .product-image {
+    opacity: 0.8;
+}
+
 .product-card h3 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--accent-gold);
-    margin-bottom: 0.5rem;
+    margin: 1rem 0 0.5rem 0;
+    padding: 0 10px;
 }
 .product-card p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-light);
     margin-bottom: 1rem;
+    padding: 0 10px;
 }
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px 15px 15px; /* Padding for the action bar at the bottom */
+    margin-top: auto; /* Push actions to the bottom */
+}
+
 .product-card input[type="number"] {
-    width: 40px;
-    padding: 4px;
-    font-size: 0.95rem;
+    width: 60px; /* Wider input */
+    padding: 8px;
+    font-size: 1rem;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--accent-gold);
+    background-color: var(--primary-blue);
+    color: var(--text-light);
     text-align: center;
-    margin-right: 8px;
+    /* Removed right margin, using space-between on parent */
 }
+
 .cart-icon-btn {
     background: var(--accent-gold);
     color: var(--primary-blue);
     border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    font-size: 1em;
-    display: inline-flex;
+    border-radius: 8px; /* Square/rounded button for professional look */
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 10px;
+    transition: background 0.2s, color 0.2s;
+    margin: 0;
 }
 .cart-icon-btn:hover {
     background: #fff;
     color: var(--accent-gold);
 }
 
-/* --- Media Queries --- */
 
+/* =================================== */
+/* 7. Media Queries (Mobile View Focus)*/
+/* =================================== */
+
+/* Max-width: 900px (Tablet/Mid-size Desktop) */
 @media (max-width: 900px) {
     .product-grid {
+        /* Switch to 2 columns on tablet */
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 }
 
+/* Max-width: 700px (Navigation/Smaller Tablet) */
 @media (max-width: 700px) {
+    /* --- Header/Navigation Adjustments (Mobile View) --- */
     .main-header .container {
         flex-direction: row;
         align-items: center;
@@ -331,7 +383,24 @@ body {
     }
 }
 
+/* Max-width: 600px (Mobile/Small Devices) */
 @media (max-width: 600px) {
+    .container {
+        padding: 0 10px;
+    }
+    /* --- Product Grid Adjustment (True Mobile View) --- */
+    .product-grid {
+        grid-template-columns: 1fr; /* Single column stack */
+        gap: 15px;
+    }
+    .product-card {
+        max-width: 100%; /* Ensure card uses full width */
+    }
+    .product-image {
+        height: 160px; /* Slightly smaller image on mobile */
+    }
+
+    /* --- Cart Button & Dropdown Adjustments --- */
     #cart-dropdown-btn {
         top: 16px;
         right: 12px;
@@ -347,16 +416,14 @@ body {
         margin: 0 auto;
         box-shadow: 0 8px 24px rgba(0,0,0,0.18);
     }
+    /* --- Hero Section Adjustments --- */
     .shop-hero-section {
         height: 160px;
     }
     .shop-hero-overlay h1 {
-        font-size: 1.2rem;
+        font-size: 1.8rem;
     }
     .shop-hero-overlay p {
         font-size: 0.95rem;
-    }
-    .product-grid {
-        grid-template-columns: 1fr;
     }
 }

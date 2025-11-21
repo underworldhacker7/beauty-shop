@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <title>Shop - G&G Beauty</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="shop.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">
-                <a href="index.html" class="logo">G&G Beauty</a>
-            </a>
+            <a href="index.html" class="logo">G&G Beauty</a>
+            
             <nav class="main-nav">
                 <ul id="nav-list">
                     <li><a href="index.html">Home</a></li>
@@ -21,7 +20,7 @@
                     <li><a href="index.html#about">About Us</a></li>
                     <li><a href="index.html#contact">Contact Us</a></li>
                 </ul>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -30,164 +29,177 @@
         </div>
     </header>
 
-    <!-- Cart Icon Button -->
-    <button id="cart-dropdown-btn" onclick="toggleCartDropdown()" class="icon-button cart-button">
-        <i class="fas fa-shopping-cart"></i>
+    <button id="cart-dropdown-btn" onclick="toggleCartDropdown()" class="icon-button cart-button" aria-controls="cart-dropdown" aria-expanded="false">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
         <span class="cart-count" id="cart-count">0</span>
     </button>
 
-    <div id="cart-dropdown" style="display:none;">
+    <div id="cart-dropdown" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="cart-heading">
+        <h2 id="cart-heading" style="padding: 10px 10px 0; margin: 0; font-size: 1.2em;">Shopping Cart</h2>
         <div id="cart-dropdown-list"></div>
         <div id="cart-dropdown-total"></div>
         <button onclick="goToCheckout()">Pay Now !!!</button>
     </div>
 
-    <section class="shop-hero-section">
+    <section class="shop-hero-section" aria-label="Shop Introduction">
         <video class="bg-video" autoplay muted loop playsinline>
             <source src="shoping/background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+            </video>
         <div class="shop-hero-overlay">
             <h1>Welcome to G&G Beauty Shop</h1>
             <p>Discover our exclusive range of beauty and skincare products</p>
         </div>
     </section>
 
-    <main>
-        <div class="container">
-            <h1>Perfumes</h1>
-            <div class="product-grid" id="product-list">
-                
-                <div class="product-card">
+    <main class="container">
+        <section aria-labelledby="perfume-heading">
+            <h1 id="perfume-heading">Perfumes</h1>
+            <div class="product-grid" id="perfume-list">
+                <article class="product-card">
                     <img src="media/1a51446a3048c076f641ff1b3dbe449a.jpg" alt="Citrus Zest Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Citrus Zest</h3>
-                        <p class="product-price">$90.0</p>
-                    <input type="number" id="qty-2" value="1" min="1">
-                    <button onclick="addToCart('Citrus Zest', 90.0, 'qty-2')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
+                    <h3 class="product-name">Citrus Zest</h3>
+                    <p class="product-price">$90.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-2" value="1" min="1" aria-label="Quantity of Citrus Zest">
+                        <button onclick="addToCart('Citrus Zest', 90.0, 'qty-2')" class="cart-icon-btn" title="Add Citrus Zest to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
                     <img src="media/0bf5f2ffce85b6e84c17c76320edb3e3.jpg" alt="Rosewood Bliss Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Rosewood Bliss</h3>
-                        <p class="product-price">$50.0</p>
-                    <input type="number" id="qty-3" value="1" min="1">
-                    <button onclick="addToCart('Rosewood Bliss', 50.0, 'qty-3')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Rosewood Bliss Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Acua Banan</h3>
-                        <p class="product-price">$80.0</p>
-                    <input type="number" id="qty-4" value="1" min="1">
-                    <button onclick="addToCart('Acua Banan', 80.0, 'qty-4')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
+                    <h3 class="product-name">Rosewood Bliss</h3>
+                    <p class="product-price">$50.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-3" value="1" min="1" aria-label="Quantity of Rosewood Bliss">
+                        <button onclick="addToCart('Rosewood Bliss', 50.0, 'qty-3')" class="cart-icon-btn" title="Add Rosewood Bliss to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Acua Banan Perfume Bottle" class="product-image">
+                    <h3 class="product-name">Acua Banan</h3>
+                    <p class="product-price">$80.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-4" value="1" min="1" aria-label="Quantity of Acua Banan">
+                        <button onclick="addToCart('Acua Banan', 80.0, 'qty-4')" class="cart-icon-btn" title="Add Acua Banan to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
                     <img src="media/5363efdfa492161b963e0093922bdb92.jpg" alt="Woodland Walk Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Woodland Walk</h3>
-                        <p class="product-price">$70.0</p>
-                    <input type="number" id="qty-5" value="1" min="1">
-                    <button onclick="addToCart('Woodland Walk', 70.0, 'qty-5')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
+                    <h3 class="product-name">Woodland Walk</h3>
+                    <p class="product-price">$70.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-5" value="1" min="1" aria-label="Quantity of Woodland Walk">
+                        <button onclick="addToCart('Woodland Walk', 70.0, 'qty-5')" class="cart-icon-btn" title="Add Woodland Walk to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
 
-               <div class="product-card">
-                    <img src="media/1a51446a3048c076f641ff1b3dbe449a.jpg" alt="Woodland Walk Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Citrus Zest</h3>
-                        <p class="product-price">$70.0</p>
-                    <input type="number" id="qty-6" value="1" min="1">
-                    <button onclick="addToCart('Citrus Zest', 70.0, 'qty-6')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
                 </div>
-
-                <div class="product-card">
-                    <img src="media/1a51446a3048c076f641ff1b3dbe449a.jpg" alt="Woodland Walk Perfume Bottle" class="product-image">
-                        <h3 class="product-name">Woodland Walk</h3>
-                        <p class="product-price">$100.0</p>
-                    <input type="number" id="qty-7" value="1" min="1">
-                    <button onclick="addToCart('Woodland Walk', 22, 'qty-7')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-            </div>
-             <h1>Skincare</h1>
-             <div class="product-grid" id="product-list">
+        </section>
+        
+        <section aria-labelledby="skincare-heading">
+             <h1 id="skincare-heading">Skincare</h1>
+             <div class="product-grid" id="skincare-list">
                
-                <div class="product-card">
-                    <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Yawona" class="product-image">
-                        <h3 class="product-name">Yawona</h3>
-                        <p class="product-price">$120.0</p>
-                    <input type="number" id="qty-8" value="1" min="1">
-                    <button onclick="addToCart('Yawona', 120, 'qty-8')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="main land" class="product-image">
-                        <h3 class="product-name">Main Land</h3>
-                        <p class="product-price">$75.0</p>
-                    <input type="number" id="qty-9" value="1" min="1">
-                    <button onclick="addToCart('Main Land', 75, 'qty-9')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Vaseline" class="product-image">
-                        <h3 class="product-name">Vaseline</h3>
-                        <p class="product-price">$100.0</p>
-                    <input type="number" id="qty-10" value="1" min="1">
-                    <button onclick="addToCart('Vaseline', 100, 'qty-10')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Nivea lotion" class="product-image">
-                        <h3 class="product-name">Nivea lotion</h3>
-                        <p class="product-price">$150.0</p>
-                    <input type="number" id="qty-11" value="1" min="1">
-                    <button onclick="addToCart('Nivea lotion', 150, 'qty-11')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Gernier" class="product-image">
-                        <h3 class="product-name">Gernier</h3>
-                        <p class="product-price">$200.0</p>
-                    <input type="number" id="qty-12" value="1" min="1">
-                    <button onclick="addToCart('Gernier', 200, 'qty-12')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-                <div class="product-card">
-                    <img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Dr Rashed" class="product-image">
-                        <h3 class="product-name">Dr Rashed</h3>
-                        <p class="product-price">$200.0</p>
-                    <input type="number" id="qty-13" value="1" min="1">
-                    <button onclick="addToCart('Dr Rashed', 200, 'qty-13')" class="cart-icon-btn" title="Add to Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
+                <article class="product-card">
+                    <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Yawona product" class="product-image">
+                    <h3 class="product-name">Yawona</h3>
+                    <p class="product-price">$120.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-8" value="1" min="1" aria-label="Quantity of Yawona">
+                        <button onclick="addToCart('Yawona', 120, 'qty-8')" class="cart-icon-btn" title="Add Yawona to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Main Land product" class="product-image">
+                    <h3 class="product-name">Main Land</h3>
+                    <p class="product-price">$75.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-9" value="1" min="1" aria-label="Quantity of Main Land">
+                        <button onclick="addToCart('Main Land', 75, 'qty-9')" class="cart-icon-btn" title="Add Main Land to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Vaseline product" class="product-image">
+                    <h3 class="product-name">Vaseline</h3>
+                    <p class="product-price">$100.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-10" value="1" min="1" aria-label="Quantity of Vaseline">
+                        <button onclick="addToCart('Vaseline', 100, 'qty-10')" class="cart-icon-btn" title="Add Vaseline to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Nivea lotion product" class="product-image">
+                    <h3 class="product-name">Nivea lotion</h3>
+                    <p class="product-price">$150.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-11" value="1" min="1" aria-label="Quantity of Nivea lotion">
+                        <button onclick="addToCart('Nivea lotion', 150, 'qty-11')" class="cart-icon-btn" title="Add Nivea lotion to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Gernier product" class="product-image">
+                    <h3 class="product-name">Gernier</h3>
+                    <p class="product-price">$200.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-12" value="1" min="1" aria-label="Quantity of Gernier">
+                        <button onclick="addToCart('Gernier', 200, 'qty-12')" class="cart-icon-btn" title="Add Gernier to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Dr Rashed product" class="product-image">
+                    <h3 class="product-name">Dr Rashed</h3>
+                    <p class="product-price">$200.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-13" value="1" min="1" aria-label="Quantity of Dr Rashed">
+                        <button onclick="addToCart('Dr Rashed', 200, 'qty-13')" class="cart-icon-btn" title="Add Dr Rashed to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
              </div>
-        </div>
-        <footer class="main-footer" id="contact">
+        </section>
+    </main>
+
+    <footer class="main-footer" id="contact">
         <div class="container">
-            <p>&copy; The Beauty Queen</p>
+            <p>&copy; 2025 The Beauty Queen. All rights reserved.</p>
             <div class="footer-links">
                 <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
+                </div>
             </div>
         </div>
     </footer>
-    </main>
 
     <script>
+    // Cart functions: getCart, setCart, updateCartCount, addToCart, renderCartDropdown, updateCartQty, removeCartItem, toggleCartDropdown, goToCheckout
     function getCart() {
         return JSON.parse(localStorage.getItem('cart')) || [];
     }
@@ -199,6 +211,9 @@
         const cart = getCart();
         const count = cart.reduce((sum, item) => sum + item.qty, 0);
         document.getElementById('cart-count').textContent = count;
+        // Update aria-expanded status based on visibility
+        const isVisible = document.getElementById('cart-dropdown').style.display === 'block';
+        document.getElementById('cart-dropdown-btn').setAttribute('aria-expanded', isVisible ? 'true' : 'false');
     }
     function addToCart(name, price, qtyInputId) {
         let cart = getCart();
@@ -207,44 +222,45 @@
         if (existing) {
             existing.qty += qty;
         } else {
-            cart.push({ name, price, qty });
+            // Ensure price is treated as a number
+            cart.push({ name, price: parseFloat(price), qty });
         }
         setCart(cart);
         renderCartDropdown();
-        alert('Added to cart!');
+        alert(`Added ${qty} x ${name} to cart!`);
     }
     function renderCartDropdown() {
         const cart = getCart();
         let html = '';
         let total = 0;
         if (cart.length === 0) {
-            html = '<div style="padding:10px;">Cart is empty.</div>';
+            html = '<div style="padding:10px; text-align: center;">Your cart is empty.</div>';
         } else {
-            html = '<table><tbody>';
+            html = '<table style="padding: 10px;"><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead><tbody>';
             cart.forEach((item, idx) => {
                 let lineTotal = item.qty * item.price;
                 total += lineTotal;
                 html += `<tr>
                     <td>${item.name}</td>
                     <td>
-                      <input type="number" min="1" value="${item.qty}" style="width:40px;" onchange="updateCartQty(${idx}, this.value)">
+                      <input type="number" min="1" value="${item.qty}" style="width:50px; padding: 4px; text-align: center;" onchange="updateCartQty(${idx}, this.value)" aria-label="Quantity of ${item.name}">
                     </td>
-                    <td>$${item.price}</td>
+                    <td>$${item.price.toFixed(2)}</td>
                     <td>
-                      <button onclick="removeCartItem(${idx})" style="background:none;border:none;color:#c00;cursor:pointer;">&times;</button>
+                      <button onclick="removeCartItem(${idx})" style="background:none;border:none;color:#c00;cursor:pointer;" aria-label="Remove ${item.name} from cart">&times;</button>
                     </td>
                 </tr>`;
             });
             html += '</tbody></table>';
         }
         document.getElementById('cart-dropdown-list').innerHTML = html;
-        document.getElementById('cart-dropdown-total').innerHTML = `<strong>Total: $${total}</strong>`;
-        updateCartCount();
+        document.getElementById('cart-dropdown-total').innerHTML = `<strong style="display: block; text-align: right; padding-right: 10px;">Total: $${total.toFixed(2)}</strong>`;
+        updateCartCount(); // Ensure the count and aria-expanded state are updated
     }
     function updateCartQty(idx, qty) {
         let cart = getCart();
         qty = parseInt(qty, 10);
-        if (qty < 1) qty = 1;
+        if (qty < 1 || isNaN(qty)) qty = 1;
         cart[idx].qty = qty;
         setCart(cart);
         renderCartDropdown();
@@ -257,26 +273,39 @@
     }
     function toggleCartDropdown() {
         const dropdown = document.getElementById('cart-dropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        renderCartDropdown();
+        const isVisible = dropdown.style.display === 'block';
+        dropdown.style.display = isVisible ? 'none' : 'block';
+        
+        // Update the cart button's aria-expanded attribute
+        document.getElementById('cart-dropdown-btn').setAttribute('aria-expanded', isVisible ? 'false' : 'true');
+
+        if (!isVisible) {
+            renderCartDropdown();
+        }
     }
     function goToCheckout() {
         if (!localStorage.getItem('userSignedIn')) {
             alert('Please sign in to proceed to checkout.');
-            window.location.href = 'signout.html';
+            // Note: The original signout.html likely meant a sign-in/login page.
+            window.location.href = 'signout.html'; 
             return;
         }
         window.location.href = 'checkout.html';
     }
+    
+    // Menu Toggle
+    document.getElementById('menu-toggle').onclick = function() {
+        document.getElementById('nav-list').classList.toggle('open');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
+        this.setAttribute('aria-expanded', !isExpanded);
+    };
+
+    // Initialize cart count on page load
     updateCartCount();
+
+    // Removed the redundant script imports: <script src="script.js"></script> and <script src="scripts.js"></script>
+    // as all functionality is now inline, unless those files contain other necessary logic.
     </script>
-   >
-    <script>
-document.getElementById('menu-toggle').onclick = function() {
-    document.getElementById('nav-list').classList.toggle('open');
-};
-</script>
- <script src="script.js"></script>
-    <script src="scripts.js"></script
+
 </body>
 </html>

@@ -1,2 +1,2 @@
 website url 
-beauty-shop-e7176.web.app
+https://beauty-shop-e7176.web.app

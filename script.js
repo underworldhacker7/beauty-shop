@@ -36,4 +36,30 @@ document.addEventListener('click', function(e) {
     if (!cartDropdown.contains(e.target) && !cartBtn.contains(e.target)) {
         cartDropdown.style.display = 'none';
     }
-});
+})
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuToggle = document.getElementById('menu-toggle');
+        const navList = document.getElementById('nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            // Toggle the active class on the navigation list
+            navList.classList.toggle('active');
+            
+            // Toggle the 'open' class on the button for hamburger-to-X animation
+            menuToggle.classList.toggle('open');
+
+            // Update ARIA attribute for screen readers
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Optional: Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navList.contains(e.target)) {
+                navList.classList.remove('active');
+                menuToggle.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+

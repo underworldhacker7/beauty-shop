@@ -1,77 +1,144 @@
+:root {
+    --gold: #c5a059;
+    --gold-hover: #b38f4d;
+    --dark-grey: #222222;
+    --medium-grey: #666666;
+    --light-grey: #f8f9fa;
+    --border: #e5e5e5;
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fdfdfd;
+    color: var(--dark-grey);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
 .order-container {
-    max-width: 400px;
-    margin: 4rem auto;
-    background:rgb(93, 93, 99) ;
-    border-radius: 14px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    padding: 2.5rem 2rem;
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+header {
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 50px;
 }
 
-.order-container h2 {
+header h1 {
     font-family: 'Playfair Display', serif;
-    color: #bfa14a;
-    margin-bottom: 2rem;
-}
-
-#track-order-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#track-order-form input {
-    padding: 18px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 1rem;
-}
-
-#track-order-form button {
-    padding: 18px;
-    background: linear-gradient(90deg, #bfa14a, #f7e7b0);
-    color: #222;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-
-#track-order-form button:hover {
-    background: linear-gradient(90deg, #f7e7b0, #bfa14a);
-}
-
-.order-status {
-    margin-top: 2rem;
-    font-size: 1.1rem;
-    background: #f9f7ed;
-    border-radius: 8px;
-    padding: 1.2rem;
-    box-shadow: 0 2px 8px rgba(191,161,74,0.07);
-}
-
-.place-order-btn {
-    display: inline-block;
-    background: linear-gradient(90deg, #bfa14a, #f7e7b0);
-    color: #222;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    padding: 14px 38px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(191,161,74,0.13);
-    transition: background 0.3s, color 0.2s, transform 0.2s;
-    margin-top: 1.5rem;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
     letter-spacing: 1px;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .order-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--medium-grey);
+    padding: 12px 5px;
+    border-bottom: 2px solid var(--light-grey);
+}
+
+td {
+    padding: 15px 5px;
+    border-bottom: 1px solid var(--light-grey);
+    font-size: 0.95rem;
+}
+
+.history-item {
+    border-left: 3px solid var(--gold);
+    background: var(--light-grey);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 0 4px 4px 0;
+}
+
+.status-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 20px;
     text-transform: uppercase;
 }
 
-.place-order-btn:hover {
-    background: linear-gradient(90deg, #f7e7b0, #bfa14a);
-    color: #0A192F;
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(191,161,74,0.2);
+.btn-primary {
+    background: var(--dark-grey);
+    color: var(--white);
+    border: none;
+    padding: 15px 20px;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.btn-primary:hover {
+    background: var(--gold);
+    transform: translateY(-2px);
+}
+
+#user-details p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+}
+
+#user-details strong {
+    color: var(--medium-grey);
+    width: 80px;
+    display: inline-block;
 }

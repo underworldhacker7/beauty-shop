@@ -11,8 +11,15 @@
 <body>
 
     <header class="main-header">
-        <div class="container">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <a href="index.html" class="logo">G&G Beauty</a>
+            
+            <button class="icon-button" id="menu-toggle" aria-label="Toggle Navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="nav-list">
+                </nav>
             
             <div class="header-icons">
                 <a href="shop.html" aria-label="View Shopping Cart"> 
@@ -29,11 +36,10 @@
     </header>
 
     <main>
-        
         <section class="hero-section" id="hero" aria-label="Discover Signature Perfumes">
             <video class="hero-bg-video" autoplay muted loop playsinline>
                 <source src="media/background.mp4" type="video/mp4">
-                </video>
+            </video>
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">Fall in love with <br> Our Signature Perfumes</h1>
@@ -90,7 +96,7 @@
                             <i class="fas fa-star" aria-hidden="true"></i>
                             <i class="fas fa-star" aria-hidden="true"></i>
                         </div>
-                        <p class="review-text">"I absolutely love **Rosewood Bliss**. This scent is so beautiful and unique. I get so many compliments when I wear it. I highly recommend!"</p>
+                        <p class="review-text">"I absolutely love <strong>Rosewood Bliss</strong>. This scent is so beautiful and unique. I get so many compliments when I wear it. I highly recommend!"</p>
                     </article>
                     <article class="review-card">
                         <div class="star-rating" role="img" aria-label="5 out of 5 stars">
@@ -100,12 +106,11 @@
                             <i class="fas fa-star" aria-hidden="true"></i>
                             <i class="fas fa-star" aria-hidden="true"></i>
                         </div>
-                        <p class="review-text">"**Citrus Zest** is my go-to summer fragrance. It's light and refreshing and the scent lasts a good 6 hours. Plus, it lasts a long time on my skin."</p>
+                        <p class="review-text">"<strong>Citrus Zest</strong> is my go-to summer fragrance. It's light and refreshing and the scent lasts a good 6 hours."</p>
                     </article>
                 </div>
             </div>
         </section>
-        
     </main>
 
     <footer class="main-footer" id="contact" aria-labelledby="footer-heading">
@@ -114,7 +119,7 @@
             <div class="footer-links">
                 <p>For More Information Or Inquiry Reach Us Through:</p>
                 <address>
-                    <a href="mailto:Info@G&G@gmail.Com">Info@G&G@gmail.Com</a><br>
+                    <a href="mailto:info.ggbeauty@gmail.com">info.ggbeauty@gmail.com</a><br>
                     +254703-161-031 | +254115-725-146 | +254786-493-506 
                 </address>
                 <div class="legal-links">
@@ -133,13 +138,27 @@
     </footer>
 
     <script>
-    // Menu toggle logic moved from <head> to <body> end
-    document.getElementById('menu-toggle').onclick = function() {
-        const navList = document.getElementById('nav-list');
-        const isExpanded = navList.classList.toggle('open');
-        this.setAttribute('aria-expanded', isExpanded);
-    };
+    const menuBtn = document.getElementById('menu-toggle');
+    const navList = document.getElementById('nav-list');
+
+    if(menuBtn && navList) {
+        menuBtn.onclick = function() {
+            const isExpanded = navList.classList.toggle('open');
+            this.setAttribute('aria-expanded', isExpanded);
+        };
+    }
+
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const countElement = document.querySelector('.cart-count');
+        if(countElement) {
+            countElement.textContent = cart.reduce((acc, item) => acc + (item.qty || 1), 0);
+        }
+    }
+    window.onload = updateCartCount;
     </script>
+    
     <script src="script.js"></script>
     <script src="backend.js"></script>
 </body>

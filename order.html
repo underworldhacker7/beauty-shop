@@ -2,178 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Orders - G&G Beauty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | G&G Beauty</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="order.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap">
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
+
     <div class="order-container">
-        <h2>My Orders</h2>
-        <div class="customer-info" id="customer-info"></div>
-        <div class="order-list">
-            <h3>Order Details</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th><th>Qty</th><th>Price</th><th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="order-products"></tbody>
-            </table>
-            <div class="order-summary">
-                <strong>Order Total: $<span id="order-total">0</span></strong>
-            </div>
-            <button id="place-order-btn">Place Order</button>
+        <header>
+            <h1>My Account</h1>
+            <p>Review your selection and order history</p>
+        </header>
+
+        <div class="order-grid">
+            <main>
+                <section class="card">
+                    <h3>Current Order</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items-body"></tbody>
+                    </table>
+                    <div style="text-align: right; margin-top: 20px;">
+                        <span style="color: var(--text-muted); margin-right: 15px;">Subtotal</span>
+                        <strong style="font-size: 1.4rem;">$<span id="cart-grand-total">0.00</span></strong>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h3>Order History</h3>
+                    <div id="order-history-list">
+                        <p style="color: var(--text-muted);">No past orders found.</p>
+                    </div>
+                </section>
+            </main>
+
+            <aside>
+                <section class="card">
+                    <h3>Customer Profile</h3>
+                    <div id="user-details">
+                        <p>Authenticating...</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h3>Checkout</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+                        Standard shipping and taxes calculated at next step.
+                    </p>
+                    <button class="btn-primary" id="place-order-btn">PLACE ORDER NOW</button>
+                </aside>
+            </aside>
         </div>
-        <div id="order-history"></div>
     </div>
-    <div class="container">
-        <h1>Order Summary</h1>
-        <p><strong>User:</strong> <span id="order-user"></span></p>
-        <table id="order-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Line Total</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <p><strong>Overall Total: $<span id="order-total"></span></strong></p>
-        <button onclick="proceedToPay()" class="btn primary-btn">Proceed to Pay</button>
-    </div>
-    <script>
-  // Use the same firebaseConfig as above
-  firebase.initializeApp(firebaseConfig);
 
-  firebase.auth().onAuthStateChanged(async function(user) {
-    if (user) {
-      const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
-      const userInfo = snapshot.val();
-      document.getElementById('order-user').textContent = userInfo ? userInfo.name : user.email;
-    }
-  });
-
-  // Display cart/order info as before
-  document.addEventListener('DOMContentLoaded', () => {
-    const cart = JSON.parse(localStorage.getItem('gg_beauty_cart')) || [];
-    let total = 0;
-    let rows = '';
-    cart.forEach(item => {
-      const lineTotal = item.price * item.quantity;
-      total += lineTotal;
-      rows += `<tr>
-        <td>${item.name}</td>
-        <td>${item.quantity}</td>
-        <td>$${item.price}</td>
-        <td>$${lineTotal.toFixed(2)}</td>
-      </tr>`;
-    });
-    document.querySelector('#order-table tbody').innerHTML = rows;
-    document.getElementById('order-total').textContent = total.toFixed(2);
-  });
-  function proceedToPay() {
-    alert('Proceeding to payment...');
-  }
-</script>
     <script>
-async function loadCustomerInfo() {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    const res = await fetch('http://localhost:3307/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ token })
-    });
-    const user = JSON.parse(localStorage.getItem('user')) || {};
-    document.getElementById('customer-info').innerHTML = `
-        <h3>Customer Information</h3>
-        <p><strong>Name:</strong> ${user.name || ''}</p>
-        <p><strong>Email:</strong> ${user.email || ''}</p>
-        <p><strong>Address:</strong> ${user.address || ''}</p>
-    `;
-}
-function renderCart() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let tbody = document.getElementById('order-products');
-    tbody.innerHTML = '';
-    let total = 0;
-    cart.forEach(item => {
-        let lineTotal = item.price * item.qty;
-        total += lineTotal;
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.qty}</td>
-            <td>$${item.price}</td>
-            <td>$${lineTotal}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-    document.getElementById('order-total').textContent = total;
-}
-document.getElementById('place-order-btn').onclick = async function() {
-    const token = localStorage.getItem('token');
-    if (!token) return alert('Please login first!');
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length === 0) return alert('Cart is empty!');
-    const res = await fetch('http://localhost:3307/api/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ cart })
-    });
-    const data = await res.json();
-    if (res.ok) {
-        alert('Order placed!');
-        localStorage.removeItem('cart');
-        renderCart();
-        loadOrderHistory();
-    } else {
-        alert(data.message);
-    }
-};
-async function loadOrderHistory() {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    const res = await fetch('http://localhost:3307/api/orders', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const orders = await res.json();
-    let html = '<h3>Order History</h3>';
-    orders.forEach(order => {
-        html += `<div class="order-history-item">
-            <strong>Order #${order.id}</strong> - ${new Date(order.date).toLocaleString()}<br>
-            Total: $${order.total}<br>
-            <ul>${order.items.map(i => `<li>${i.name} x${i.quantity} ($${i.price})</li>`).join('')}</ul>
-        </div>`;
-    });
-    document.getElementById('order-history').innerHTML = html;
-}
-document.getElementById('add-product-form').onsubmit = function(e) {
-    e.preventDefault();
-    const name = document.getElementById('product-name').value;
-    const price = parseFloat(document.getElementById('product-price').value);
-    if (!name || isNaN(price)) return alert('Please enter valid product details.');
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existing = cart.find(item => item.name === name);
-    if (existing) {
-        existing.qty++;
-    } else {
-        cart.push({ name, price, qty: 1 });
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    document.getElementById('product-name').value = '';
-    document.getElementById('product-price').value = '';
-};
-loadCustomerInfo();
-renderCart();
-loadOrderHistory();
-</script>
+        const firebaseConfig = { /* Paste Your Config Here */ };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+        const API_URL = 'http://localhost:3307/api';
+        const CART_KEY = 'cart'; 
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+                const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+                const profile = snapshot.val();
+                document.getElementById('user-details').innerHTML = `
+                    <p><strong>Name</strong> ${profile?.name || user.displayName || 'Guest'}</p>
+                    <p><strong>Email</strong> ${user.email}</p>
+                    <p><strong>Address</strong> ${profile?.address || 'Not set'}</p>
+                `;
+                loadOrderHistory();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            const tbody = document.getElementById('cart-items-body');
+            let total = 0;
+
+            if (cart.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 40px;">Your cart is empty</td></tr>';
+                document.getElementById('cart-grand-total').textContent = '0.00';
+                return;
+            }
+
+            tbody.innerHTML = cart.map(item => {
+                const lineTotal = item.price * (item.qty || item.quantity || 1);
+                total += lineTotal;
+                return `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.qty || item.quantity}</td>
+                        <td>$${item.price}</td>
+                        <td>$${lineTotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('cart-grand-total').textContent = total.toFixed(2);
+        }
+
+        document.getElementById('place-order-btn').onclick = async function() {
+            const token = localStorage.getItem('token');
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+
+            if (!token) return alert('Login required');
+            if (cart.length === 0) return alert('Cart empty');
+            
+            try {
+                const res = await fetch(`${API_URL}/order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify({ cart })
+                });
+
+                if (res.ok) {
+                    alert('Success! Order confirmed.');
+                    localStorage.removeItem(CART_KEY);
+                    renderCart();
+                    loadOrderHistory();
+                } else {
+                    const err = await res.json();
+                    alert(err.message);
+                }
+            } catch (e) {
+                alert('Connection error');
+            }
+        };
+
+        async function loadOrderHistory() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            try {
+                const res = await fetch(`${API_URL}/orders`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const orders = await res.json();
+                const container = document.getElementById('order-history-list');
+
+                if (orders.length > 0) {
+                    container.innerHTML = orders.map(o => `
+                        <div class="history-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <strong>Order #${o.id || 'N/A'}</strong>
+                                <span class="status-badge">Processing</span>
+                            </div>
+                            <p style="margin: 5px 0; font-size: 0.8rem; color: var(--text-muted);">
+                                ${new Date(o.date).toLocaleDateString()}
+                            </p>
+                            <p>Total <span style="color:var(--gold)">$${o.total}</span></p>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
 </body>
 </html>

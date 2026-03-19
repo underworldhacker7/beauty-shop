@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isLoggedIn) {
             alert("Proceeding to payment for logged-in user!");
-            window.location.href = 'checkout.html';
+            window.location.href = 'order.html';
         } else {
             alert("Please sign up or log in to proceed with payment.");
             window.location.href = 'signout.html';

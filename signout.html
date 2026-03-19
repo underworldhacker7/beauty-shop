@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,55 +8,56 @@
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="signout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
+
 <body>
     <header class="main-header">
         <div class="container">
             <a href="index.html" class="logo">G&G Beauty</a>
-            </div>
+        </div>
     </header>
 
     <main class="page-content">
         <div class="container">
             <h1 class="section-title">Join Us Today!!</h1>
+
+            <!-- Message Container for Alerts -->
+            <div id="message-container" style="max-width: 500px; margin: 0 auto 20px;"></div>
+
             <div class="auth-container">
+                <!-- Login Section -->
                 <section id="login-section">
                     <form id="login-form" class="simple-form">
                         <h2>Login</h2>
-                        <input type="email" placeholder="Email Address" required >
-                        <input type="password" placeholder="Password"  required> 
-                        <button type="submit" class="btn primary-btn">Log In</button>
+                        <input type="email" id="login-email" placeholder="Email Address" required>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button type="submit" id="login-btn" class="btn primary-btn">Log In</button>
                         <p class="switch-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
                     </form>
                 </section>
 
+                <!-- Signup Section -->
                 <section id="signup-section" style="display:none;">
                     <form id="signup-form" class="simple-form">
                         <h2>Sign Up</h2>
-                        <input type="text" placeholder="Full Name" required>
-                        <input type="email" placeholder="Email Address" required>
-                        <input type="password" placeholder="Password" required>
-                        <input type="password" placeholder="Confirm Password" required>
-                        <button type="submit" class="btn primary-btn">Sign Up</button>
+                        <input type="text" id="signup-name" placeholder="Full Name" required>
+                        <input type="email" id="signup-email" placeholder="Email Address" required>
+                        <input type="password" id="signup-password" placeholder="Password" required>
+                        <input type="password" id="signup-confirm" placeholder="Confirm Password" required>
+                        <button type="submit" id="signup-btn" class="btn primary-btn">Sign Up</button>
                         <p class="switch-link">Already have an account? <a href="#" id="show-login">Login</a></p>
                     </form>
                 </section>
             </div>
         </div>
     </main>
-    
-    <script>
-        document.getElementById('show-signup').onclick = function(e) {
-            e.preventDefault();
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('signup-section').style.display = 'block';
-        };
-        document.getElementById('show-login').onclick = function(e) {
-            e.preventDefault();
-            document.getElementById('signup-section').style.display = 'none';
-            document.getElementById('login-section').style.display = 'block';
-        };
-    </script>
+
+    <!-- External JavaScript File -->
+    <script src="auth.js"></script>
 </body>
+
 </html>

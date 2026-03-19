@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Orders | G&G Beauty</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="order.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
+
 <body>
+    <!-- Navigation Bar -->
+    <nav class="account-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">G&G Beauty</a>
+            <div class="nav-links">
+                <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+                <button id="logout-btn" class="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </nav>
 
     <div class="order-container">
         <header>
@@ -21,7 +35,10 @@
         <div class="order-grid">
             <main>
                 <section class="card">
-                    <h3>Current Order</h3>
+                    <div class="card-header">
+                        <h3>Current Order</h3>
+                        <button id="clear-cart-btn" class="btn-secondary" style="display: none;">Clear Cart</button>
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -40,7 +57,11 @@
                 </section>
 
                 <section class="card">
-                    <h3>Order History</h3>
+                    <div class="card-header">
+                        <h3>Order History</h3>
+                        <button id="clear-history-btn" class="btn-secondary" style="display: none;">Clear
+                            History</button>
+                    </div>
                     <div id="order-history-list">
                         <p style="color: var(--text-muted);">No past orders found.</p>
                     </div>
@@ -53,6 +74,12 @@
                     <div id="user-details">
                         <p>Authenticating...</p>
                     </div>
+                    <div class="profile-actions">
+                        <button id="edit-profile-btn" class="btn-secondary"><i class="fas fa-edit"></i> Edit
+                            Profile</button>
+                        <button id="delete-account-btn" class="btn-danger"><i class="fas fa-trash"></i> Delete
+                            Account</button>
+                    </div>
                 </section>
 
                 <section class="card">
@@ -61,33 +88,213 @@
                         Standard shipping and taxes calculated at next step.
                     </p>
                     <button class="btn-primary" id="place-order-btn">PLACE ORDER NOW</button>
-                </aside>
+                </section>
             </aside>
         </div>
     </div>
 
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Payment Details</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="payment-methods">
+                    <div class="payment-tabs">
+                        <button class="payment-tab active" data-method="card">💳 Card</button>
+                        <button class="payment-tab" data-method="paypal">📱 PayPal</button>
+                        <button class="payment-tab" data-method="mpesa">📲 M-PESA</button>
+                        <button class="payment-tab" data-method="bank">🏦 Bank</button>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div id="card-payment" class="payment-form active">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" class="payment-input" id="card-number">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="payment-input" id="card-expiry">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" class="payment-input" id="card-cvv">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" placeholder="John Doe" class="payment-input" id="card-name">
+                        </div>
+                    </div>
+
+                    <!-- PayPal Payment -->
+                    <div id="paypal-payment" class="payment-form">
+                        <p style="margin-bottom: 15px;">You will be redirected to PayPal to complete your payment.</p>
+                        <div class="paypal-button">
+                            <i class="fab fa-paypal" style="font-size: 2rem; color: #003087;"></i>
+                            <span>Pay with PayPal</span>
+                        </div>
+                    </div>
+
+                    <!-- M-PESA Payment -->
+                    <div id="mpesa-payment" class="payment-form">
+                        <div class="form-group">
+                            <label>M-PESA Phone Number</label>
+                            <input type="tel" placeholder="0712 345 678" class="payment-input" id="mpesa-phone">
+                        </div>
+                        <div class="form-group">
+                            <label>Enter M-PESA PIN</label>
+                            <input type="password" placeholder="****" class="payment-input" id="mpesa-pin">
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">You will receive a prompt on your phone
+                            to complete the transaction.</p>
+                    </div>
+
+                    <!-- Bank Transfer -->
+                    <div id="bank-payment" class="payment-form">
+                        <div class="bank-details">
+                            <p><strong>Bank:</strong> Equity Bank</p>
+                            <p><strong>Account Name:</strong> G&G Beauty Ltd</p>
+                            <p><strong>Account Number:</strong> 1234567890</p>
+                            <p><strong>Branch:</strong> Nairobi</p>
+                            <p><strong>SWIFT Code:</strong> EQBLKENA</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Payment Receipt</label>
+                            <input type="file" class="payment-input" id="bank-receipt" accept="image/*,.pdf">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h4>Order Summary</h4>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>$<span id="modal-subtotal">0.00</span></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>$5.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span>$<span id="modal-total">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-payment">Cancel</button>
+                <button class="btn-primary" id="confirm-payment">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <span class="close-edit-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="edit-name" class="payment-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="edit-email" class="payment-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="edit-address" class="payment-input" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="edit-phone" class="payment-input">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-edit">Cancel</button>
+                <button class="btn-primary" id="save-profile">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Delete Account</h2>
+                <span class="close-delete-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                <p style="color: #ff4444; margin-top: 10px;">All your data will be permanently removed.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-delete">Cancel</button>
+                <button class="btn-danger" id="confirm-delete">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const firebaseConfig = { /* Paste Your Config Here */ };
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5eyBjpVFpGU4rMNackwl0aVULbq5URNE",
+            authDomain: "beauty-shop-e7176.firebaseapp.com",
+            projectId: "beauty-shop-e7176",
+            storageBucket: "beauty-shop-e7176.firebasestorage.app",
+            messagingSenderId: "221917266718",
+            appId: "1:221917266718:web:98c3d1f330b512b8cc7f0f",
+            databaseURL: "https://beauty-shop-e7176-default-rtdb.firebaseio.com/"
+        };
+
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-        const API_URL = 'http://localhost:3307/api';
-        const CART_KEY = 'cart'; 
+        const CART_KEY = 'cart';
+        let currentUser = null;
 
+        // Check Authentication
         firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
-                const profile = snapshot.val();
-                document.getElementById('user-details').innerHTML = `
-                    <p><strong>Name</strong> ${profile?.name || user.displayName || 'Guest'}</p>
-                    <p><strong>Email</strong> ${user.email}</p>
-                    <p><strong>Address</strong> ${profile?.address || 'Not set'}</p>
-                `;
+                currentUser = user;
+                await loadUserProfile(user);
+                renderCart();
                 loadOrderHistory();
+                checkCartAndHistory();
             } else {
-                window.location.href = 'login.html';
+                window.location.href = 'signout.html';
             }
         });
 
+        // Load User Profile
+        async function loadUserProfile(user) {
+            try {
+                const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+                const profile = snapshot.val() || {};
+
+                document.getElementById('user-details').innerHTML = `
+                    <div class="profile-info">
+                        <p><i class="fas fa-user"></i> <strong>Name:</strong> ${profile.name || user.displayName || 'Guest'}</p>
+                        <p><i class="fas fa-envelope"></i> <strong>Email:</strong> ${user.email}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> ${profile.address || 'Not set'}</p>
+                        <p><i class="fas fa-phone"></i> <strong>Phone:</strong> ${profile.phone || 'Not set'}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        // Render Cart
         function renderCart() {
             const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
             const tbody = document.getElementById('cart-items-body');
@@ -96,16 +303,19 @@
             if (cart.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 40px;">Your cart is empty</td></tr>';
                 document.getElementById('cart-grand-total').textContent = '0.00';
+                document.getElementById('clear-cart-btn').style.display = 'none';
                 return;
             }
 
+            document.getElementById('clear-cart-btn').style.display = 'block';
             tbody.innerHTML = cart.map(item => {
-                const lineTotal = item.price * (item.qty || item.quantity || 1);
+                const qty = item.qty || item.quantity || 1;
+                const lineTotal = item.price * qty;
                 total += lineTotal;
                 return `
                     <tr>
                         <td>${item.name}</td>
-                        <td>${item.qty || item.quantity}</td>
+                        <td>${qty}</td>
                         <td>$${item.price}</td>
                         <td>$${lineTotal.toFixed(2)}</td>
                     </tr>
@@ -114,62 +324,232 @@
             document.getElementById('cart-grand-total').textContent = total.toFixed(2);
         }
 
-        document.getElementById('place-order-btn').onclick = async function() {
-            const token = localStorage.getItem('token');
-            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-
-            if (!token) return alert('Login required');
-            if (cart.length === 0) return alert('Cart empty');
-            
-            try {
-                const res = await fetch(`${API_URL}/order`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                    body: JSON.stringify({ cart })
-                });
-
-                if (res.ok) {
-                    alert('Success! Order confirmed.');
-                    localStorage.removeItem(CART_KEY);
-                    renderCart();
-                    loadOrderHistory();
-                } else {
-                    const err = await res.json();
-                    alert(err.message);
-                }
-            } catch (e) {
-                alert('Connection error');
-            }
-        };
-
+        // Load Order History
         async function loadOrderHistory() {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            try {
-                const res = await fetch(`${API_URL}/orders`, {
-                    headers: { 'Authorization': 'Bearer ' + token }
-                });
-                const orders = await res.json();
-                const container = document.getElementById('order-history-list');
+            const container = document.getElementById('order-history-list');
 
-                if (orders.length > 0) {
-                    container.innerHTML = orders.map(o => `
+            try {
+                const snapshot = await firebase.database().ref('orders/' + currentUser.uid).once('value');
+                const orders = snapshot.val() || {};
+                const orderList = Object.values(orders).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                if (orderList.length > 0) {
+                    document.getElementById('clear-history-btn').style.display = 'block';
+                    container.innerHTML = orderList.map(order => `
                         <div class="history-item">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <strong>Order #${o.id || 'N/A'}</strong>
-                                <span class="status-badge">Processing</span>
+                            <div class="history-header">
+                                <strong>Order #${order.id?.slice(-6) || 'N/A'}</strong>
+                                <span class="status-badge status-${order.status?.toLowerCase() || 'processing'}">${order.status || 'Processing'}</span>
                             </div>
-                            <p style="margin: 5px 0; font-size: 0.8rem; color: var(--text-muted);">
-                                ${new Date(o.date).toLocaleDateString()}
-                            </p>
-                            <p>Total <span style="color:var(--gold)">$${o.total}</span></p>
+                            <p class="order-date">${new Date(order.date).toLocaleDateString()} at ${new Date(order.date).toLocaleTimeString()}</p>
+                            <div class="order-items">
+                                ${order.items?.map(item => `<span>${item.qty}x ${item.name}</span>`).join(', ')}
+                            </div>
+                            <p class="order-total">Total: <span>$${order.total?.toFixed(2) || '0.00'}</span></p>
                         </div>
                     `).join('');
+                } else {
+                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px;">No past orders found.</p>';
                 }
-            } catch (err) {}
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', renderCart);
+        // Check if cart and history have items
+        function checkCartAndHistory() {
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            document.getElementById('clear-cart-btn').style.display = cart.length > 0 ? 'block' : 'none';
+        }
+
+        // Clear Cart
+        document.getElementById('clear-cart-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear your cart?')) {
+                localStorage.removeItem(CART_KEY);
+                renderCart();
+            }
+        });
+
+        // Clear History
+        document.getElementById('clear-history-btn').addEventListener('click', async () => {
+            if (confirm('Are you sure you want to clear your order history?')) {
+                await firebase.database().ref('orders/' + currentUser.uid).remove();
+                loadOrderHistory();
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await firebase.auth().signOut();
+            localStorage.removeItem('userSignedIn');
+            localStorage.removeItem('token');
+            window.location.href = 'shop.html';
+        });
+
+        // Payment Modal
+        const modal = document.getElementById('payment-modal');
+        const placeOrderBtn = document.getElementById('place-order-btn');
+        const closeModal = document.querySelector('.close-modal');
+        const cancelPayment = document.getElementById('cancel-payment');
+        const paymentTabs = document.querySelectorAll('.payment-tab');
+        const paymentForms = document.querySelectorAll('.payment-form');
+
+        placeOrderBtn.addEventListener('click', () => {
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+
+            const total = parseFloat(document.getElementById('cart-grand-total').textContent);
+            document.getElementById('modal-subtotal').textContent = total.toFixed(2);
+            document.getElementById('modal-total').textContent = (total + 5).toFixed(2);
+            modal.style.display = 'flex';
+        });
+
+        function closePaymentModal() {
+            modal.style.display = 'none';
+        }
+
+        closeModal.addEventListener('click', closePaymentModal);
+        cancelPayment.addEventListener('click', closePaymentModal);
+
+        // Payment Tabs
+        paymentTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                paymentTabs.forEach(t => t.classList.remove('active'));
+                paymentForms.forEach(f => f.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.method}-payment`).classList.add('active');
+            });
+        });
+
+        // Confirm Payment
+        document.getElementById('confirm-payment').addEventListener('click', async () => {
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            const total = parseFloat(document.getElementById('cart-grand-total').textContent) + 5;
+
+            // Create order object
+            const order = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                userId: currentUser.uid,
+                items: cart,
+                total: total,
+                status: 'Processing',
+                date: new Date().toISOString(),
+                paymentMethod: document.querySelector('.payment-tab.active').dataset.method
+            };
+
+            try {
+                // Save order to Firebase
+                await firebase.database().ref('orders/' + currentUser.uid + '/' + order.id).set(order);
+
+                // Clear cart
+                localStorage.removeItem(CART_KEY);
+                renderCart();
+                loadOrderHistory();
+
+                alert('Order placed successfully!');
+                closePaymentModal();
+            } catch (error) {
+                console.error('Error placing order:', error);
+                alert('Error placing order. Please try again.');
+            }
+        });
+
+        // Edit Profile Modal
+        const editModal = document.getElementById('edit-profile-modal');
+        const editBtn = document.getElementById('edit-profile-btn');
+        const closeEdit = document.querySelector('.close-edit-modal');
+        const cancelEdit = document.getElementById('cancel-edit');
+
+        editBtn.addEventListener('click', async () => {
+            const snapshot = await firebase.database().ref('users/' + currentUser.uid).once('value');
+            const profile = snapshot.val() || {};
+
+            document.getElementById('edit-name').value = profile.name || currentUser.displayName || '';
+            document.getElementById('edit-email').value = currentUser.email || '';
+            document.getElementById('edit-address').value = profile.address || '';
+            document.getElementById('edit-phone').value = profile.phone || '';
+
+            editModal.style.display = 'flex';
+        });
+
+        closeEdit.addEventListener('click', () => editModal.style.display = 'none');
+        cancelEdit.addEventListener('click', () => editModal.style.display = 'none');
+
+        // Save Profile
+        document.getElementById('save-profile').addEventListener('click', async () => {
+            const name = document.getElementById('edit-name').value;
+            const address = document.getElementById('edit-address').value;
+            const phone = document.getElementById('edit-phone').value;
+
+            try {
+                await firebase.database().ref('users/' + currentUser.uid).update({
+                    name: name,
+                    address: address,
+                    phone: phone
+                });
+
+                await currentUser.updateProfile({ displayName: name });
+
+                await loadUserProfile(currentUser);
+                editModal.style.display = 'none';
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile');
+            }
+        });
+
+        // Delete Account Modal
+        const deleteModal = document.getElementById('delete-modal');
+        const deleteBtn = document.getElementById('delete-account-btn');
+        const closeDelete = document.querySelector('.close-delete-modal');
+        const cancelDelete = document.getElementById('cancel-delete');
+
+        deleteBtn.addEventListener('click', () => {
+            deleteModal.style.display = 'flex';
+        });
+
+        closeDelete.addEventListener('click', () => deleteModal.style.display = 'none');
+        cancelDelete.addEventListener('click', () => deleteModal.style.display = 'none');
+
+        // Confirm Delete Account
+        document.getElementById('confirm-delete').addEventListener('click', async () => {
+            try {
+                // Delete user data from database
+                await firebase.database().ref('users/' + currentUser.uid).remove();
+                await firebase.database().ref('orders/' + currentUser.uid).remove();
+
+                // Delete user account
+                await currentUser.delete();
+
+                // Clear storage
+                localStorage.clear();
+
+                // Redirect to shop
+                window.location.href = 'shop.html';
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                alert('Error deleting account. Please try again.');
+            }
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) closePaymentModal();
+            if (event.target === editModal) editModal.style.display = 'none';
+            if (event.target === deleteModal) deleteModal.style.display = 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            checkCartAndHistory();
+        });
     </script>
+    <script src="scripts.js"></script>
 </body>
+
 </html>

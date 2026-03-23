@@ -417,6 +417,71 @@
 
         // Initialize cart count on page load
         updateCartCount();
+        // Hamburger Menu Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.getElementById('nav-list');
+    const body = document.body;
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    body.appendChild(overlay);
+    
+    function toggleMenu() {
+        const isOpen = navList.classList.contains('open');
+        
+        if (isOpen) {
+            navList.classList.remove('open');
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            overlay.classList.remove('active');
+            body.style.overflow = '';
+        } else {
+            navList.classList.add('open');
+            menuToggle.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            overlay.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+    }
+    
+    function closeMenu() {
+        navList.classList.remove('open');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        overlay.classList.remove('active');
+        body.style.overflow = '';
+    }
+    
+    // Toggle menu on button click
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleMenu);
+    }
+    
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', closeMenu);
+    
+    // Close menu when clicking a nav link
+    const navLinks = document.querySelectorAll('#nav-list a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+    
+    // Close menu on window resize if screen becomes larger
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navList.classList.contains('open')) {
+            closeMenu();
+        }
+    });
+    
+    // Handle escape key to close menu
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navList.classList.contains('open')) {
+            closeMenu();
+        }
+    });
+});
 
     </script>
     <script src="scripts.js"></script>

@@ -132,64 +132,27 @@
                     </div>
 
                     <!-- PayPal Payment -->
-                   <div id="paypal-payment" class="payment-form">
+                 <div id="paypal-payment" class="payment-form">
     <p style="margin-bottom: 15px;">You will be redirected to PayPal to complete your payment.</p>
     
     <!-- PayPal Button Container -->
     <div id="paypal-button-container"></div>
     
-    <!-- Alternative: PayPal.me Link (if SDK fails to load) -->
+    <!-- Alternative: PayPal.me Link -->
     <div id="paypal-fallback" style="display: none; text-align: center; margin-top: 15px;">
         <a href="https://www.paypal.com/paypalme/maxnjuguna18" target="_blank" class="paypal-button" style="display: inline-flex; align-items: center; gap: 10px; background: #003087; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600;">
             <i class="fab fa-paypal" style="font-size: 1.5rem;"></i>
             <span>Pay with PayPal</span>
         </a>
-        <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-muted);">After payment, please send your payment confirmation to: maxnjuguna18@gmail.com</p>
+        <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-muted);">After payment, please send confirmation to: maxnjuguna18@gmail.com</p>
     </div>
 </div>
 
-<style>
-/* PayPal Button Styling */
-#paypal-button-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.paypal-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #003087, #001f5c);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    max-width: 300px;
-}
-
-.paypal-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 48, 135, 0.4);
-    background: linear-gradient(135deg, #001f5c, #000c2e);
-}
-
-.paypal-button:active {
-    transform: translateY(0);
-}
-</style>
-
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+<!-- Updated PayPal SDK with YOUR Client ID -->
+<script src="https://www.paypal.com/sdk/js?client-id=AZ8JfDd6_HIqYuRa2s-G6DZVEriobUHSHrdccTxtfmFezFOak2wZ-oQDv6GSJHFujwXNycVsaJzlGyrG&currency=USD"></script>
 
 <script>
-// Initialize PayPal Button when payment modal opens
+// Initialize PayPal Button
 function initializePayPal() {
     const cartTotal = getCartTotal();
     const paypalContainer = document.getElementById('paypal-button-container');
@@ -197,13 +160,11 @@ function initializePayPal() {
     
     if (!paypalContainer) return;
     
-    // Check if cart has items
     if (cartTotal <= 0) {
         paypalContainer.innerHTML = '<p style="color: var(--error-red); text-align: center;">Your cart is empty. Please add items before proceeding.</p>';
         return;
     }
     
-    // Check if PayPal SDK is loaded
     if (typeof paypal === 'undefined') {
         paypalContainer.style.display = 'none';
         if (paypalFallback) paypalFallback.style.display = 'block';
@@ -211,31 +172,20 @@ function initializePayPal() {
     }
     
     try {
-        // Clear previous button
         paypalContainer.innerHTML = '';
         
-        // Render PayPal Button
         paypal.Buttons({
-            // Set up the transaction
             createOrder: function(data, actions) {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
                             value: cartTotal,
-                            currency_code: 'USD',
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: cartTotal
-                                }
-                            }
+                            currency_code: 'USD'
                         },
                         payee: {
-                            email_address: 'maxnjuguna18@gmail.com' // Updated email
+                            email_address: 'maxnjuguna18@gmail.com'
                         },
-                        description: 'G&G Beauty Purchase',
-                        custom_id: generateOrderId(),
-                        invoice_id: generateInvoiceId()
+                        description: 'G&G Beauty Purchase'
                     }],
                     application_context: {
                         shipping_preference: 'NO_SHIPPING',
@@ -245,16 +195,12 @@ function initializePayPal() {
                 });
             },
             
-            // Finalize the transaction
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    // Show loading state
                     showLoading('Processing your payment...');
                     
-                    // Save order details
                     const orderDetails = {
                         orderId: details.id,
-                        invoiceId: details.purchase_units[0].invoice_id,
                         payerEmail: details.payer.email_address,
                         payerName: details.payer.name.given_name + ' ' + details.payer.name.surname,
                         amount: details.purchase_units[0].amount.value,
@@ -264,66 +210,50 @@ function initializePayPal() {
                         cart: getCart()
                     };
                     
-                    // Save to localStorage
                     saveOrderToLocalStorage(orderDetails);
                     
-                    // Show success message
                     alert(`✓ Payment successful!\n\nThank you ${details.payer.name.given_name} for your purchase.\nTransaction ID: ${details.id}\nAmount: $${orderDetails.amount}`);
                     
-                    // Clear cart
                     localStorage.removeItem('cart');
                     
-                    // Update cart display
-                    if (typeof renderCartDropdown === 'function') {
-                        renderCartDropdown();
-                    }
-                    if (typeof updateCartCount === 'function') {
-                        updateCartCount();
-                    }
+                    if (typeof renderCartDropdown === 'function') renderCartDropdown();
+                    if (typeof updateCartCount === 'function') updateCartCount();
                     
-                    // Redirect to order confirmation page
                     window.location.href = 'order-confirmation.html?order_id=' + details.id;
                 }).catch(function(error) {
                     console.error('Capture Error:', error);
-                    alert('Payment capture failed. Please try again or contact support.');
+                    alert('Payment capture failed. Please try again.');
                     hideLoading();
                 });
             },
             
-            // Handle errors
             onError: function(err) {
                 console.error('PayPal Error:', err);
-                alert('Unable to process PayPal payment. Please try again or use another payment method.');
+                alert('Unable to process PayPal payment. Please try again.');
                 if (paypalFallback) paypalFallback.style.display = 'block';
                 hideLoading();
             },
             
-            // Cancel handler
             onCancel: function(data) {
-                console.log('Payment cancelled:', data);
                 alert('Payment was cancelled. You can try again when ready.');
             },
             
-            // Style the button
             style: {
                 color: 'gold',
                 shape: 'pill',
                 label: 'paypal',
-                height: 45,
-                layout: 'horizontal',
-                tagline: false
+                height: 45
             }
             
         }).render('#paypal-button-container');
         
     } catch (error) {
         console.error('PayPal initialization error:', error);
-        paypalContainer.innerHTML = '<p style="color: var(--error-red); text-align: center;">PayPal is temporarily unavailable. Please use another payment method.</p>';
+        paypalContainer.innerHTML = '<p style="color: var(--error-red); text-align: center;">PayPal is temporarily unavailable.</p>';
         if (paypalFallback) paypalFallback.style.display = 'block';
     }
 }
 
-// Helper Functions
 function getCart() {
     return JSON.parse(localStorage.getItem('cart')) || [];
 }
@@ -332,14 +262,6 @@ function getCartTotal() {
     const cart = getCart();
     const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     return total.toFixed(2);
-}
-
-function generateOrderId() {
-    return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-}
-
-function generateInvoiceId() {
-    return 'INV-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
 }
 
 function saveOrderToLocalStorage(orderDetails) {
@@ -377,7 +299,6 @@ function hideLoading() {
     if (loadingDiv) loadingDiv.remove();
 }
 
-// Add spin animation
 const style = document.createElement('style');
 style.textContent = `
     @keyframes spin {
@@ -386,9 +307,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Call initializePayPal when payment modal opens
+// Initialize when modal opens
 document.addEventListener('DOMContentLoaded', function() {
-    // Listen for modal open event
     const paymentModal = document.getElementById('payment-modal');
     if (paymentModal) {
         const observer = new MutationObserver(function(mutations) {

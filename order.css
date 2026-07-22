@@ -63,10 +63,25 @@ body {
 
 .nav-container .logo {
     color: var(--accent-gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
     font-size: 1.8rem;
     font-weight: 800;
     text-decoration: none;
     font-family: 'Playfair Display', serif;
+}
+
+.nav-container .brand-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.nav-container .brand-text {
+    display: inline-block;
 }
 
 .nav-links {

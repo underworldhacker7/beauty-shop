@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <title>Shop - G&G Beauty</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="LOGO/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="LOGO/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="LOGO/apple-touch-icon.png">
+    <link rel="shortcut icon" href="LOGO/favicon.ico">
+    <link rel="manifest" href="LOGO/site.webmanifest">
     <link rel="stylesheet" href="shop.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,7 +19,10 @@
     <!-- Header Section -->
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">G&G Beauty</a>
+            <a href="index.html" class="logo" aria-label="G&G Beauty home">
+                <img src="LOGO/android-chrome-192x192.png" alt="G&G Beauty logo" class="brand-logo">
+                <span class="brand-text">G&G Beauty</span>
+            </a>
 
             <nav class="main-nav">
                 <ul id="nav-list">
@@ -60,12 +68,55 @@
 
     <!-- Main Content -->
     <main class="container">
+        <section class="shop-topbar" aria-label="Shop toolbar">
+            <div class="shop-breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="breadcrumb-sep">/</span>
+                <span>Best Sellers</span>
+            </div>
+            <div class="shop-toolbar">
+                <span class="shop-count">Showing 0 of 0</span>
+                <div class="shop-toolbar-actions">
+                    <button class="filter-sort-btn" type="button">
+                        <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                        Filters & Sort
+                    </button>
+                    <label for="sort-products" class="sr-only">Sort products</label>
+                    <select id="sort-products" class="sort-select" aria-label="Sort products">
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A-Z</option>
+                    </select>
+                    <label for="currency-select" class="sr-only">Choose currency</label>
+                    <select id="currency-select" class="sort-select currency-select" aria-label="Choose currency">
+                        <option value="USD">USD</option>
+                        <option value="KES">KES</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="shop-filter-row" aria-label="Product filters">
+            <button class="filter-pill active" type="button" data-filter="all">All</button>
+            <button class="filter-pill" type="button" data-filter="perfume">Perfume</button>
+            <button class="filter-pill" type="button" data-filter="skincare">Skincare</button>
+            <button class="filter-pill" type="button" data-filter="body">Body Care</button>
+            <button class="filter-pill" type="button" data-filter="hair">Hair</button>
+            <button class="filter-pill" type="button" data-filter="nails">Nails</button>
+            <button class="filter-pill" type="button" data-filter="jewelry">Jewelry</button>
+            <button class="filter-pill" type="button" data-filter="new">New</button>
+            <button class="filter-pill" type="button" data-filter="best">Best Seller</button>
+        </section>
+
         <!-- Perfumes Section -->
         <section aria-labelledby="perfume-heading">
             <h1 id="perfume-heading">Perfumes</h1>
             <div class="product-grid" id="perfume-list">
                 <!-- Product 1 -->
-                <article class="product-card">
+                <article class="product-card best-seller" data-type="perfume" data-price="90.0">
+                    <span class="product-badge">Best Seller</span>
                     <img src="media/1a51446a3048c076f641ff1b3dbe449a.jpg" alt="Citrus Zest Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Citrus Zest</h3>
@@ -80,7 +131,7 @@
                 </article>
 
                 <!-- Product 2 -->
-                <article class="product-card">
+                <article class="product-card" data-type="perfume" data-price="50.0">
                     <img src="media/0bf5f2ffce85b6e84c17c76320edb3e3.jpg" alt="Rosewood Bliss Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Rosewood Bliss</h3>
@@ -95,7 +146,8 @@
                 </article>
 
                 <!-- Product 3 -->
-                <article class="product-card">
+                <article class="product-card new" data-type="perfume" data-price="80.0">
+                    <span class="product-badge">New</span>
                     <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Acua Banan Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Acua Banan</h3>
@@ -110,7 +162,8 @@
                 </article>
 
                 <!-- Product 4 -->
-                <article class="product-card">
+                <article class="product-card best-seller" data-type="perfume" data-price="70.0">
+                    <span class="product-badge">Best Seller</span>
                     <img src="media/5363efdfa492161b963e0093922bdb92.jpg" alt="Woodland Walk Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Woodland Walk</h3>
@@ -123,6 +176,60 @@
                         </button>
                     </div>
                 </article>
+                <article class="product-card" data-type="perfume" data-price="65.0">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80"
+                        alt="Amber perfume bottle on vanity" class="product-image">
+                    <h3 class="product-name">Sunrise Amber</h3>
+                    <p class="product-price">65.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-24" value="1" min="1" aria-label="Quantity of Sunrise Amber">
+                        <button onclick="addToCart('Sunrise Amber', 65.0, 'qty-24')" class="cart-icon-btn"
+                            title="Add Sunrise Amber to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="perfume" data-price="55.0">
+                    <span class="product-badge">New</span>
+                    <img src="https://images.unsplash.com/photo-1513675626741-5aa9865a67e7?auto=format&fit=crop&w=800&q=80"
+                        alt="Bright perfume bottle with flowers" class="product-image">
+                    <h3 class="product-name">Pink Cashmere</h3>
+                    <p class="product-price">55.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-25" value="1" min="1" aria-label="Quantity of Pink Cashmere">
+                        <button onclick="addToCart('Pink Cashmere', 55.0, 'qty-25')" class="cart-icon-btn"
+                            title="Add Pink Cashmere to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="perfume" data-price="120.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+                        alt="Luxury perfume bottle" class="product-image">
+                    <h3 class="product-name">Velvet Oud</h3>
+                    <p class="product-price">120.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-26" value="1" min="1" aria-label="Quantity of Velvet Oud">
+                        <button onclick="addToCart('Velvet Oud', 120.0, 'qty-26')" class="cart-icon-btn"
+                            title="Add Velvet Oud to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="perfume" data-price="85.0">
+                    <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80"
+                        alt="Jasmine perfume styled on marble" class="product-image">
+                    <h3 class="product-name">Moonlit Jasmine</h3>
+                    <p class="product-price">85.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-27" value="1" min="1" aria-label="Quantity of Moonlit Jasmine">
+                        <button onclick="addToCart('Moonlit Jasmine', 85.0, 'qty-27')" class="cart-icon-btn"
+                            title="Add Moonlit Jasmine to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
             </div>
         </section>
 
@@ -131,7 +238,8 @@
             <h1 id="skincare-heading">Skincare</h1>
             <div class="product-grid" id="skincare-list">
                 <!-- Product 5 -->
-                <article class="product-card">
+                <article class="product-card best-seller" data-type="skincare" data-price="120.0">
+                    <span class="product-badge">Best Seller</span>
                     <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Yawona product" class="product-image">
                     <h3 class="product-name">Yawona</h3>
                     <p class="product-price">120.0</p>
@@ -145,7 +253,7 @@
                 </article>
 
                 <!-- Product 6 -->
-                <article class="product-card">
+                <article class="product-card" data-type="skincare" data-price="75.0">
                     <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Main Land product"
                         class="product-image">
                     <h3 class="product-name">Main Land</h3>
@@ -160,7 +268,7 @@
                 </article>
 
                 <!-- Product 7 -->
-                <article class="product-card">
+                <article class="product-card" data-type="skincare" data-price="100.0">
                     <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Vaseline product"
                         class="product-image">
                     <h3 class="product-name">Vaseline</h3>
@@ -175,7 +283,8 @@
                 </article>
 
                 <!-- Product 8 -->
-                <article class="product-card">
+                <article class="product-card new" data-type="skincare" data-price="150.0">
+                    <span class="product-badge">New</span>
                     <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Nivea lotion product"
                         class="product-image">
                     <h3 class="product-name">Nivea lotion</h3>
@@ -190,7 +299,8 @@
                 </article>
 
                 <!-- Product 9 -->
-                <article class="product-card">
+                <article class="product-card best-seller" data-type="skincare" data-price="200.0">
+                    <span class="product-badge">Best Seller</span>
                     <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Gernier product" class="product-image">
                     <h3 class="product-name">Gernier</h3>
                     <p class="product-price">200.0</p>
@@ -204,7 +314,8 @@
                 </article>
 
                 <!-- Product 10 -->
-                <article class="product-card">
+                <article class="product-card best-seller" data-type="skincare" data-price="200.0">
+                    <span class="product-badge">Best Seller</span>
                     <img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Dr Rashed product"
                         class="product-image">
                     <h3 class="product-name">Dr Rashed</h3>
@@ -217,8 +328,339 @@
                         </button>
                     </div>
                 </article>
+                <article class="product-card new" data-type="skincare" data-price="110.0">
+                    <span class="product-badge">New</span>
+                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
+                        alt="Beauty serum bottle on pink towel" class="product-image">
+                    <h3 class="product-name">Glow Serum</h3>
+                    <p class="product-price">110.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-28" value="1" min="1" aria-label="Quantity of Glow Serum">
+                        <button onclick="addToCart('Glow Serum', 110.0, 'qty-28')" class="cart-icon-btn"
+                            title="Add Glow Serum to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="skincare" data-price="92.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+                        alt="Skincare cream in jar" class="product-image">
+                    <h3 class="product-name">Velvet Peptide Cream</h3>
+                    <p class="product-price">92.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-29" value="1" min="1" aria-label="Quantity of Velvet Peptide Cream">
+                        <button onclick="addToCart('Velvet Peptide Cream', 92.0, 'qty-29')" class="cart-icon-btn"
+                            title="Add Velvet Peptide Cream to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="skincare" data-price="70.0">
+                    <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=80"
+                        alt="Vitamin C skincare collection" class="product-image">
+                    <h3 class="product-name">Radiant Vitamin C</h3>
+                    <p class="product-price">70.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-30" value="1" min="1" aria-label="Quantity of Radiant Vitamin C">
+                        <button onclick="addToCart('Radiant Vitamin C', 70.0, 'qty-30')" class="cart-icon-btn"
+                            title="Add Radiant Vitamin C to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="skincare" data-price="40.0">
+                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
+                        alt="Fresh toner bottle and cotton pads" class="product-image">
+                    <h3 class="product-name">Herbal Mist Toner</h3>
+                    <p class="product-price">40.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-31" value="1" min="1" aria-label="Quantity of Herbal Mist Toner">
+                        <button onclick="addToCart('Herbal Mist Toner', 40.0, 'qty-31')" class="cart-icon-btn"
+                            title="Add Herbal Mist Toner to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
             </div>
         </section>
+
+        <!-- Body & Hair Section -->
+        <section aria-labelledby="bodyhair-heading">
+            <h1 id="bodyhair-heading">Body & Hair</h1>
+            <div class="product-grid" id="bodyhair-list">
+                <article class="product-card" data-type="body" data-price="85.0">
+                    <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Velvet Body Mist" class="product-image">
+                    <h3 class="product-name">Velvet Body Mist</h3>
+                    <p class="product-price">85.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-14" value="1" min="1" aria-label="Quantity of Velvet Body Mist">
+                        <button onclick="addToCart('Velvet Body Mist', 85, 'qty-14')" class="cart-icon-btn"
+                            title="Add Velvet Body Mist to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="hair" data-price="65.0">
+                    <span class="product-badge">New</span>
+                    <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Silk Hair Serum" class="product-image">
+                    <h3 class="product-name">Silk Hair Serum</h3>
+                    <p class="product-price">65.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-15" value="1" min="1" aria-label="Quantity of Silk Hair Serum">
+                        <button onclick="addToCart('Silk Hair Serum', 65, 'qty-15')" class="cart-icon-btn"
+                            title="Add Silk Hair Serum to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="body" data-price="48.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Rose Body Cream" class="product-image">
+                    <h3 class="product-name">Rose Body Cream</h3>
+                    <p class="product-price">48.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-16" value="1" min="1" aria-label="Quantity of Rose Body Cream">
+                        <button onclick="addToCart('Rose Body Cream', 48, 'qty-16')" class="cart-icon-btn"
+                            title="Add Rose Body Cream to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="hair" data-price="110.0">
+                    <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Repair Hair Oil" class="product-image">
+                    <h3 class="product-name">Repair Hair Oil</h3>
+                    <p class="product-price">110.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-17" value="1" min="1" aria-label="Quantity of Repair Hair Oil">
+                        <button onclick="addToCart('Repair Hair Oil', 110, 'qty-17')" class="cart-icon-btn"
+                            title="Add Repair Hair Oil to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="body" data-price="72.0">
+                    <span class="product-badge">New</span>
+                    <img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Coconut Body Wash" class="product-image">
+                    <h3 class="product-name">Coconut Body Wash</h3>
+                    <p class="product-price">72.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-18" value="1" min="1" aria-label="Quantity of Coconut Body Wash">
+                        <button onclick="addToCart('Coconut Body Wash', 72, 'qty-18')" class="cart-icon-btn"
+                            title="Add Coconut Body Wash to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="hair" data-price="95.0">
+                    <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Nourish Hair Mask" class="product-image">
+                    <h3 class="product-name">Nourish Hair Mask</h3>
+                    <p class="product-price">95.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-19" value="1" min="1" aria-label="Quantity of Nourish Hair Mask">
+                        <button onclick="addToCart('Nourish Hair Mask', 95, 'qty-19')" class="cart-icon-btn"
+                            title="Add Nourish Hair Mask to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="body" data-price="38.0">
+                    <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+                        alt="Hand cream tube and botanicals" class="product-image">
+                    <h3 class="product-name">Satin Hand Cream</h3>
+                    <p class="product-price">38.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-32" value="1" min="1" aria-label="Quantity of Satin Hand Cream">
+                        <button onclick="addToCart('Satin Hand Cream', 38.0, 'qty-32')" class="cart-icon-btn"
+                            title="Add Satin Hand Cream to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="body" data-price="42.0">
+                    <span class="product-badge">New</span>
+                    <img src="https://images.unsplash.com/photo-1518976024611-488dde4a52ac?auto=format&fit=crop&w=800&q=80"
+                        alt="Citrus body scrub jar" class="product-image">
+                    <h3 class="product-name">Citrus Body Scrub</h3>
+                    <p class="product-price">42.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-33" value="1" min="1" aria-label="Quantity of Citrus Body Scrub">
+                        <button onclick="addToCart('Citrus Body Scrub', 42.0, 'qty-33')" class="cart-icon-btn"
+                            title="Add Citrus Body Scrub to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="hair" data-price="88.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80"
+                        alt="Hair oil bottle with leaves" class="product-image">
+                    <h3 class="product-name">Rosemary Scalp Oil</h3>
+                    <p class="product-price">88.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-34" value="1" min="1" aria-label="Quantity of Rosemary Scalp Oil">
+                        <button onclick="addToCart('Rosemary Scalp Oil', 88.0, 'qty-34')" class="cart-icon-btn"
+                            title="Add Rosemary Scalp Oil to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="hair" data-price="55.0">
+                    <span class="product-badge">New</span>
+                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
+                        alt="Repair hair mask product" class="product-image">
+                    <h3 class="product-name">Aloe Repair Mask</h3>
+                    <p class="product-price">55.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-35" value="1" min="1" aria-label="Quantity of Aloe Repair Mask">
+                        <button onclick="addToCart('Aloe Repair Mask', 55.0, 'qty-35')" class="cart-icon-btn"
+                            title="Add Aloe Repair Mask to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Nails & Jewelry Section -->
+        <section aria-labelledby="accessories-heading">
+            <h1 id="accessories-heading">Nails & Jewelry</h1>
+            <div class="product-grid" id="accessories-list">
+                <article class="product-card" data-type="nails" data-price="45.0">
+                    <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Luxury Nail Kit" class="product-image">
+                    <h3 class="product-name">Luxury Nail Kit</h3>
+                    <p class="product-price">45.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-20" value="1" min="1" aria-label="Quantity of Luxury Nail Kit">
+                        <button onclick="addToCart('Luxury Nail Kit', 45, 'qty-20')" class="cart-icon-btn"
+                            title="Add Luxury Nail Kit to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="jewelry" data-price="250.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Elegant Gold Bracelet" class="product-image">
+                    <h3 class="product-name">Elegant Gold Bracelet</h3>
+                    <p class="product-price">250.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-21" value="1" min="1" aria-label="Quantity of Elegant Gold Bracelet">
+                        <button onclick="addToCart('Elegant Gold Bracelet', 250, 'qty-21')" class="cart-icon-btn"
+                            title="Add Elegant Gold Bracelet to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="nails" data-price="32.0">
+                    <span class="product-badge">New</span>
+                    <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Gel Nail Set" class="product-image">
+                    <h3 class="product-name">Gel Nail Set</h3>
+                    <p class="product-price">32.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-22" value="1" min="1" aria-label="Quantity of Gel Nail Set">
+                        <button onclick="addToCart('Gel Nail Set', 32, 'qty-22')" class="cart-icon-btn"
+                            title="Add Gel Nail Set to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="jewelry" data-price="180.0">
+                    <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Pearl Necklace" class="product-image">
+                    <h3 class="product-name">Pearl Necklace</h3>
+                    <p class="product-price">180.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-23" value="1" min="1" aria-label="Quantity of Pearl Necklace">
+                        <button onclick="addToCart('Pearl Necklace', 180, 'qty-23')" class="cart-icon-btn"
+                            title="Add Pearl Necklace to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="jewelry" data-price="320.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80"
+                        alt="Diamond stud earrings set" class="product-image">
+                    <h3 class="product-name">Diamond Stud Earrings</h3>
+                    <p class="product-price">320.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-36" value="1" min="1" aria-label="Quantity of Diamond Stud Earrings">
+                        <button onclick="addToCart('Diamond Stud Earrings', 320.0, 'qty-36')" class="cart-icon-btn"
+                            title="Add Diamond Stud Earrings to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card new" data-type="nails" data-price="28.0">
+                    <span class="product-badge">New</span>
+                    <img src="https://images.unsplash.com/photo-1516651029873-1ae9c77e44d8?auto=format&fit=crop&w=800&q=80"
+                        alt="Colorful nail polish bottles" class="product-image">
+                    <h3 class="product-name">Crystal Nail Polish Set</h3>
+                    <p class="product-price">28.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-37" value="1" min="1" aria-label="Quantity of Crystal Nail Polish Set">
+                        <button onclick="addToCart('Crystal Nail Polish Set', 28.0, 'qty-37')" class="cart-icon-btn"
+                            title="Add Crystal Nail Polish Set to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card" data-type="jewelry" data-price="18.0">
+                    <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80"
+                        alt="Pearl hair clip styling" class="product-image">
+                    <h3 class="product-name">Pearl Hair Clip</h3>
+                    <p class="product-price">18.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-38" value="1" min="1" aria-label="Quantity of Pearl Hair Clip">
+                        <button onclick="addToCart('Pearl Hair Clip', 18.0, 'qty-38')" class="cart-icon-btn"
+                            title="Add Pearl Hair Clip to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="product-card best-seller" data-type="jewelry" data-price="150.0">
+                    <span class="product-badge">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80"
+                        alt="Gold anklet on display" class="product-image">
+                    <h3 class="product-name">Gold Anklet</h3>
+                    <p class="product-price">150.0</p>
+                    <div class="product-actions">
+                        <input type="number" id="qty-39" value="1" min="1" aria-label="Quantity of Gold Anklet">
+                        <button onclick="addToCart('Gold Anklet', 150.0, 'qty-39')" class="cart-icon-btn"
+                            title="Add Gold Anklet to Cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="shop-explore">
+            <button class="explore-more-btn" type="button">Explore More</button>
+        </div>
+
+        <!-- Product Detail Modal -->
+        <div class="product-detail-modal" id="product-detail-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title" style="display:none;">
+            <div class="modal-backdrop" id="product-modal-backdrop"></div>
+            <div class="modal-content" role="document">
+                <button class="modal-close" id="product-modal-close" aria-label="Close product details">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+                <div class="modal-image-wrap">
+                    <img id="product-modal-image" src="" alt="Product detail image">
+                </div>
+                <div class="modal-copy">
+                    <span class="product-badge" id="product-modal-badge" style="display:none;"></span>
+                    <h2 id="product-detail-title"></h2>
+                    <p class="product-detail-category" id="product-modal-category"></p>
+                    <p class="product-detail-price" id="product-modal-price"></p>
+                    <p class="product-detail-description" id="product-modal-description"></p>
+                    <button type="button" class="filter-sort-btn" id="modal-add-to-cart-btn">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <!-- Payment Methods Section -->
         <section class="payment-section" aria-label="Payment Methods">
@@ -350,6 +792,54 @@
             updateCartCount();
         }
 
+        const currencyRates = {
+            USD: 1,
+            KES: 148.5,
+            GBP: 0.79,
+        };
+
+        const currencySymbols = {
+            USD: '$',
+            KES: 'KSh',
+            GBP: '£',
+        };
+
+        let selectedCurrency = localStorage.getItem('selectedCurrency') || 'USD';
+
+        function convertPrice(value, currency = selectedCurrency) {
+            const rate = currencyRates[currency] || 1;
+            return value * rate;
+        }
+
+        function formatPrice(value, currency = selectedCurrency) {
+            const symbol = currencySymbols[currency] || '';
+            return `${symbol}${convertPrice(value, currency).toFixed(2)}`;
+        }
+
+        function updatePriceDisplay() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const basePrice = parseFloat(card.dataset.price);
+                const priceElement = card.querySelector('.product-price');
+                if (priceElement && !isNaN(basePrice)) {
+                    priceElement.textContent = formatPrice(basePrice);
+                }
+            });
+        }
+
+        function addProductToCart(name, price, qty = 1) {
+            let cart = getCart();
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ name, price: parseFloat(price), qty });
+            }
+            setCart(cart);
+            renderCartDropdown();
+            alert(`Added ${qty} x ${name} to cart!`);
+        }
+
         function updateCartCount() {
             const cart = getCart();
             const count = cart.reduce((sum, item) => sum + item.qty, 0);
@@ -365,19 +855,8 @@
         }
 
         function addToCart(name, price, qtyInputId) {
-            let cart = getCart();
             const qty = parseInt(document.getElementById(qtyInputId).value, 10);
-            const existing = cart.find(item => item.name === name);
-            
-            if (existing) {
-                existing.qty += qty;
-            } else {
-                cart.push({ name, price: parseFloat(price), qty });
-            }
-            
-            setCart(cart);
-            renderCartDropdown();
-            alert(`Added ${qty} x ${name} to cart!`);
+            addProductToCart(name, price, qty);
         }
 
         function renderCartDropdown() {
@@ -388,16 +867,18 @@
             if (cart.length === 0) {
                 html = '<div style="padding: 10px; text-align: center;">Your cart is empty.</div>';
             } else {
-                html = '<table><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead><tbody>';
+                html = '<table><thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Total</th><th></th></tr></thead><tbody>';
                 cart.forEach((item, idx) => {
-                    let lineTotal = item.qty * item.price;
+                    const convertedUnit = convertPrice(item.price);
+                    const lineTotal = convertedUnit * item.qty;
                     total += lineTotal;
                     html += `<tr>
                         <td>${item.name}</td>
                         <td>
                             <input type="number" min="1" value="${item.qty}" style="width: 50px; padding: 4px; text-align: center;" onchange="updateCartQty(${idx}, this.value)" aria-label="Quantity of ${item.name}">
                         </td>
-                        <td>$${item.price.toFixed(2)}</td>
+                        <td>${currencySymbols[selectedCurrency] || ''}${convertedUnit.toFixed(2)}</td>
+                        <td>${currencySymbols[selectedCurrency] || ''}${lineTotal.toFixed(2)}</td>
                         <td>
                             <button onclick="removeCartItem(${idx})" style="background: none; border: none; color: #ff4444; cursor: pointer; font-size: 1.2rem;" aria-label="Remove ${item.name} from cart">&times;</button>
                         </td>
@@ -410,7 +891,7 @@
             const cartTotal = document.getElementById('cart-dropdown-total');
             
             if (cartList) cartList.innerHTML = html;
-            if (cartTotal) cartTotal.innerHTML = `<strong style="display: block; text-align: right;">Total: $${total.toFixed(2)}</strong>`;
+            if (cartTotal) cartTotal.innerHTML = `<strong style="display: block; text-align: right;">Total: ${currencySymbols[selectedCurrency] || ''}${total.toFixed(2)}</strong>`;
             
             updateCartCount();
         }
@@ -514,6 +995,158 @@
                 });
             }
             
+            function refreshShopCount() {
+                const countElement = document.querySelector('.shop-count');
+                const cards = Array.from(document.querySelectorAll('.product-card'));
+                const visibleCards = cards.filter(card => card.offsetParent !== null).length;
+                if (countElement) {
+                    countElement.textContent = `Showing ${visibleCards} of ${cards.length}`;
+                }
+            }
+
+            function applyFilter(filter) {
+                const productCards = document.querySelectorAll('.product-card');
+                productCards.forEach(card => {
+                    const type = card.dataset.type || 'all';
+                    const isBest = card.classList.contains('best-seller');
+                    const isNew = card.classList.contains('new');
+                    const show = filter === 'all'
+                        || type === filter
+                        || (filter === 'best' && isBest)
+                        || (filter === 'new' && isNew);
+                    card.style.display = show ? '' : 'none';
+                });
+                refreshShopCount();
+            }
+
+            function setActiveFilter(button) {
+                document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
+                button.classList.add('active');
+            }
+
+            function sortProducts(value) {
+                const grids = document.querySelectorAll('.product-grid');
+                grids.forEach(grid => {
+                    const cards = Array.from(grid.querySelectorAll('.product-card'));
+                    cards.sort((a, b) => {
+                        const nameA = a.querySelector('.product-name').textContent.trim().toLowerCase();
+                        const nameB = b.querySelector('.product-name').textContent.trim().toLowerCase();
+                        const priceA = parseFloat(a.dataset.price);
+                        const priceB = parseFloat(b.dataset.price);
+
+                        switch (value) {
+                            case 'price-asc': return priceA - priceB;
+                            case 'price-desc': return priceB - priceA;
+                            case 'name-asc': return nameA.localeCompare(nameB);
+                            default: return 0;
+                        }
+                    });
+                    cards.forEach(card => grid.appendChild(card));
+                });
+            }
+
+            function openProductModal(card) {
+                const modal = document.getElementById('product-detail-modal');
+                const backdrop = document.getElementById('product-modal-backdrop');
+                const closeBtn = document.getElementById('product-modal-close');
+                const modalImage = document.getElementById('product-modal-image');
+                const modalTitle = document.getElementById('product-detail-title');
+                const modalCategory = document.getElementById('product-modal-category');
+                const modalPrice = document.getElementById('product-modal-price');
+                const modalDescription = document.getElementById('product-modal-description');
+                const badge = document.getElementById('product-modal-badge');
+                const addButton = document.getElementById('modal-add-to-cart-btn');
+
+                const name = card.querySelector('.product-name').textContent.trim();
+                const basePrice = parseFloat(card.dataset.price);
+                const category = card.dataset.type || 'Product';
+                const imageSrc = card.querySelector('.product-image').src;
+                const badgeText = card.classList.contains('best-seller') ? 'Best Seller' : card.classList.contains('new') ? 'New' : '';
+                const detailText = `A premium ${category} choice crafted for exceptional luxury and everyday glow.`;
+
+                modalImage.src = imageSrc;
+                modalImage.alt = name;
+                modalTitle.textContent = name;
+                modalCategory.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                modalPrice.textContent = formatPrice(basePrice);
+                modalDescription.textContent = detailText;
+
+                if (badgeText) {
+                    badge.style.display = 'inline-flex';
+                    badge.textContent = badgeText;
+                } else {
+                    badge.style.display = 'none';
+                }
+
+                addButton.onclick = () => {
+                    addProductToCart(name, basePrice, 1);
+                };
+
+                modal.style.display = 'flex';
+
+                function closeModal() {
+                    modal.style.display = 'none';
+                }
+
+                backdrop.onclick = closeModal;
+                closeBtn.onclick = closeModal;
+                document.addEventListener('keydown', function escHandler(event) {
+                    if (event.key === 'Escape') {
+                        closeModal();
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                });
+            }
+
+            function initializeShopControls() {
+                document.querySelectorAll('.filter-pill').forEach(button => {
+                    button.addEventListener('click', () => {
+                        setActiveFilter(button);
+                        applyFilter(button.dataset.filter);
+                    });
+                });
+
+                const sortSelect = document.getElementById('sort-products');
+                if (sortSelect) {
+                    sortSelect.addEventListener('change', () => {
+                        sortProducts(sortSelect.value);
+                    });
+                }
+
+                const currencySelect = document.getElementById('currency-select');
+                if (currencySelect) {
+                    currencySelect.value = selectedCurrency;
+                    currencySelect.addEventListener('change', () => {
+                        selectedCurrency = currencySelect.value;
+                        localStorage.setItem('selectedCurrency', selectedCurrency);
+                        updatePriceDisplay();
+                        renderCartDropdown();
+                    });
+                }
+
+                const exploreButton = document.querySelector('.explore-more-btn');
+                if (exploreButton) {
+                    exploreButton.addEventListener('click', () => {
+                        const paymentSection = document.querySelector('.payment-section');
+                        if (paymentSection) {
+                            window.scrollTo({ top: paymentSection.offsetTop - 80, behavior: 'smooth' });
+                        }
+                    });
+                }
+
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', event => {
+                        if (!event.target.closest('.cart-icon-btn') && !event.target.closest('input')) {
+                            openProductModal(card);
+                        }
+                    });
+                });
+            }
+
+            initializeShopControls();
+            applyFilter('all');
+            refreshShopCount();
+            updatePriceDisplay();
             // Initialize cart
             renderCartDropdown();
             

@@ -349,6 +349,155 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Category Filtering Functionality
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const productCards = document.querySelectorAll('.product-card');
+    const productSections = document.querySelectorAll('section[aria-labelledby]');
+    let favorites = JSON.parse(localStorage.getItem('gg_favorites')) || [];
+
+    // Function to update wishlist counter display
+    function updateWishlistCounter() {
+        const wishlistCountElements = document.querySelectorAll('.wishlist-count');
+        wishlistCountElements.forEach(element => {
+            element.textContent = favorites.length;
+            if (favorites.length > 0) {
+                element.style.display = 'inline-flex';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
+
+    // Initialize wishlist counter on page load
+    updateWishlistCounter();
+
+    // Add favorite buttons to all product cards
+    productCards.forEach(card => {
+        // Check if favorite button already exists
+        if (!card.querySelector('.favorite-btn')) {
+            const favBtn = document.createElement('button');
+            favBtn.className = 'favorite-btn';
+            favBtn.title = 'Add to favorites';
+            favBtn.setAttribute('aria-label', `Add ${card.querySelector('.product-name')?.textContent || 'product'} to favorites`);
+            favBtn.innerHTML = '<i class="far fa-heart"></i>';
+            
+            // Insert after product-badge if it exists, otherwise before image
+            const badge = card.querySelector('.product-badge');
+            if (badge) {
+                badge.after(favBtn);
+            } else {
+                card.querySelector('.product-image')?.before(favBtn);
+            }
+        }
+
+        // Get product name for favorite identification
+        const productName = card.querySelector('.product-name')?.textContent || '';
+        const productPrice = card.getAttribute('data-price') || '0';
+        const productImage = card.getAttribute('data-product-image') || 
+                             card.querySelector('.product-image')?.src || '';
+
+        // Add data attributes if not present
+        if (!card.getAttribute('data-product-name')) {
+            card.setAttribute('data-product-name', productName);
+        }
+        if (!card.getAttribute('data-product-image')) {
+            card.setAttribute('data-product-image', productImage);
+        }
+
+        // Check if product is in favorites and update heart icon
+        const isFavorite = favorites.some(fav => fav.name === productName && fav.price === productPrice);
+        const favBtn = card.querySelector('.favorite-btn');
+        if (isFavorite) {
+            favBtn.classList.add('favorited');
+            favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+        }
+    });
+
+    // Handle favorite button clicks
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.favorite-btn')) {
+            e.preventDefault();
+            const card = e.target.closest('.product-card');
+            const productName = card.querySelector('.product-name')?.textContent || '';
+            const productPrice = card.getAttribute('data-price') || '0';
+            const productImage = card.getAttribute('data-product-image') || 
+                                card.querySelector('.product-image')?.src || '';
+            
+            const favBtn = card.querySelector('.favorite-btn');
+            const isFavorite = favorites.some(fav => fav.name === productName && fav.price === productPrice);
+            
+            if (isFavorite) {
+                // Remove from favorites
+                favorites = favorites.filter(fav => !(fav.name === productName && fav.price === productPrice));
+                favBtn.classList.remove('favorited');
+                favBtn.innerHTML = '<i class="far fa-heart"></i>';
+            } else {
+                // Add to favorites
+                favorites.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage
+                });
+                favBtn.classList.add('favorited');
+                favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+            }
+            
+            localStorage.setItem('gg_favorites', JSON.stringify(favorites));
+            updateWishlistCounter();
+        }
+    });
+
+    if (filterPills.length > 0) {
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filterValue = this.getAttribute('data-filter');
+
+                // Update active state
+                filterPills.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter products
+                productCards.forEach(card => {
+                    let shouldShow = false;
+                    const cardType = card.getAttribute('data-type');
+                    const cardClasses = card.className;
+                    const productName = card.querySelector('.product-name')?.textContent || '';
+                    const productPrice = card.getAttribute('data-price') || '0';
+
+                    if (filterValue === 'all') {
+                        shouldShow = true;
+                    } else if (filterValue === 'best') {
+                        shouldShow = cardClasses.includes('best-seller');
+                    } else if (filterValue === 'new') {
+                        shouldShow = cardClasses.includes('new');
+                    } else if (filterValue === 'favorites') {
+                        shouldShow = favorites.some(fav => fav.name === productName && fav.price === productPrice);
+                    } else {
+                        // Match by data-type (perfume, skincare, body, hair, nails, jewelry)
+                        shouldShow = cardType === filterValue;
+                    }
+
+                    if (shouldShow) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide sections that have no visible products
+                productSections.forEach(section => {
+                    const visibleProducts = section.querySelectorAll('.product-card:not([style*="display: none"])');
+                    if (visibleProducts.length === 0) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = '';
+                    }
+                });
+            });
+        });
+    }
 });
 
 // Helper function to format currency

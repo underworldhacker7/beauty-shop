@@ -16,98 +16,169 @@
 </head>
 
 <body>
-    <!-- Header Section -->
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo" aria-label="G&G Beauty home">
-                <img src="LOGO/android-chrome-192x192.png" alt="G&G Beauty logo" class="brand-logo">
-                <span class="brand-text">G&G Beauty</span>
-            </a>
-
-            <nav class="main-nav">
-                <ul id="nav-list">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html" class="active">Shop</a></li>
-                    <li><a href="index.html#about">About Us</a></li>
-                    <li><a href="index.html#contact">Contact Us</a></li>
-                </ul>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Cart Dropdown Button -->
-    <button id="cart-dropdown-btn" onclick="toggleCartDropdown()" class="icon-button cart-button"
-        aria-controls="cart-dropdown" aria-expanded="false">
-        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-        <span class="cart-count" id="cart-count">0</span>
-    </button>
-
-    <!-- Cart Dropdown Modal -->
-    <div id="cart-dropdown" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="cart-heading">
-        <h2 id="cart-heading">Shopping Cart</h2>
-        <div id="cart-dropdown-list"></div>
-        <div id="cart-dropdown-total"></div>
-        <button onclick="goToCheckout()">Pay Now !!!</button>
+    <!-- Refined Announcement Bar -->
+    <div class="announcement-bar" role="region" aria-live="polite" aria-label="Special offer and promotions">
+        <span class="announcement-text">FREE SHIPPING OVER $50 &nbsp;|&nbsp; G&amp;G GIFT OVER $100</span>
     </div>
 
-    <!-- Hero Section -->
-    <section class="shop-hero-section" aria-label="Shop Introduction">
+    <!-- Streamlined Header -->
+    <header class="main-header">
+        <div class="header-top">
+            <!-- Logo -->
+            <a href="index.html" class="logo" aria-label="G&G Beauty home">
+                <img src="LOGO/android-chrome-192x192.png" alt="G&G Beauty logo" class="brand-logo">
+                <span class="brand-text">G&amp;G</span>
+            </a>
+
+            <!-- Search (desktop only) -->
+            <div class="header-search" role="search">
+                <input type="search" placeholder="Search perfumes, skincare, beauty..." aria-label="Search products" class="search-input">
+                <button class="search-btn" aria-label="Submit search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Right icon cluster -->
+            <div class="header-icons">
+                <button id="wishlist-header-btn" onclick="toggleWishlistPanel()" class="hdr-icon-btn wishlist-button" aria-label="View Wishlist" aria-expanded="false">
+                    <i class="far fa-heart" aria-hidden="true"></i>
+                    <span class="wishlist-count" id="wishlist-count">0</span>
+                </button>
+                <button id="cart-dropdown-btn" onclick="toggleCartDropdown()" class="hdr-icon-btn cart-button"
+                    aria-controls="cart-dropdown" aria-expanded="false" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <a href="signout.html" class="hdr-icon-btn" aria-label="Account">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                </a>
+                <button class="hdr-icon-btn" id="menu-toggle" aria-label="Toggle Navigation" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Full-width Nav -->
+        <nav class="header-nav" aria-label="Main navigation">
+            <ul id="nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+                <li><a href="shop.html" class="active"><i class="fas fa-store"></i><span>All</span></a></li>
+                <li><a href="shop.html?filter=perfume" data-filter="perfume"><i class="fas fa-spray-can"></i><span>Perfumes</span></a></li>
+                <li><a href="shop.html?filter=skincare" data-filter="skincare"><i class="fas fa-leaf"></i><span>Skincare</span></a></li>
+                <li><a href="shop.html?filter=body" data-filter="body"><i class="fas fa-spa"></i><span>Body</span></a></li>
+                <li><a href="shop.html?filter=hair" data-filter="hair"><i class="fas fa-feather"></i><span>Hair</span></a></li>
+                <li><a href="shop.html?filter=jewelry" data-filter="jewelry"><i class="fas fa-gem"></i><span>Jewelry</span></a></li>
+                <li><a href="index.html#about"><i class="fas fa-info-circle"></i><span>About</span></a></li>
+                <li><a href="index.html#contact"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Cart Dropdown -->
+    <div id="cart-dropdown" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="cart-heading">
+        <h2 id="cart-heading">Shopping Cart</h2>
+        <div class="shipping-progress-container">
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar-fill" id="shippingProgressFill"></div>
+            </div>
+            <p class="progress-text" id="shippingProgressText">Add $50 more for free shipping!</p>
+        </div>
+        <div id="cart-dropdown-list"></div>
+        <div id="cart-dropdown-total"></div>
+        <button onclick="goToCheckout()">Checkout</button>
+    </div>
+
+    <!-- Luxury Hero Section -->
+    <section class="shop-hero-section" aria-label="G&G Collection">
         <video class="bg-video" autoplay muted loop playsinline>
             <source src="shoping/background.mp4" type="video/mp4">
         </video>
+        <div class="hero-dust-overlay"></div>
         <div class="shop-hero-overlay">
-            <h1>Welcome to G&G Beauty Shop</h1>
-            <p>Discover our exclusive range of beauty and skincare products</p>
+            <p class="hero-eyebrow">G&amp;G COLLECTION</p>
+            <h1 class="hero-headline">Luxury Beauty</h1>
+            <p class="hero-sub">Discover our exclusive range of perfumes &amp; skincare</p>
+            <a href="#products" class="hero-cta">Explore Now</a>
         </div>
     </section>
 
     <!-- Main Content -->
-    <main class="container">
+    <main class="container" id="products">
+
+        <!-- Consolidated Toolbar -->
         <section class="shop-topbar" aria-label="Shop toolbar">
             <div class="shop-breadcrumb">
                 <a href="index.html">Home</a>
                 <span class="breadcrumb-sep">/</span>
-                <span>Best Sellers</span>
+                <span id="breadcrumb-current">All Products</span>
             </div>
             <div class="shop-toolbar">
                 <span class="shop-count">Showing 0 of 0</span>
                 <div class="shop-toolbar-actions">
-                    <button class="filter-sort-btn" type="button">
-                        <i class="fas fa-sliders-h" aria-hidden="true"></i>
-                        Filters & Sort
+                    <button class="toolbar-btn" type="button" id="filter-sort-toggle">
+                        <i class="fas fa-sliders-h"></i> FILTERS &amp; SORT
                     </button>
-                    <label for="sort-products" class="sr-only">Sort products</label>
-                    <select id="sort-products" class="sort-select" aria-label="Sort products">
-                        <option value="featured">Featured</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                        <option value="name-asc">Name: A-Z</option>
-                    </select>
-                    <label for="currency-select" class="sr-only">Choose currency</label>
-                    <select id="currency-select" class="sort-select currency-select" aria-label="Choose currency">
-                        <option value="USD">USD</option>
-                        <option value="KES">KES</option>
-                        <option value="GBP">GBP</option>
-                    </select>
+                    <div class="toolbar-sort-panel" id="sort-panel">
+                        <label for="sort-products" class="sr-only">Sort</label>
+                        <select id="sort-products" class="sort-select" aria-label="Sort products">
+                            <option value="featured">Featured</option>
+                            <option value="price-asc">Price: Low → High</option>
+                            <option value="price-desc">Price: High → Low</option>
+                            <option value="name-asc">Name: A–Z</option>
+                        </select>
+                        <label for="currency-select" class="sr-only">Currency</label>
+                        <select id="currency-select" class="sort-select" aria-label="Choose currency">
+                            <option value="USD">USD $</option>
+                            <option value="KES">KES</option>
+                            <option value="GBP">GBP £</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="shop-filter-row" aria-label="Product filters">
-            <button class="filter-pill active" type="button" data-filter="all">All</button>
-            <button class="filter-pill" type="button" data-filter="perfume">Perfume</button>
-            <button class="filter-pill" type="button" data-filter="skincare">Skincare</button>
-            <button class="filter-pill" type="button" data-filter="body">Body Care</button>
-            <button class="filter-pill" type="button" data-filter="hair">Hair</button>
-            <button class="filter-pill" type="button" data-filter="nails">Nails</button>
-            <button class="filter-pill" type="button" data-filter="jewelry">Jewelry</button>
-            <button class="filter-pill" type="button" data-filter="new">New</button>
-            <button class="filter-pill" type="button" data-filter="best">Best Seller</button>
+        <!-- Elegant Circular Category Tabs -->
+        <section class="category-tabs" aria-label="Product categories">
+            <button class="cat-tab active" data-filter="all">
+                <span class="cat-icon"><i class="fas fa-th"></i></span>
+                <span class="cat-label">ALL</span>
+            </button>
+            <button class="cat-tab" data-filter="perfume">
+                <span class="cat-icon"><i class="fas fa-spray-can"></i></span>
+                <span class="cat-label">PERFUME</span>
+            </button>
+            <button class="cat-tab" data-filter="skincare">
+                <span class="cat-icon"><i class="fas fa-leaf"></i></span>
+                <span class="cat-label">SKINCARE</span>
+            </button>
+            <button class="cat-tab" data-filter="body">
+                <span class="cat-icon"><i class="fas fa-spa"></i></span>
+                <span class="cat-label">BODY CARE</span>
+            </button>
+            <button class="cat-tab" data-filter="hair">
+                <span class="cat-icon"><i class="fas fa-feather"></i></span>
+                <span class="cat-label">HAIR</span>
+            </button>
+            <button class="cat-tab" data-filter="nails">
+                <span class="cat-icon"><i class="fas fa-paint-brush"></i></span>
+                <span class="cat-label">NAILS</span>
+            </button>
+            <button class="cat-tab" data-filter="jewelry">
+                <span class="cat-icon"><i class="fas fa-gem"></i></span>
+                <span class="cat-label">JEWELRY</span>
+            </button>
+            <button class="cat-tab" data-filter="new">
+                <span class="cat-icon"><i class="fas fa-certificate"></i></span>
+                <span class="cat-label">NEW</span>
+            </button>
+            <button class="cat-tab" data-filter="best">
+                <span class="cat-icon"><i class="fas fa-star"></i></span>
+                <span class="cat-label">BEST</span>
+            </button>
+            <button class="cat-tab" data-filter="favorites">
+                <span class="cat-icon"><i class="fas fa-heart"></i></span>
+                <span class="cat-label">SAVED</span>
+            </button>
         </section>
 
         <!-- Perfumes Section -->
@@ -115,8 +186,11 @@
             <h1 id="perfume-heading">Perfumes</h1>
             <div class="product-grid" id="perfume-list">
                 <!-- Product 1 -->
-                <article class="product-card best-seller" data-type="perfume" data-price="90.0">
+                <article class="product-card best-seller" data-type="perfume" data-price="90.0" data-product-name="Citrus Zest" data-product-image="media/1a51446a3048c076f641ff1b3dbe449a.jpg">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Citrus Zest to favorites">
+                        <i class="far fa-heart"></i>
+                    </button>
                     <img src="media/1a51446a3048c076f641ff1b3dbe449a.jpg" alt="Citrus Zest Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Citrus Zest</h3>
@@ -132,6 +206,7 @@
 
                 <!-- Product 2 -->
                 <article class="product-card" data-type="perfume" data-price="50.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Rosewood Bliss to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/0bf5f2ffce85b6e84c17c76320edb3e3.jpg" alt="Rosewood Bliss Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Rosewood Bliss</h3>
@@ -148,6 +223,7 @@
                 <!-- Product 3 -->
                 <article class="product-card new" data-type="perfume" data-price="80.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Acua Banan to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Acua Banan Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Acua Banan</h3>
@@ -164,6 +240,7 @@
                 <!-- Product 4 -->
                 <article class="product-card best-seller" data-type="perfume" data-price="70.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Woodland Walk to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/5363efdfa492161b963e0093922bdb92.jpg" alt="Woodland Walk Perfume Bottle"
                         class="product-image">
                     <h3 class="product-name">Woodland Walk</h3>
@@ -177,6 +254,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="perfume" data-price="65.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Sunrise Amber to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80"
                         alt="Amber perfume bottle on vanity" class="product-image">
                     <h3 class="product-name">Sunrise Amber</h3>
@@ -191,6 +269,7 @@
                 </article>
                 <article class="product-card new" data-type="perfume" data-price="55.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Pink Cashmere to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1513675626741-5aa9865a67e7?auto=format&fit=crop&w=800&q=80"
                         alt="Bright perfume bottle with flowers" class="product-image">
                     <h3 class="product-name">Pink Cashmere</h3>
@@ -205,6 +284,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="perfume" data-price="120.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Velvet Oud to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
                         alt="Luxury perfume bottle" class="product-image">
                     <h3 class="product-name">Velvet Oud</h3>
@@ -218,6 +298,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="perfume" data-price="85.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Moonlit Jasmine to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80"
                         alt="Jasmine perfume styled on marble" class="product-image">
                     <h3 class="product-name">Moonlit Jasmine</h3>
@@ -240,6 +321,7 @@
                 <!-- Product 5 -->
                 <article class="product-card best-seller" data-type="skincare" data-price="120.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Yawona to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Yawona product" class="product-image">
                     <h3 class="product-name">Yawona</h3>
                     <p class="product-price">120.0</p>
@@ -254,6 +336,7 @@
 
                 <!-- Product 6 -->
                 <article class="product-card" data-type="skincare" data-price="75.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Main Land to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Main Land product"
                         class="product-image">
                     <h3 class="product-name">Main Land</h3>
@@ -269,6 +352,7 @@
 
                 <!-- Product 7 -->
                 <article class="product-card" data-type="skincare" data-price="100.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Vaseline to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Vaseline product"
                         class="product-image">
                     <h3 class="product-name">Vaseline</h3>
@@ -285,6 +369,7 @@
                 <!-- Product 8 -->
                 <article class="product-card new" data-type="skincare" data-price="150.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Nivea lotion to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Nivea lotion product"
                         class="product-image">
                     <h3 class="product-name">Nivea lotion</h3>
@@ -301,6 +386,7 @@
                 <!-- Product 9 -->
                 <article class="product-card best-seller" data-type="skincare" data-price="200.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Gernier to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Gernier product" class="product-image">
                     <h3 class="product-name">Gernier</h3>
                     <p class="product-price">200.0</p>
@@ -316,6 +402,7 @@
                 <!-- Product 10 -->
                 <article class="product-card best-seller" data-type="skincare" data-price="200.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Dr Rashed to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/fa8b6399336be8084f70a82567c3b638.jpg" alt="Dr Rashed product"
                         class="product-image">
                     <h3 class="product-name">Dr Rashed</h3>
@@ -330,6 +417,7 @@
                 </article>
                 <article class="product-card new" data-type="skincare" data-price="110.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Glow Serum to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
                         alt="Beauty serum bottle on pink towel" class="product-image">
                     <h3 class="product-name">Glow Serum</h3>
@@ -344,6 +432,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="skincare" data-price="92.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Velvet Peptide Cream to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
                         alt="Skincare cream in jar" class="product-image">
                     <h3 class="product-name">Velvet Peptide Cream</h3>
@@ -357,6 +446,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="skincare" data-price="70.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Radiant Vitamin C to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=80"
                         alt="Vitamin C skincare collection" class="product-image">
                     <h3 class="product-name">Radiant Vitamin C</h3>
@@ -370,6 +460,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="skincare" data-price="40.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Herbal Mist Toner to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
                         alt="Fresh toner bottle and cotton pads" class="product-image">
                     <h3 class="product-name">Herbal Mist Toner</h3>
@@ -390,6 +481,7 @@
             <h1 id="bodyhair-heading">Body & Hair</h1>
             <div class="product-grid" id="bodyhair-list">
                 <article class="product-card" data-type="body" data-price="85.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Velvet Body Mist to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/2e7347a554d032cd36a100645b5945a0.jpg" alt="Velvet Body Mist" class="product-image">
                     <h3 class="product-name">Velvet Body Mist</h3>
                     <p class="product-price">85.0</p>
@@ -403,6 +495,7 @@
                 </article>
                 <article class="product-card new" data-type="hair" data-price="65.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Silk Hair Serum to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d026f6805fe2bfe7d9f342825e65d5ef.jpg" alt="Silk Hair Serum" class="product-image">
                     <h3 class="product-name">Silk Hair Serum</h3>
                     <p class="product-price">65.0</p>
@@ -416,6 +509,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="body" data-price="48.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Rose Body Cream to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Rose Body Cream" class="product-image">
                     <h3 class="product-name">Rose Body Cream</h3>
                     <p class="product-price">48.0</p>
@@ -428,6 +522,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="hair" data-price="110.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Repair Hair Oil to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Repair Hair Oil" class="product-image">
                     <h3 class="product-name">Repair Hair Oil</h3>
                     <p class="product-price">110.0</p>
@@ -441,6 +536,7 @@
                 </article>
                 <article class="product-card new" data-type="body" data-price="72.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Coconut Body Wash to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Coconut Body Wash" class="product-image">
                     <h3 class="product-name">Coconut Body Wash</h3>
                     <p class="product-price">72.0</p>
@@ -453,6 +549,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="hair" data-price="95.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Nourish Hair Mask to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/b1d362ea7fc4d26ddb393be058ab03b5.jpg" alt="Nourish Hair Mask" class="product-image">
                     <h3 class="product-name">Nourish Hair Mask</h3>
                     <p class="product-price">95.0</p>
@@ -465,6 +562,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="body" data-price="38.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Satin Hand Cream to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
                         alt="Hand cream tube and botanicals" class="product-image">
                     <h3 class="product-name">Satin Hand Cream</h3>
@@ -479,6 +577,7 @@
                 </article>
                 <article class="product-card new" data-type="body" data-price="42.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Citrus Body Scrub to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1518976024611-488dde4a52ac?auto=format&fit=crop&w=800&q=80"
                         alt="Citrus body scrub jar" class="product-image">
                     <h3 class="product-name">Citrus Body Scrub</h3>
@@ -493,6 +592,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="hair" data-price="88.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Rosemary Scalp Oil to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80"
                         alt="Hair oil bottle with leaves" class="product-image">
                     <h3 class="product-name">Rosemary Scalp Oil</h3>
@@ -507,6 +607,7 @@
                 </article>
                 <article class="product-card new" data-type="hair" data-price="55.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Aloe Repair Mask to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
                         alt="Repair hair mask product" class="product-image">
                     <h3 class="product-name">Aloe Repair Mask</h3>
@@ -527,6 +628,7 @@
             <h1 id="accessories-heading">Nails & Jewelry</h1>
             <div class="product-grid" id="accessories-list">
                 <article class="product-card" data-type="nails" data-price="45.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Luxury Nail Kit to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/993a082a500bd1b5f2a393e0586081f5.jpg" alt="Luxury Nail Kit" class="product-image">
                     <h3 class="product-name">Luxury Nail Kit</h3>
                     <p class="product-price">45.0</p>
@@ -540,6 +642,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="jewelry" data-price="250.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Elegant Gold Bracelet to favorites"><i class="far fa-heart"></i></button>
                     <img src="media/14fdf30375c6a47e3c51247a18286468.jpg" alt="Elegant Gold Bracelet" class="product-image">
                     <h3 class="product-name">Elegant Gold Bracelet</h3>
                     <p class="product-price">250.0</p>
@@ -553,6 +656,7 @@
                 </article>
                 <article class="product-card new" data-type="nails" data-price="32.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Gel Nail Set to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d2b9e8d335235075bc952e5c13c7db71.jpg" alt="Gel Nail Set" class="product-image">
                     <h3 class="product-name">Gel Nail Set</h3>
                     <p class="product-price">32.0</p>
@@ -565,6 +669,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="jewelry" data-price="180.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Pearl Necklace to favorites"><i class="far fa-heart"></i></button>
                     <img src="shoping/d8d95f6822ccaa25ce3c12bfcc0ea3e8.jpg" alt="Pearl Necklace" class="product-image">
                     <h3 class="product-name">Pearl Necklace</h3>
                     <p class="product-price">180.0</p>
@@ -578,6 +683,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="jewelry" data-price="320.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Diamond Stud Earrings to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80"
                         alt="Diamond stud earrings set" class="product-image">
                     <h3 class="product-name">Diamond Stud Earrings</h3>
@@ -592,6 +698,7 @@
                 </article>
                 <article class="product-card new" data-type="nails" data-price="28.0">
                     <span class="product-badge">New</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Crystal Nail Polish Set to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1516651029873-1ae9c77e44d8?auto=format&fit=crop&w=800&q=80"
                         alt="Colorful nail polish bottles" class="product-image">
                     <h3 class="product-name">Crystal Nail Polish Set</h3>
@@ -605,6 +712,7 @@
                     </div>
                 </article>
                 <article class="product-card" data-type="jewelry" data-price="18.0">
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Pearl Hair Clip to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80"
                         alt="Pearl hair clip styling" class="product-image">
                     <h3 class="product-name">Pearl Hair Clip</h3>
@@ -619,6 +727,7 @@
                 </article>
                 <article class="product-card best-seller" data-type="jewelry" data-price="150.0">
                     <span class="product-badge">Best Seller</span>
+                    <button class="favorite-btn" title="Add to favorites" aria-label="Add Gold Anklet to favorites"><i class="far fa-heart"></i></button>
                     <img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80"
                         alt="Gold anklet on display" class="product-image">
                     <h3 class="product-name">Gold Anklet</h3>
@@ -937,60 +1046,46 @@
         // Hamburger Menu Toggle
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menu-toggle');
-            const navList = document.getElementById('nav-list');
-            
-            if (menuToggle && navList) {
-                const body = document.body;
-                
-                // Create overlay
-                let overlay = document.querySelector('.menu-overlay');
-                if (!overlay) {
-                    overlay = document.createElement('div');
-                    overlay.className = 'menu-overlay';
-                    body.appendChild(overlay);
-                }
-                
-                function closeMenu() {
-                    navList.classList.remove('open');
-                    menuToggle.classList.remove('active');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                    overlay.classList.remove('active');
-                    body.style.overflow = '';
-                }
-                
-                function toggleMenu() {
-                    const isOpen = navList.classList.contains('open');
-                    if (isOpen) {
-                        closeMenu();
-                    } else {
-                        navList.classList.add('open');
-                        menuToggle.classList.add('active');
-                        menuToggle.setAttribute('aria-expanded', 'true');
-                        overlay.classList.add('active');
-                        body.style.overflow = 'hidden';
+            const headerNav = document.querySelector('.header-nav');
+
+            if (menuToggle && headerNav) {
+                menuToggle.addEventListener('click', function() {
+                    const isExpanded = headerNav.classList.toggle('active');
+                    this.setAttribute('aria-expanded', isExpanded);
+                    const icon = this.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars', !isExpanded);
+                        icon.classList.toggle('fa-times', isExpanded);
                     }
-                }
-                
-                menuToggle.addEventListener('click', toggleMenu);
-                overlay.addEventListener('click', closeMenu);
-                
-                // Close menu when clicking a link
-                const navLinks = document.querySelectorAll('#nav-list a');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', closeMenu);
                 });
-                
-                // Close on escape key
+
+                // Close when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!headerNav.contains(e.target) && !menuToggle.contains(e.target) && headerNav.classList.contains('active')) {
+                        headerNav.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+                    }
+                });
+
+                // Close on nav link click
+                headerNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        headerNav.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+                    });
+                });
+
+                // Close on Escape
                 document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && navList.classList.contains('open')) {
-                        closeMenu();
-                    }
-                });
-                
-                // Close on window resize
-                window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768 && navList.classList.contains('open')) {
-                        closeMenu();
+                    if (e.key === 'Escape' && headerNav.classList.contains('active')) {
+                        headerNav.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
                     }
                 });
             }
@@ -1006,23 +1101,24 @@
 
             function applyFilter(filter) {
                 const productCards = document.querySelectorAll('.product-card');
+                const favs = getFavourites();
                 productCards.forEach(card => {
                     const type = card.dataset.type || 'all';
                     const isBest = card.classList.contains('best-seller');
                     const isNew = card.classList.contains('new');
+                    const name = card.querySelector('.product-name')?.textContent.trim();
+                    const isFav = favs.some(f => f.name === name);
                     const show = filter === 'all'
                         || type === filter
                         || (filter === 'best' && isBest)
-                        || (filter === 'new' && isNew);
+                        || (filter === 'new' && isNew)
+                        || (filter === 'favorites' && isFav);
                     card.style.display = show ? '' : 'none';
                 });
                 refreshShopCount();
             }
 
-            function setActiveFilter(button) {
-                document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
-                button.classList.add('active');
-            }
+            function setActiveFilter(_button) { /* handled by cat-tabs */ }
 
             function sortProducts(value) {
                 const grids = document.querySelectorAll('.product-grid');
@@ -1099,13 +1195,29 @@
             }
 
             function initializeShopControls() {
-                document.querySelectorAll('.filter-pill').forEach(button => {
-                    button.addEventListener('click', () => {
-                        setActiveFilter(button);
-                        applyFilter(button.dataset.filter);
+                // ---- Category tabs (new circular tabs) ----
+                document.querySelectorAll('.cat-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const filter = btn.dataset.filter;
+                        applyFilter(filter);
+                        // update breadcrumb
+                        const labelEl = document.getElementById('breadcrumb-current');
+                        if (labelEl) labelEl.textContent = btn.querySelector('.cat-label').textContent;
                     });
                 });
 
+                // ---- Filter/sort panel toggle ----
+                const sortToggle = document.getElementById('filter-sort-toggle');
+                const sortPanel = document.getElementById('sort-panel');
+                if (sortToggle && sortPanel) {
+                    sortToggle.addEventListener('click', () => {
+                        sortPanel.classList.toggle('open');
+                    });
+                }
+
+                // ---- Sort select ----
                 const sortSelect = document.getElementById('sort-products');
                 if (sortSelect) {
                     sortSelect.addEventListener('change', () => {
@@ -1113,6 +1225,7 @@
                     });
                 }
 
+                // ---- Currency select ----
                 const currencySelect = document.getElementById('currency-select');
                 if (currencySelect) {
                     currencySelect.value = selectedCurrency;
@@ -1124,6 +1237,7 @@
                     });
                 }
 
+                // ---- Explore more button ----
                 const exploreButton = document.querySelector('.explore-more-btn');
                 if (exploreButton) {
                     exploreButton.addEventListener('click', () => {
@@ -1134,13 +1248,44 @@
                     });
                 }
 
+                // ---- Product card: open modal (not on fav/cart/input) ----
                 document.querySelectorAll('.product-card').forEach(card => {
                     card.addEventListener('click', event => {
-                        if (!event.target.closest('.cart-icon-btn') && !event.target.closest('input')) {
+                        if (!event.target.closest('.cart-icon-btn') && !event.target.closest('input') && !event.target.closest('.favorite-btn')) {
                             openProductModal(card);
                         }
                     });
                 });
+
+                // ---- Favourites: toggle on heart click ----
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    btn.addEventListener('click', event => {
+                        event.stopPropagation();
+                        const card = btn.closest('.product-card');
+                        const name  = card.querySelector('.product-name').textContent.trim();
+                        const price = parseFloat(card.dataset.price);
+                        const image = card.querySelector('.product-image').src;
+                        toggleFavourite(btn, { name, price, image });
+                    });
+                });
+
+                // ---- URL param: apply filter from ?filter=xxx ----
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlFilter = urlParams.get('filter');
+                if (urlFilter) {
+                    const matchingTab = document.querySelector(`.cat-tab[data-filter="${urlFilter}"]`);
+                    if (matchingTab) {
+                        document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                        matchingTab.classList.add('active');
+                        applyFilter(urlFilter);
+                        const labelEl = document.getElementById('breadcrumb-current');
+                        if (labelEl) labelEl.textContent = matchingTab.querySelector('.cat-label').textContent;
+                    }
+                    // Also highlight matching nav link
+                    document.querySelectorAll('#nav-list a[data-filter]').forEach(a => {
+                        a.classList.toggle('active', a.dataset.filter === urlFilter);
+                    });
+                }
             }
 
             initializeShopControls();
@@ -1149,6 +1294,9 @@
             updatePriceDisplay();
             // Initialize cart
             renderCartDropdown();
+            // Restore favourites state from localStorage
+            restoreFavourites();
+            updateWishlistCount();
             
             // Update copyright year
             const copyrightElement = document.getElementById('footer-heading');
@@ -1156,6 +1304,199 @@
                 const currentYear = new Date().getFullYear();
                 copyrightElement.innerHTML = `&copy; ${currentYear} G&G Beauty Queen. All rights reserved.`;
             }
+        });
+
+        // ============================================================
+        //  FAVOURITES SYSTEM
+        // ============================================================
+
+        function getFavourites() {
+            return JSON.parse(localStorage.getItem('favourites')) || [];
+        }
+
+        function saveFavourites(favs) {
+            localStorage.setItem('favourites', JSON.stringify(favs));
+        }
+
+        function toggleFavourite(btn, product) {
+            let favs = getFavourites();
+            const idx = favs.findIndex(f => f.name === product.name);
+            const icon = btn.querySelector('i');
+
+            if (idx === -1) {
+                // Add to favourites
+                favs.push(product);
+                saveFavourites(favs);
+                btn.classList.add('favorited');
+                if (icon) { icon.classList.remove('far'); icon.classList.add('fas'); }
+                showToast(`❤️ ${product.name} added to Wishlist`);
+            } else {
+                // Remove from favourites
+                favs.splice(idx, 1);
+                saveFavourites(favs);
+                btn.classList.remove('favorited');
+                if (icon) { icon.classList.remove('fas'); icon.classList.add('far'); }
+                showToast(`🤍 ${product.name} removed from Wishlist`);
+                // If wishlist panel is open, re-render it
+                const panel = document.getElementById('wishlist-panel');
+                if (panel && panel.classList.contains('open')) renderWishlistPanel();
+            }
+            updateWishlistCount();
+        }
+
+        function restoreFavourites() {
+            const favs = getFavourites();
+            document.querySelectorAll('.product-card').forEach(card => {
+                const name = card.querySelector('.product-name').textContent.trim();
+                const btn  = card.querySelector('.favorite-btn');
+                if (!btn) return;
+                if (favs.some(f => f.name === name)) {
+                    btn.classList.add('favorited');
+                    const icon = btn.querySelector('i');
+                    if (icon) { icon.classList.remove('far'); icon.classList.add('fas'); }
+                }
+            });
+        }
+
+        function updateWishlistCount() {
+            const count = getFavourites().length;
+            const badge = document.getElementById('wishlist-count');
+            if (badge) {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // ---- Wishlist slide-in panel ----
+        function toggleWishlistPanel() {
+            let panel = document.getElementById('wishlist-panel');
+            if (!panel) panel = createWishlistPanel();
+            const isOpen = panel.classList.toggle('open');
+            const btn = document.getElementById('wishlist-header-btn');
+            if (btn) btn.setAttribute('aria-expanded', isOpen);
+            if (isOpen) renderWishlistPanel();
+        }
+
+        function createWishlistPanel() {
+            // Overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'wishlist-overlay';
+            overlay.addEventListener('click', closeWishlistPanel);
+            document.body.appendChild(overlay);
+
+            // Panel
+            const panel = document.createElement('div');
+            panel.id = 'wishlist-panel';
+            panel.setAttribute('role', 'dialog');
+            panel.setAttribute('aria-modal', 'true');
+            panel.setAttribute('aria-labelledby', 'wishlist-panel-title');
+            panel.innerHTML = `
+                <div class="wl-header">
+                    <h2 id="wishlist-panel-title"><i class="fas fa-heart"></i> My Wishlist</h2>
+                    <button class="wl-close" onclick="closeWishlistPanel()" aria-label="Close wishlist"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="wl-body"></div>
+                <div class="wl-footer">
+                    <button class="wl-add-all" onclick="addAllToCart()"><i class="fas fa-shopping-cart"></i> Add All to Cart</button>
+                </div>`;
+            document.body.appendChild(panel);
+            return panel;
+        }
+
+        function renderWishlistPanel() {
+            const favs = getFavourites();
+            const body = document.getElementById('wl-body');
+            if (!body) return;
+
+            if (favs.length === 0) {
+                body.innerHTML = `<div class="wl-empty"><i class="far fa-heart"></i><p>Your wishlist is empty.</p><a href="shop.html" class="wl-shop-link">Browse products</a></div>`;
+                return;
+            }
+
+            body.innerHTML = favs.map((f, i) => `
+                <div class="wl-item" data-index="${i}">
+                    <img src="${f.image}" alt="${f.name}" onerror="this.style.display='none'">
+                    <div class="wl-item-info">
+                        <p class="wl-item-name">${f.name}</p>
+                        <p class="wl-item-price">${formatPrice(f.price)}</p>
+                    </div>
+                    <div class="wl-item-actions">
+                        <button class="wl-add-one" onclick="addWishlistItemToCart('${f.name.replace(/'/g,"\\'")}', ${f.price})" title="Add to cart"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="wl-remove" onclick="removeFromWishlist('${f.name.replace(/'/g,"\\'")}', this)" title="Remove"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function closeWishlistPanel() {
+            const panel = document.getElementById('wishlist-panel');
+            const overlay = document.getElementById('wishlist-overlay');
+            if (panel) panel.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
+            const btn = document.getElementById('wishlist-header-btn');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+
+        function removeFromWishlist(name, triggerBtn) {
+            let favs = getFavourites();
+            favs = favs.filter(f => f.name !== name);
+            saveFavourites(favs);
+            updateWishlistCount();
+            renderWishlistPanel();
+            // Un-heart the card on the page
+            document.querySelectorAll('.product-card').forEach(card => {
+                const cardName = card.querySelector('.product-name').textContent.trim();
+                if (cardName === name) {
+                    const btn = card.querySelector('.favorite-btn');
+                    if (btn) {
+                        btn.classList.remove('favorited');
+                        const icon = btn.querySelector('i');
+                        if (icon) { icon.classList.remove('fas'); icon.classList.add('far'); }
+                    }
+                }
+            });
+        }
+
+        function addWishlistItemToCart(name, price) {
+            addProductToCart(name, price, 1);
+        }
+
+        function addAllToCart() {
+            const favs = getFavourites();
+            if (favs.length === 0) return;
+            favs.forEach(f => addProductToCart(f.name, f.price, 1));
+            showToast(`🛒 ${favs.length} item${favs.length > 1 ? 's' : ''} added to cart`);
+        }
+
+        // ---- Favourites filter pill ----
+        // Extend applyFilter to support 'favorites'
+        const _origApplyFilter = typeof applyFilter !== 'undefined' ? applyFilter : null;
+
+        // ---- Toast notification ----
+        function showToast(msg) {
+            let t = document.getElementById('fav-toast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'fav-toast';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // Patch wishlist overlay active state when panel opens
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('wishlist-panel');
+            const overlay = document.getElementById('wishlist-overlay');
+            if (panel && panel.classList.contains('open') && overlay) {
+                overlay.classList.add('active');
+            }
+        });
+
+        // Close wishlist on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeWishlistPanel();
         });
     </script>
 </body>

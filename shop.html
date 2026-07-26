@@ -27,7 +27,7 @@
             <!-- Logo -->
             <a href="index.html" class="logo" aria-label="G&G Beauty home">
                 <img src="LOGO/android-chrome-192x192.png" alt="G&G Beauty logo" class="brand-logo">
-                <span class="brand-text">G&amp;G</span>
+                <span class="brand-text">G&amp;G Beauty</span>
             </a>
 
             <!-- Search (desktop only) -->
@@ -85,7 +85,14 @@
         </div>
         <div id="cart-dropdown-list"></div>
         <div id="cart-dropdown-total"></div>
-        <button onclick="goToCheckout()">Checkout</button>
+        <div class="cart-action-row">
+            <button class="cart-btn-pending" onclick="markOrderPending()">
+                <i class="fas fa-clock"></i> Save as Pending
+            </button>
+            <button class="cart-btn-checkout" onclick="goToCheckout()">
+                <i class="fas fa-shopping-bag"></i> Checkout
+            </button>
+        </div>
     </div>
 
     <!-- Luxury Hero Section -->
@@ -956,6 +963,8 @@
             if (cartCountElement) {
                 cartCountElement.textContent = count;
             }
+            // Sync bottom nav cart badge
+            document.dispatchEvent(new CustomEvent('cartUpdated'));
             const isVisible = document.getElementById('cart-dropdown').style.display === 'block';
             const cartBtn = document.getElementById('cart-dropdown-btn');
             if (cartBtn) {
@@ -1036,11 +1045,42 @@
 
         function goToCheckout() {
             if (!localStorage.getItem('userSignedIn')) {
+                addAlert('signin', 'Sign in required', 'Please sign in to place an order.');
                 alert('Please sign in to proceed to place an order.');
                 window.location.href = 'signout.html';
                 return;
             }
+            // Save order snapshot & fire alerts
+            const cart = getCart();
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const orderRef = 'GG-' + Date.now().toString(36).toUpperCase();
+            const order = { ref: orderRef, items: cart, total, status: 'placed', time: new Date().toISOString() };
+            // Save to orders list
+            const orders = JSON.parse(localStorage.getItem('gg_orders')) || [];
+            orders.unshift(order);
+            localStorage.setItem('gg_orders', JSON.stringify(orders));
+            // Alerts
+            addAlert('order',   `Order ${orderRef} placed`,  `${cart.length} item(s) · $${total.toFixed(2)}`);
+            addAlert('payment', `Payment received for ${orderRef}`, `Amount: $${total.toFixed(2)}`);
+            addAlert('tracking',`Your order ${orderRef} is being prepared`, 'You will receive tracking updates here.');
             window.location.href = 'order.html';
+        }
+
+        function markOrderPending() {
+            const cart = getCart();
+            if (cart.length === 0) { showToast('Your cart is empty.'); return; }
+            if (!localStorage.getItem('userSignedIn')) {
+                showToast('Sign in to save a pending order.');
+                return;
+            }
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const orderRef = 'GG-P-' + Date.now().toString(36).toUpperCase();
+            const order = { ref: orderRef, items: cart, total, status: 'pending', time: new Date().toISOString() };
+            const orders = JSON.parse(localStorage.getItem('gg_orders')) || [];
+            orders.unshift(order);
+            localStorage.setItem('gg_orders', JSON.stringify(orders));
+            addAlert('pending', `Order ${orderRef} marked as Pending`, `${cart.length} item(s) · $${total.toFixed(2)} — saved for later.`);
+            showToast(`⏳ Order ${orderRef} saved as Pending`);
         }
 
         // Hamburger Menu Toggle
@@ -1365,6 +1405,8 @@
                 badge.textContent = count;
                 badge.style.display = count > 0 ? 'flex' : 'none';
             }
+            // Sync bottom nav wishlist badge
+            document.dispatchEvent(new CustomEvent('wishlistUpdated'));
         }
 
         // ---- Wishlist slide-in panel ----
@@ -1498,6 +1540,244 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeWishlistPanel();
         });
+    </script>
+
+    <!-- ===== MOBILE BOTTOM NAVIGATION ===== -->
+    <nav class="bnav" id="bottom-nav" aria-label="Mobile navigation">
+        <a href="index.html" class="bnav-tab" data-tab="home" aria-label="Home">
+            <span class="bnav-icon"><i class="fas fa-home"></i></span>
+            <span class="bnav-label">Home</span>
+        </a>
+        <button class="bnav-tab" data-tab="wishlist" onclick="toggleWishlistPanel()" aria-label="Wishlist">
+            <span class="bnav-icon">
+                <i class="far fa-heart"></i>
+                <span class="bnav-badge bnav-badge--red" id="bnav-wishlist-count">0</span>
+            </span>
+            <span class="bnav-label">Wishlist</span>
+        </button>
+        <button class="bnav-tab" data-tab="cart" onclick="toggleCartDropdown()" aria-label="Cart">
+            <span class="bnav-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="bnav-badge bnav-badge--gold" id="bnav-cart-count">0</span>
+            </span>
+            <span class="bnav-label">Cart</span>
+        </button>
+        <button class="bnav-tab" data-tab="alerts" id="bnav-alerts-tab" aria-label="Alerts">
+            <span class="bnav-icon">
+                <i class="fas fa-bell"></i>
+                <span class="bnav-dot" id="bnav-alert-dot"></span>
+            </span>
+            <span class="bnav-label">Alerts</span>
+        </button>
+        <a href="signout.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
+            <span class="bnav-icon"><i class="fas fa-user"></i></span>
+            <span class="bnav-label">Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // ============================================================
+        //  ALERTS ENGINE
+        // ============================================================
+        const ALERT_ICONS = {
+            signin:    { icon: 'fa-sign-in-alt',     color: '#4caf50', label: 'Sign In'       },
+            order:     { icon: 'fa-shopping-bag',    color: '#d4af37', label: 'Order Placed'  },
+            pending:   { icon: 'fa-clock',           color: '#ff9800', label: 'Order Pending' },
+            payment:   { icon: 'fa-credit-card',     color: '#4caf50', label: 'Payment'       },
+            tracking:  { icon: 'fa-map-marker-alt',  color: '#2196f3', label: 'Order Tracking'},
+            promo:     { icon: 'fa-tag',             color: '#e91e63', label: 'Promo'         },
+            info:      { icon: 'fa-info-circle',     color: '#d4af37', label: 'Info'          },
+        };
+
+        function addAlert(type, message, detail) {
+            const alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            alerts.unshift({
+                id:      Date.now(),
+                type:    type || 'info',
+                message: message,
+                detail:  detail || '',
+                time:    new Date().toISOString(),
+                read:    false
+            });
+            // Keep last 50 alerts
+            localStorage.setItem('gg_alerts', JSON.stringify(alerts.slice(0, 50)));
+            // Remove the global "all seen" flag so dot reappears
+            localStorage.removeItem('alertsSeen');
+            _updateAlertDot();
+            // Fire event so other scripts can react
+            document.dispatchEvent(new CustomEvent('alertAdded', { detail: { type, message } }));
+        }
+
+        function _updateAlertDot() {
+            const alerts  = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            const unread  = alerts.filter(a => !a.read).length;
+            const dot = document.getElementById('bnav-alert-dot');
+            if (dot) dot.style.display = unread > 0 ? 'block' : 'none';
+        }
+
+        function _markAllRead() {
+            const alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            alerts.forEach(a => a.read = true);
+            localStorage.setItem('gg_alerts', JSON.stringify(alerts));
+            _updateAlertDot();
+        }
+
+        function _clearAllAlerts() {
+            localStorage.removeItem('gg_alerts');
+            _updateAlertDot();
+            renderAlertsPanel();
+        }
+
+        function _relativeTime(iso) {
+            const diff = Date.now() - new Date(iso).getTime();
+            const s = Math.floor(diff / 1000);
+            if (s < 60)    return 'just now';
+            if (s < 3600)  return Math.floor(s / 60) + 'm ago';
+            if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+            return Math.floor(s / 86400) + 'd ago';
+        }
+
+        // ---- Alerts slide-in panel ----
+        function openAlertsPanel() {
+            let panel = document.getElementById('alerts-panel');
+            if (!panel) panel = _createAlertsPanel();
+            panel.classList.add('open');
+            _markAllRead();
+            renderAlertsPanel();
+            document.getElementById('alerts-overlay').classList.add('active');
+        }
+
+        function closeAlertsPanel() {
+            const p = document.getElementById('alerts-panel');
+            const o = document.getElementById('alerts-overlay');
+            if (p) p.classList.remove('open');
+            if (o) o.classList.remove('active');
+        }
+
+        function _createAlertsPanel() {
+            const overlay = document.createElement('div');
+            overlay.id = 'alerts-overlay';
+            overlay.addEventListener('click', closeAlertsPanel);
+            document.body.appendChild(overlay);
+
+            const panel = document.createElement('div');
+            panel.id = 'alerts-panel';
+            panel.setAttribute('role', 'dialog');
+            panel.setAttribute('aria-modal', 'true');
+            panel.setAttribute('aria-labelledby', 'alerts-panel-title');
+            panel.innerHTML = `
+                <div class="alp-header">
+                    <h2 id="alerts-panel-title"><i class="fas fa-bell"></i> Alerts</h2>
+                    <div class="alp-header-actions">
+                        <button class="alp-clear" onclick="_clearAllAlerts()" title="Clear all"><i class="fas fa-trash-alt"></i> Clear</button>
+                        <button class="alp-close" onclick="closeAlertsPanel()" aria-label="Close alerts"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div id="alp-body"></div>`;
+            document.body.appendChild(panel);
+            return panel;
+        }
+
+        function renderAlertsPanel() {
+            const body   = document.getElementById('alp-body');
+            if (!body) return;
+            const alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            if (alerts.length === 0) {
+                body.innerHTML = `
+                    <div class="alp-empty">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No alerts yet.</p>
+                        <span>Activity like sign-ins, orders and payments will appear here.</span>
+                    </div>`;
+                return;
+            }
+            body.innerHTML = alerts.map(a => {
+                const meta = ALERT_ICONS[a.type] || ALERT_ICONS.info;
+                return `
+                <div class="alp-item ${a.read ? '' : 'alp-item--unread'}" data-id="${a.id}">
+                    <span class="alp-item-icon" style="color:${meta.color}">
+                        <i class="fas ${meta.icon}"></i>
+                    </span>
+                    <div class="alp-item-body">
+                        <span class="alp-item-label" style="color:${meta.color}">${meta.label}</span>
+                        <p class="alp-item-msg">${a.message}</p>
+                        ${a.detail ? `<p class="alp-item-detail">${a.detail}</p>` : ''}
+                        <span class="alp-item-time">${_relativeTime(a.time)}</span>
+                    </div>
+                    <button class="alp-item-dismiss" onclick="_dismissAlert(${a.id})" title="Dismiss"><i class="fas fa-times"></i></button>
+                </div>`;
+            }).join('');
+        }
+
+        function _dismissAlert(id) {
+            let alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            alerts = alerts.filter(a => a.id !== id);
+            localStorage.setItem('gg_alerts', JSON.stringify(alerts));
+            _updateAlertDot();
+            renderAlertsPanel();
+        }
+
+        // ---- Fire sign-in alert if user just signed in ----
+        (function checkSignInAlert() {
+            const signed = localStorage.getItem('userSignedIn');
+            const lastAlerted = localStorage.getItem('gg_signin_alerted');
+            if (signed && signed !== lastAlerted) {
+                const user = localStorage.getItem('userName') || 'User';
+                addAlert('signin', `Welcome back, ${user}!`, 'You are now signed in to G&G Beauty.');
+                localStorage.setItem('gg_signin_alerted', signed);
+            }
+        })();
+
+        // ---- Init dot on load ----
+        _updateAlertDot();
+
+        // ============================================================
+        //  BOTTOM NAV: sync badges + active state
+        // ============================================================
+        (function initBottomNav() {
+            function syncBnavBadges() {
+                const cart  = JSON.parse(localStorage.getItem('cart')) || [];
+                const favs  = JSON.parse(localStorage.getItem('favourites')) || [];
+                const cartTotal = cart.reduce((a, i) => a + (i.qty || 1), 0);
+                const favTotal  = favs.length;
+
+                const bnavCart = document.getElementById('bnav-cart-count');
+                const bnavWish = document.getElementById('bnav-wishlist-count');
+
+                if (bnavCart) {
+                    bnavCart.textContent = cartTotal;
+                    bnavCart.style.display = cartTotal > 0 ? 'flex' : 'none';
+                }
+                if (bnavWish) {
+                    bnavWish.textContent = favTotal;
+                    bnavWish.style.display = favTotal > 0 ? 'flex' : 'none';
+                }
+            }
+
+            // Mark active tab
+            const page   = window.location.pathname.split('/').pop() || 'index.html';
+            const map    = { 'index.html': 'home', 'shop.html': 'cart', 'signout.html': 'profile' };
+            const active = map[page] || 'cart';
+            document.querySelectorAll('.bnav-tab[data-tab="' + active + '"]').forEach(t => {
+                t.classList.add('bnav-tab--active');
+                const ico = t.querySelector('i');
+                if (ico) ico.className = ico.className.replace('far ', 'fas ');
+            });
+
+            // Alerts tab — open panel instead of toast
+            const alertsTab = document.getElementById('bnav-alerts-tab');
+            if (alertsTab) {
+                alertsTab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    openAlertsPanel();
+                });
+            }
+
+            syncBnavBadges();
+            window.addEventListener('storage', syncBnavBadges);
+            document.addEventListener('cartUpdated', syncBnavBadges);
+            document.addEventListener('wishlistUpdated', syncBnavBadges);
+        })();
     </script>
 </body>
 

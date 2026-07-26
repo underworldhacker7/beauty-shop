@@ -152,6 +152,14 @@ signupForm.addEventListener('submit', async (e) => {
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userId', user.uid);
 
+        // Fire sign-in alert (picked up by shop.html on next load)
+        try {
+            const _alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            _alerts.unshift({ id: Date.now(), type: 'signin', message: `Welcome, ${name}!`, detail: 'Account created & signed in to G&G Beauty.', time: new Date().toISOString(), read: false });
+            localStorage.setItem('gg_alerts', JSON.stringify(_alerts.slice(0, 50)));
+            localStorage.removeItem('alertsSeen');
+        } catch(e) {}
+
         const token = await user.getIdToken();
         localStorage.setItem('token', token);
 
@@ -230,6 +238,14 @@ loginForm.addEventListener('submit', async (e) => {
         localStorage.setItem('userName', userName);
         localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userId', user.uid);
+
+        // Fire sign-in alert
+        try {
+            const _alerts = JSON.parse(localStorage.getItem('gg_alerts')) || [];
+            _alerts.unshift({ id: Date.now(), type: 'signin', message: `Welcome back, ${userName}!`, detail: 'You are now signed in to G&G Beauty.', time: new Date().toISOString(), read: false });
+            localStorage.setItem('gg_alerts', JSON.stringify(_alerts.slice(0, 50)));
+            localStorage.removeItem('alertsSeen');
+        } catch(e) {}
 
         const token = await user.getIdToken();
         localStorage.setItem('token', token);

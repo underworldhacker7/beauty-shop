@@ -276,6 +276,78 @@
 
     <script src="script.js"></script>
     <script src="backend.js"></script>
+
+    <!-- ===== MOBILE BOTTOM NAVIGATION ===== -->
+    <nav class="bnav" id="bottom-nav" aria-label="Mobile navigation">
+        <a href="index.html" class="bnav-tab bnav-tab--active" data-tab="home" aria-label="Home">
+            <span class="bnav-icon"><i class="fas fa-home"></i></span>
+            <span class="bnav-label">Home</span>
+        </a>
+        <a href="shop.html" class="bnav-tab" data-tab="wishlist" aria-label="Wishlist">
+            <span class="bnav-icon">
+                <i class="far fa-heart"></i>
+                <span class="bnav-badge bnav-badge--red" id="bnav-wishlist-count">0</span>
+            </span>
+            <span class="bnav-label">Wishlist</span>
+        </a>
+        <a href="shop.html" class="bnav-tab" data-tab="cart" aria-label="Cart">
+            <span class="bnav-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="bnav-badge bnav-badge--gold" id="bnav-cart-count">0</span>
+            </span>
+            <span class="bnav-label">Cart</span>
+        </a>
+        <button class="bnav-tab" data-tab="alerts" id="bnav-alerts-tab" aria-label="Alerts">
+            <span class="bnav-icon">
+                <i class="fas fa-bell"></i>
+                <span class="bnav-dot" id="bnav-alert-dot"></span>
+            </span>
+            <span class="bnav-label">Alerts</span>
+        </button>
+        <a href="signout.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
+            <span class="bnav-icon"><i class="fas fa-user"></i></span>
+            <span class="bnav-label">Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // ===== BOTTOM NAV: sync badges =====
+        (function initBottomNav() {
+            function syncBnavBadges() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const favs = JSON.parse(localStorage.getItem('favourites')) || [];
+                const cartTotal = cart.reduce((a, i) => a + (i.qty || 1), 0);
+                const favTotal  = favs.length;
+
+                const bnavCart = document.getElementById('bnav-cart-count');
+                const bnavWish = document.getElementById('bnav-wishlist-count');
+
+                if (bnavCart) {
+                    bnavCart.textContent = cartTotal;
+                    bnavCart.style.display = cartTotal > 0 ? 'flex' : 'none';
+                }
+                if (bnavWish) {
+                    bnavWish.textContent = favTotal;
+                    bnavWish.style.display = favTotal > 0 ? 'flex' : 'none';
+                }
+            }
+
+            const alertDot  = document.getElementById('bnav-alert-dot');
+            const alertsTab = document.getElementById('bnav-alerts-tab');
+            if (alertsTab) {
+                alertsTab.addEventListener('click', function () {
+                    if (alertDot) alertDot.style.display = 'none';
+                    localStorage.setItem('alertsSeen', '1');
+                });
+            }
+            if (alertDot && !localStorage.getItem('alertsSeen')) {
+                alertDot.style.display = 'block';
+            }
+
+            syncBnavBadges();
+            window.addEventListener('storage', syncBnavBadges);
+        })();
+    </script>
 </body>
 
 </html>

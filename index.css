@@ -364,7 +364,7 @@ h1 {
 /* --- 3. Hero Section --- */
 .hero-section {
     position: relative;
-    min-height: 90vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -378,7 +378,7 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
+    opacity: 0.45;
     z-index: 1;
 }
 
@@ -391,8 +391,8 @@ h1 {
     height: 100%;
     background: linear-gradient(90deg,
             var(--primary-blue) 0%,
-            rgba(10, 25, 47, 0.7) 50%,
-            rgba(10, 25, 47, 0.4) 100%);
+            rgba(10, 25, 47, 0.65) 50%,
+            rgba(10, 25, 47, 0.25) 100%);
     z-index: 2;
 }
 
@@ -401,20 +401,23 @@ h1 {
     z-index: 3;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 2rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 700px;
     color: var(--text-light);
     animation: fadeInUp 1s ease-out;
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.8rem, 4.5vw, 5rem);
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.15;
     margin-bottom: 1.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     font-family: 'Playfair Display', serif;
@@ -425,33 +428,34 @@ h1 {
 }
 
 .hero-description {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    margin-bottom: 2.5rem;
     opacity: 0.9;
-    max-width: 500px;
-    line-height: 1.6;
+    max-width: 540px;
+    line-height: 1.7;
 }
 
 .shop-now-btn {
     display: inline-block;
-    padding: 1rem 2.5rem;
+    padding: 1rem 3rem;
     background-color: var(--accent-gold);
     color: var(--primary-blue);
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     border-radius: 50px;
     transition: all 0.3s ease;
     border: 2px solid var(--accent-gold);
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .shop-now-btn:hover {
     background-color: transparent;
     color: var(--accent-gold);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.45);
 }
 
 .shop-now-btn:active {
@@ -460,29 +464,31 @@ h1 {
 
 .hero-stats {
     display: flex;
-    gap: 3rem;
-    margin-top: 4rem;
+    gap: 4rem;
     animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .stat-item {
     display: flex;
     flex-direction: column;
+    gap: 0.15rem;
 }
 
 .stat-number {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 3vw, 3rem);
     font-weight: 800;
     color: var(--accent-gold);
-    line-height: 1.2;
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    line-height: 1.1;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
 }
 
 .stat-text {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-light);
-    opacity: 0.8;
-    letter-spacing: 1px;
+    opacity: 0.75;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 /* --- 4. Gallery Section --- */
@@ -490,21 +496,22 @@ h1 {
     overflow: hidden;
     width: 100%;
     background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c100 100%);
-    padding: 3rem 0;
+    padding: 3.5rem 0;
     position: relative;
 }
 
 .gallery-section h1 {
     color: var(--primary-blue);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     padding: 0 20px;
+    font-size: clamp(1.8rem, 2.5vw, 2.8rem);
 }
 
 .gallery-track {
     display: flex;
     width: max-content;
     gap: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 }
 
 .gallery-track-top {
@@ -522,76 +529,81 @@ h1 {
 
 .gallery-item {
     flex: 0 0 auto;
-    width: 180px;
-    height: 250px;
-    border-radius: 10px;
+    width: 220px;
+    height: 290px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     background: #f9f7ed;
     transition: transform 0.3s ease;
 }
 
 .gallery-item:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 14px;
     transition: transform 0.5s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 /* --- 5. Review Section --- */
 .customer-reviews-section {
     background-color: var(--card-bg);
-    padding: 60px 0;
+    padding: 80px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .review-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    max-width: 500px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
 .review-card {
     background-color: var(--primary-blue);
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    padding: 32px 30px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid transparent;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
     border-color: var(--accent-gold);
 }
 
 .review-card .star-rating {
     color: var(--accent-gold);
-    font-size: 1.1em;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
 }
 
 .review-text {
-    font-size: 0.95em;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.75;
     font-style: italic;
+    opacity: 0.9;
 }
 
 .review-text strong {
     color: var(--accent-gold);
+    font-style: normal;
 }
 
 /* --- 6. Footer --- */
@@ -944,7 +956,6 @@ h1 {
 
 /* --- Responsive Design --- */
 
-/* Large Tablets */
 @media (max-width: 1024px) {
     .footer-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -958,9 +969,13 @@ h1 {
     .newsletter-form {
         max-width: 400px;
     }
+
+    .review-grid {
+        max-width: 780px;
+        gap: 20px;
+    }
 }
 
-/* Tablets */
 @media (max-width: 768px) {
     .main-footer {
         padding: 50px 0 25px;
@@ -1006,6 +1021,12 @@ h1 {
 
     .footer-bottom .social-links {
         justify-content: center;
+    }
+
+    /* Reviews stack to 1 col on tablet */
+    .review-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
     }
 }
 
@@ -1219,9 +1240,7 @@ h1 {
     .hero-title {
         font-size: 3rem;
     }
-}
-
-@media (max-width: 768px) {
+}@media (max-width: 768px) {
 
     /* Header */
     .header-top {
@@ -1245,8 +1264,12 @@ h1 {
         display: none;
     }
 
-    .header-icons .account-button {
-        display: none;
+    /* Hide wishlist / cart / account from header — bottom nav handles them on mobile */
+    .wishlist-button,
+    .cart-button,
+    .header-icons .account-button,
+    .header-icons > a[href="signout.html"] {
+        display: none !important;
     }
 
     .header-icons {
@@ -1432,4 +1455,236 @@ h1 {
     .gallery-track-bottom:hover {
         animation-play-state: running;
     }
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAVIGATION  (@media max-width: 768px only)
+   ============================================================ */
+@media (max-width: 768px) {
+
+    body { padding-bottom: 70px; }
+
+    .bnav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 62px;
+        background: var(--primary-blue);
+        border-top: 1px solid rgba(212, 175, 55, 0.45);
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: stretch;
+        justify-content: space-around;
+        z-index: 1500;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .bnav-tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        min-width: 44px;
+        min-height: 44px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        color: rgba(224, 224, 224, 0.38);
+        padding: 6px 4px;
+        transition: color 0.2s ease, transform 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
+        position: relative;
+    }
+
+    .bnav-tab:active { transform: scale(0.88); }
+
+    .bnav-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+
+    .bnav-label {
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    .bnav-tab--active,
+    .bnav-tab--active .bnav-icon,
+    .bnav-tab--active .bnav-label {
+        color: var(--accent-gold);
+        font-weight: 700;
+    }
+
+    .bnav-tab--active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 20%;
+        right: 20%;
+        height: 2px;
+        background: var(--accent-gold);
+        border-radius: 0 0 3px 3px;
+        box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+
+    .bnav-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50px;
+        font-size: 0.58rem;
+        font-weight: 800;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        border: 1.5px solid var(--primary-blue);
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .bnav-badge--gold { background: var(--accent-gold); color: var(--primary-blue); }
+    .bnav-badge--red  { background: #e74c3c; color: #fff; }
+
+    .bnav-dot {
+        position: absolute;
+        top: -4px;
+        right: -5px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e74c3c;
+        border: 1.5px solid var(--primary-blue);
+        display: none;
+        pointer-events: none;
+        box-shadow: 0 0 6px rgba(231, 76, 60, 0.7);
+    }
+}
+
+@media (min-width: 769px) {
+    .bnav { display: none; }
+}
+
+/* ============================================================
+   HIDE PAGE SCROLLBAR ON MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+    html, body {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        overflow-x: hidden;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ============================================================
+   LARGE SCREEN BREAKPOINTS
+   ============================================================ */
+
+/* ---- 1440px: large desktop / 1440p ---- */
+@media (min-width: 1440px) {
+    .container,
+    .hero-section .container,
+    .main-footer .container {
+        max-width: 1600px;
+        padding: 0 3rem;
+    }
+
+    .hero-title {
+        font-size: clamp(3.5rem, 5vw, 5.5rem);
+    }
+
+    .hero-description {
+        font-size: 1.25rem;
+        max-width: 640px;
+    }
+
+    .hero-section {
+        min-height: 100vh;
+    }
+
+    .hero-content { max-width: 800px; }
+
+    .stat-number { font-size: 3rem; }
+
+    .review-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1100px;
+        gap: 32px;
+    }
+
+    .review-card {
+        padding: 36px 32px;
+    }
+
+    .review-text { font-size: 1.05rem; }
+
+    .gallery-item {
+        width: 240px;
+        height: 310px;
+    }
+
+    .header-top { padding: 0.9rem 3rem; }
+    .announcement-bar { padding: 0.5rem 3rem; }
+}
+
+/* ---- 2560px: 4K / ultra-wide ---- */
+@media (min-width: 2560px) {
+    .container,
+    .hero-section .container,
+    .main-footer .container {
+        max-width: 2200px;
+        padding: 0 4rem;
+    }
+
+    .hero-title {
+        font-size: clamp(5rem, 6vw, 7rem);
+    }
+
+    .hero-description {
+        font-size: 1.4rem;
+        max-width: 780px;
+    }
+
+    .hero-content { max-width: 1000px; }
+    .stat-number { font-size: 3.8rem; }
+    .stat-text  { font-size: 1rem; }
+
+    .header-top { padding: 1rem 4rem; }
+    .announcement-bar { padding: 0.55rem 4rem; font-size: 0.78rem; }
+
+    .gallery-item {
+        width: 280px;
+        height: 360px;
+    }
+
+    .review-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1400px;
+        gap: 40px;
+    }
+
+    .review-card {
+        padding: 44px 40px;
+    }
+
+    .review-text { font-size: 1.15rem; }
 }

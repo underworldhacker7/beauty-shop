@@ -25,11 +25,11 @@
         <div class="nav-container">
             <a href="index.html" class="logo" aria-label="G&G Beauty home">
                 <img src="LOGO/android-chrome-192x192.png" alt="G&G Beauty logo" class="brand-logo">
-                <span class="brand-text">G&G Beauty</span>
+                <span class="brand-text">G&amp;G Beauty</span>
             </a>
             <div class="nav-links">
-                <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
-                <button id="logout-btn" class="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <a href="shop.html"><i class="fas fa-shopping-bag"></i><span>Shop</span></a>
+                <button id="logout-btn" class="nav-logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
             </div>
         </div>
     </nav>
@@ -44,58 +44,77 @@
             <main>
                 <section class="card">
                     <div class="card-header">
-                        <h3>Current Order</h3>
-                        <button id="clear-cart-btn" class="btn-secondary" style="display: none;">Clear Cart</button>
+                        <h3><i class="fas fa-shopping-cart card-icon"></i> Current Order</h3>
+                        <button id="clear-cart-btn" class="btn-secondary" style="display: none;">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-items-body"></tbody>
-                    </table>
-                    <div style="text-align: right; margin-top: 20px;">
-                        <span style="color: var(--text-muted); margin-right: 15px;">Subtotal</span>
-                        <strong style="font-size: 1.4rem;">$<span id="cart-grand-total">0.00</span></strong>
+                    <!-- Mobile cart cards (shown on mobile) -->
+                    <div id="cart-cards-mobile" class="cart-cards"></div>
+                    <!-- Desktop table (hidden on mobile) -->
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-items-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="cart-total-row">
+                        <span class="total-label">Subtotal</span>
+                        <strong class="total-value">$<span id="cart-grand-total">0.00</span></strong>
                     </div>
                 </section>
 
                 <section class="card">
                     <div class="card-header">
-                        <h3>Order History</h3>
-                        <button id="clear-history-btn" class="btn-secondary" style="display: none;">Clear
-                            History</button>
+                        <h3><i class="fas fa-history card-icon"></i> Order History</h3>
+                        <button id="clear-history-btn" class="btn-secondary" style="display: none;">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
                     </div>
                     <div id="order-history-list">
-                        <p style="color: var(--text-muted);">No past orders found.</p>
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No past orders found.</p>
+                        </div>
                     </div>
                 </section>
             </main>
 
             <aside>
                 <section class="card">
-                    <h3>Customer Profile</h3>
+                    <h3><i class="fas fa-user-circle card-icon"></i> Customer Profile</h3>
                     <div id="user-details">
-                        <p>Authenticating...</p>
+                        <div class="profile-loading">
+                            <i class="fas fa-circle-notch fa-spin"></i> Authenticating...
+                        </div>
                     </div>
                     <div class="profile-actions">
-                        <button id="edit-profile-btn" class="btn-secondary"><i class="fas fa-edit"></i> Edit
-                            Profile</button>
-                        <button id="delete-account-btn" class="btn-danger"><i class="fas fa-trash"></i> Delete
-                            Account</button>
+                        <button id="edit-profile-btn" class="btn-secondary">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button id="delete-account-btn" class="btn-danger">
+                            <i class="fas fa-trash"></i> Delete Account
+                        </button>
                     </div>
                 </section>
 
-                <section class="card">
-                    <h3>Checkout</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
-                        Standard shipping and taxes calculated at next step.
-                    </p>
-                    <button class="btn-primary" id="place-order-btn">PLACE ORDER NOW</button>
+                <section class="card checkout-card">
+                    <h3><i class="fas fa-lock card-icon"></i> Checkout</h3>
+                    <p class="checkout-note">Shipping &amp; taxes calculated at next step.</p>
+                    <div class="checkout-total-preview">
+                        <span>Cart Total</span>
+                        <span class="checkout-total-amount">$<span id="checkout-preview-total">0.00</span></span>
+                    </div>
+                    <button class="btn-primary" id="place-order-btn">
+                        <i class="fas fa-shopping-bag"></i> PLACE ORDER NOW
+                    </button>
                 </section>
             </aside>
         </div>
@@ -488,62 +507,111 @@ document.addEventListener('DOMContentLoaded', function() {
         // Render Cart
         function renderCart() {
             const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-            const tbody = document.getElementById('cart-items-body');
+            const tbody   = document.getElementById('cart-items-body');
+            const mCards  = document.getElementById('cart-cards-mobile');
+            const preview = document.getElementById('checkout-preview-total');
             let total = 0;
 
             if (cart.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 40px;">Your cart is empty</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="4" class="empty-cell">Your cart is empty</td></tr>`;
+                if (mCards) mCards.innerHTML = `<div class="cart-empty-state"><i class="fas fa-shopping-cart"></i><p>Your cart is empty</p><a href="shop.html" class="btn-shop-link">Browse Products</a></div>`;
                 document.getElementById('cart-grand-total').textContent = '0.00';
+                if (preview) preview.textContent = '0.00';
                 document.getElementById('clear-cart-btn').style.display = 'none';
                 return;
             }
 
-            document.getElementById('clear-cart-btn').style.display = 'block';
+            document.getElementById('clear-cart-btn').style.display = 'flex';
+
+            // Desktop table rows
             tbody.innerHTML = cart.map(item => {
-                const qty = item.qty || item.quantity || 1;
+                const qty       = item.qty || item.quantity || 1;
                 const lineTotal = item.price * qty;
                 total += lineTotal;
                 return `
                     <tr>
                         <td>${item.name}</td>
-                        <td>${qty}</td>
-                        <td>$${item.price}</td>
-                        <td>$${lineTotal.toFixed(2)}</td>
-                    </tr>
-                `;
+                        <td class="qty-cell">${qty}</td>
+                        <td>$${parseFloat(item.price).toFixed(2)}</td>
+                        <td class="total-cell">$${lineTotal.toFixed(2)}</td>
+                    </tr>`;
             }).join('');
+
+            // Mobile cart cards
+            total = 0;
+            if (mCards) {
+                mCards.innerHTML = cart.map(item => {
+                    const qty       = item.qty || item.quantity || 1;
+                    const lineTotal = item.price * qty;
+                    total += lineTotal;
+                    return `
+                    <div class="cart-item-card">
+                        <div class="cart-item-info">
+                            <p class="cart-item-name">${item.name}</p>
+                            <p class="cart-item-meta">Qty: <strong>${qty}</strong> &nbsp;·&nbsp; $${parseFloat(item.price).toFixed(2)} each</p>
+                        </div>
+                        <p class="cart-item-total">$${lineTotal.toFixed(2)}</p>
+                    </div>`;
+                }).join('');
+            } else {
+                cart.forEach(item => {
+                    const qty = item.qty || item.quantity || 1;
+                    total += item.price * qty;
+                });
+            }
+
             document.getElementById('cart-grand-total').textContent = total.toFixed(2);
+            if (preview) preview.textContent = total.toFixed(2);
         }
 
         // Load Order History
         async function loadOrderHistory() {
             const container = document.getElementById('order-history-list');
+            container.innerHTML = `<div class="history-loading"><i class="fas fa-circle-notch fa-spin"></i></div>`;
 
             try {
-                const snapshot = await firebase.database().ref('orders/' + currentUser.uid).once('value');
-                const orders = snapshot.val() || {};
+                const snapshot  = await firebase.database().ref('orders/' + currentUser.uid).once('value');
+                const orders    = snapshot.val() || {};
                 const orderList = Object.values(orders).sort((a, b) => new Date(b.date) - new Date(a.date));
 
                 if (orderList.length > 0) {
-                    document.getElementById('clear-history-btn').style.display = 'block';
-                    container.innerHTML = orderList.map(order => `
+                    document.getElementById('clear-history-btn').style.display = 'flex';
+                    container.innerHTML = orderList.map(order => {
+                        const statusClass = (order.status || 'processing').toLowerCase();
+                        const statusIcon  = { processing: 'fa-clock', shipped: 'fa-shipping-fast', delivered: 'fa-check-circle', cancelled: 'fa-times-circle', pending: 'fa-hourglass-half' };
+                        const icon        = statusIcon[statusClass] || 'fa-clock';
+                        const itemsList   = order.items?.map(i => `${i.qty}× ${i.name}`).join(' · ') || '—';
+                        const date        = new Date(order.date);
+                        const dateStr     = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                        const timeStr     = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        return `
                         <div class="history-item">
-                            <div class="history-header">
-                                <strong>Order #${order.id?.slice(-6) || 'N/A'}</strong>
-                                <span class="status-badge status-${order.status?.toLowerCase() || 'processing'}">${order.status || 'Processing'}</span>
+                            <div class="history-status-bar">
+                                <i class="fas ${icon} history-status-icon status-${statusClass}"></i>
+                                <div class="history-meta">
+                                    <strong class="history-ref">Order #${(order.id || '').slice(-6).toUpperCase() || 'N/A'}</strong>
+                                    <span class="history-date">${dateStr} &nbsp;·&nbsp; ${timeStr}</span>
+                                </div>
+                                <span class="status-badge status-${statusClass}">${order.status || 'Processing'}</span>
                             </div>
-                            <p class="order-date">${new Date(order.date).toLocaleDateString()} at ${new Date(order.date).toLocaleTimeString()}</p>
-                            <div class="order-items">
-                                ${order.items?.map(item => `<span>${item.qty}x ${item.name}</span>`).join(', ')}
+                            <p class="order-items-list">${itemsList}</p>
+                            <div class="history-footer">
+                                <span class="order-payment-method"><i class="fas fa-credit-card"></i> ${order.paymentMethod || 'Card'}</span>
+                                <span class="order-total-badge">$${order.total?.toFixed(2) || '0.00'}</span>
                             </div>
-                            <p class="order-total">Total: <span>$${order.total?.toFixed(2) || '0.00'}</span></p>
-                        </div>
-                    `).join('');
+                        </div>`;
+                    }).join('');
                 } else {
-                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 40px;">No past orders found.</p>';
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No past orders found.</p>
+                            <a href="shop.html" class="btn-shop-link">Start Shopping</a>
+                        </div>`;
                 }
             } catch (error) {
                 console.error('Error loading orders:', error);
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Could not load order history.</p></div>`;
             }
         }
 
@@ -740,6 +808,30 @@ document.addEventListener('DOMContentLoaded', function() {
             checkCartAndHistory();
         });
     </script>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bnav" id="bottom-nav" aria-label="Mobile navigation">
+        <a href="index.html" class="bnav-tab" data-tab="home" aria-label="Home">
+            <span class="bnav-icon"><i class="fas fa-home"></i></span>
+            <span class="bnav-label">Home</span>
+        </a>
+        <a href="shop.html" class="bnav-tab" data-tab="wishlist" aria-label="Wishlist">
+            <span class="bnav-icon"><i class="far fa-heart"></i></span>
+            <span class="bnav-label">Wishlist</span>
+        </a>
+        <a href="shop.html" class="bnav-tab" data-tab="cart" aria-label="Shop">
+            <span class="bnav-icon"><i class="fas fa-shopping-bag"></i></span>
+            <span class="bnav-label">Shop</span>
+        </a>
+        <a href="order.html" class="bnav-tab bnav-tab--active" data-tab="alerts" aria-label="Orders">
+            <span class="bnav-icon"><i class="fas fa-receipt"></i></span>
+            <span class="bnav-label">Orders</span>
+        </a>
+        <a href="signout.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
+            <span class="bnav-icon"><i class="fas fa-user"></i></span>
+            <span class="bnav-label">Profile</span>
+        </a>
+    </nav>
+
     <script src="scripts.js"></script>
 </body>
 

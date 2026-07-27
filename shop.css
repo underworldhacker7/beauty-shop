@@ -1026,8 +1026,16 @@ body {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 20px;
+    /*
+     * Fluid columns:
+     * ≤360px  → 2 cols  (minmax 140px)
+     * 361–600 → 2 cols  (minmax 150px)
+     * 601–900 → 3 cols  (minmax 170px)
+     * 901–1200→ 4 cols  (minmax 200px)
+     * 1200+   → 5+ cols via large-screen breakpoints
+     */
+    grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+    gap: clamp(8px, 1.5vw, 20px);
     margin: 0 0 3rem;
 }
 
@@ -1597,8 +1605,6 @@ body {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
     width: 100%;
 }
 
@@ -1866,11 +1872,6 @@ body {
     }
 
     /* 2-column product grid on mobile */
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
 
 
     #cart-heading {
@@ -1921,12 +1922,8 @@ body {
 }
 
 @media (max-width: 576px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
 
-    /* Tighter card on small screens */
+    /* Tighter cards on small screens — grid is already fluid */
     .product-card {
         padding: 0.75rem 0.6rem 1rem;
         border-radius: 14px;
@@ -2731,8 +2728,6 @@ body {
     }
 
     .product-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
     }
 
     .product-image {
@@ -2752,8 +2747,6 @@ body {
     }
 
     .product-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 20px;
     }
 
     .product-image {
@@ -2788,8 +2781,6 @@ body {
     }
 
     .product-grid {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 24px;
     }
 
     .product-image {
@@ -2829,4 +2820,37 @@ body {
     #product-detail-title { font-size: 2rem; }
     .product-detail-price { font-size: 1.9rem; }
     #modal-add-to-cart-btn { padding: 1rem 2rem; font-size: 0.9rem; }
+}
+
+/* ==================== SEARCH NO-RESULTS ==================== */
+.search-no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 4rem 1.5rem;
+    text-align: center;
+    color: rgba(224, 224, 224, 0.45);
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+.search-no-results i {
+    font-size: 3rem;
+    color: rgba(212, 175, 55, 0.25);
+}
+
+.search-no-results p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(224, 224, 224, 0.6);
+}
+
+.search-no-results p strong { color: var(--accent-gold); }
+
+.search-no-results span {
+    font-size: 0.82rem;
+    max-width: 280px;
+    line-height: 1.5;
 }

@@ -42,16 +42,18 @@
 
         <div class="order-grid">
             <main>
-                <section class="card">
+                <!-- Merged: Current Order + Checkout -->
+                <section class="card order-checkout-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-shopping-cart card-icon"></i> Current Order</h3>
+                        <h3><i class="fas fa-shopping-bag card-icon"></i> Current Order &amp; Checkout</h3>
                         <button id="clear-cart-btn" class="btn-secondary" style="display: none;">
                             <i class="fas fa-trash-alt"></i> Clear
                         </button>
                     </div>
-                    <!-- Mobile cart cards (shown on mobile) -->
+
+                    <!-- Mobile cart cards -->
                     <div id="cart-cards-mobile" class="cart-cards"></div>
-                    <!-- Desktop table (hidden on mobile) -->
+                    <!-- Desktop table -->
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -65,9 +67,30 @@
                             <tbody id="cart-items-body"></tbody>
                         </table>
                     </div>
+
+                    <!-- Total row -->
                     <div class="cart-total-row">
                         <span class="total-label">Subtotal</span>
                         <strong class="total-value">$<span id="cart-grand-total">0.00</span></strong>
+                    </div>
+
+                    <!-- Inline checkout section -->
+                    <div class="inline-checkout">
+                        <div class="inline-checkout-meta">
+                            <span class="checkout-note">Standard shipping &amp; taxes at next step</span>
+                            <div class="checkout-total-preview">
+                                <span>Cart Total</span>
+                                <span class="checkout-total-amount">$<span id="checkout-preview-total">0.00</span></span>
+                            </div>
+                        </div>
+                        <div class="cart-action-row">
+                            <button class="cart-btn-pending" id="save-pending-btn">
+                                <i class="fas fa-clock"></i> Save as Pending
+                            </button>
+                            <button class="btn-primary" id="place-order-btn">
+                                <i class="fas fa-lock"></i> Checkout
+                            </button>
+                        </div>
                     </div>
                 </section>
 
@@ -87,7 +110,7 @@
                 </section>
             </main>
 
-            <aside>
+            <aside id="profile">
                 <section class="card">
                     <h3><i class="fas fa-user-circle card-icon"></i> Customer Profile</h3>
                     <div id="user-details">
@@ -105,17 +128,138 @@
                     </div>
                 </section>
 
-                <section class="card checkout-card">
-                    <h3><i class="fas fa-lock card-icon"></i> Checkout</h3>
-                    <p class="checkout-note">Shipping &amp; taxes calculated at next step.</p>
-                    <div class="checkout-total-preview">
-                        <span>Cart Total</span>
-                        <span class="checkout-total-amount">$<span id="checkout-preview-total">0.00</span></span>
+                <!-- Settings Card -->
+                <section class="card settings-card">
+                    <h3><i class="fas fa-cog card-icon"></i> Settings</h3>
+
+                    <!-- Notifications -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-bell"></i> Notifications</p>
+                        <div class="setting-row">
+                            <span class="setting-label">Order updates</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notif-orders" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Promotions &amp; offers</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notif-promos">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Wishlist restocks</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notif-wishlist" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
-                    <button class="btn-primary" id="place-order-btn">
-                        <i class="fas fa-shopping-bag"></i> PLACE ORDER NOW
-                    </button>
+
+                    <!-- Currency & Region -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-globe"></i> Currency &amp; Region</p>
+                        <div class="setting-row">
+                            <span class="setting-label">Currency</span>
+                            <select id="pref-currency" class="setting-select">
+                                <option value="USD">USD $</option>
+                                <option value="KES">KES</option>
+                                <option value="GBP">GBP £</option>
+                                <option value="EUR">EUR €</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-map-marker-alt"></i> Shipping Address</p>
+                        <div class="form-group" style="margin-bottom:0.6rem;">
+                            <input type="text" id="shipping-address" class="payment-input" placeholder="Street address">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="shipping-city" class="payment-input" placeholder="City">
+                            <input type="text" id="shipping-country" class="payment-input" placeholder="Country">
+                        </div>
+                        <button class="btn-secondary" id="save-address-btn" style="margin-top:0.75rem;width:100%;justify-content:center;">
+                            <i class="fas fa-save"></i> Save Address
+                        </button>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-shield-alt"></i> Security</p>
+                        <div class="setting-row setting-row--link" id="change-password-btn">
+                            <span class="setting-label">Change Password</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </div>
+                        <div class="setting-row setting-row--link" id="two-factor-btn">
+                            <span class="setting-label">Two-Factor Authentication</span>
+                            <label class="toggle-switch" onclick="event.stopPropagation()">
+                                <input type="checkbox" id="two-factor-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Privacy -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-user-shield"></i> Privacy</p>
+                        <div class="setting-row">
+                            <span class="setting-label">Share order data for recommendations</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacy-recs" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Marketing emails</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacy-marketing">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="settings-group">
+                        <p class="settings-group-label"><i class="fas fa-link"></i> Quick Links</p>
+                        <a href="shop.html" class="setting-row setting-row--link">
+                            <span class="setting-label">Continue Shopping</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </a>
+                        <a href="index.html#contact" class="setting-row setting-row--link">
+                            <span class="setting-label">Contact Support</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </a>
+                        <div class="setting-row setting-row--link setting-row--danger" id="logout-settings-btn">
+                            <span class="setting-label">Sign Out</span>
+                            <i class="fas fa-sign-out-alt setting-chevron"></i>
+                        </div>
+                    </div>
                 </section>
+
+                <!-- Change Password Modal trigger panel (inline) -->
+                <div id="change-password-panel" class="inline-panel" style="display:none;">
+                    <div class="inline-panel-header">
+                        <span>Change Password</span>
+                        <button class="inline-panel-close" id="close-pw-panel"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label-small">New Password</label>
+                        <input type="password" id="new-password" class="payment-input" placeholder="Min 8 characters">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label-small">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" class="payment-input" placeholder="Repeat password">
+                    </div>
+                    <button class="btn-primary" id="save-password-btn" style="margin-top:0.5rem;">
+                        <i class="fas fa-key"></i> Update Password
+                    </button>
+                </div>
+
+                <!-- change password inline panel below settings -->
             </aside>
         </div>
     </div>
@@ -664,9 +808,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modal-subtotal').textContent = total.toFixed(2);
             document.getElementById('modal-total').textContent = (total + 5).toFixed(2);
             modal.style.display = 'flex';
-        });
-
-        function closePaymentModal() {
+        });        function closePaymentModal() {
             modal.style.display = 'none';
         }
 
@@ -806,7 +948,118 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('DOMContentLoaded', () => {
             renderCart();
             checkCartAndHistory();
+            initSettings();
         });
+
+        // ============================================================
+        //  SETTINGS PANEL
+        // ============================================================
+        function initSettings() {
+            // Wire pending button
+            const pendingBtn = document.getElementById('save-pending-btn');
+            if (pendingBtn) {
+                pendingBtn.addEventListener('click', () => {
+                    const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+                    if (cart.length === 0) { showInlineToast('Cart is empty', true); return; }
+                    const total    = cart.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+                    const orderRef = 'GG-P-' + Date.now().toString(36).toUpperCase();
+                    const orders   = JSON.parse(localStorage.getItem('gg_orders')) || [];
+                    orders.unshift({ ref: orderRef, items: cart, total, status: 'pending', time: new Date().toISOString() });
+                    localStorage.setItem('gg_orders', JSON.stringify(orders));
+                    showInlineToast(`⏳ Order ${orderRef} saved as Pending`);
+                });
+            }
+            // Restore saved preferences
+            const saved = JSON.parse(localStorage.getItem('gg_settings') || '{}');
+            if (saved.currency) document.getElementById('pref-currency').value = saved.currency;
+            if (saved.shippingAddress) document.getElementById('shipping-address').value = saved.shippingAddress;
+            if (saved.shippingCity)    document.getElementById('shipping-city').value    = saved.shippingCity;
+            if (saved.shippingCountry) document.getElementById('shipping-country').value = saved.shippingCountry;
+            const bools = ['notif-orders','notif-promos','notif-wishlist','privacy-recs','privacy-marketing','two-factor-toggle'];
+            bools.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && saved[id] !== undefined) el.checked = saved[id];
+                if (el) el.addEventListener('change', savePref);
+            });
+            document.getElementById('pref-currency').addEventListener('change', savePref);
+
+            // Save address
+            document.getElementById('save-address-btn').addEventListener('click', () => {
+                savePref();
+                showInlineToast('Address saved ✓');
+            });
+
+            // Change password panel
+            document.getElementById('change-password-btn').addEventListener('click', () => {
+                const panel = document.getElementById('change-password-panel');
+                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            });
+            document.getElementById('close-pw-panel').addEventListener('click', () => {
+                document.getElementById('change-password-panel').style.display = 'none';
+            });
+            document.getElementById('save-password-btn').addEventListener('click', async () => {
+                const np = document.getElementById('new-password').value;
+                const cp = document.getElementById('confirm-new-password').value;
+                if (!np || np.length < 8) { showInlineToast('Password must be at least 8 characters', true); return; }
+                if (np !== cp)            { showInlineToast('Passwords do not match', true); return; }
+                try {
+                    await currentUser.updatePassword(np);
+                    showInlineToast('Password updated ✓');
+                    document.getElementById('change-password-panel').style.display = 'none';
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-new-password').value = '';
+                } catch (e) {
+                    showInlineToast(e.message || 'Error updating password', true);
+                }
+            });
+
+            // Settings logout button
+            document.getElementById('logout-settings-btn').addEventListener('click', async () => {
+                await firebase.auth().signOut();
+                localStorage.removeItem('userSignedIn');
+                localStorage.removeItem('token');
+                window.location.href = 'signout.html';
+            });
+
+            // Scroll to profile if #profile hash is present
+            if (window.location.hash === '#profile') {
+                setTimeout(() => {
+                    const el = document.getElementById('profile');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 400);
+            }
+        }
+
+        function savePref() {
+            const settings = {
+                currency:        document.getElementById('pref-currency')?.value,
+                shippingAddress: document.getElementById('shipping-address')?.value,
+                shippingCity:    document.getElementById('shipping-city')?.value,
+                shippingCountry: document.getElementById('shipping-country')?.value,
+                'notif-orders':   document.getElementById('notif-orders')?.checked,
+                'notif-promos':   document.getElementById('notif-promos')?.checked,
+                'notif-wishlist': document.getElementById('notif-wishlist')?.checked,
+                'privacy-recs':   document.getElementById('privacy-recs')?.checked,
+                'privacy-marketing': document.getElementById('privacy-marketing')?.checked,
+                'two-factor-toggle': document.getElementById('two-factor-toggle')?.checked,
+            };
+            localStorage.setItem('gg_settings', JSON.stringify(settings));
+            localStorage.setItem('selectedCurrency', settings.currency);
+        }
+
+        function showInlineToast(msg, isError = false) {
+            let t = document.getElementById('inline-toast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'inline-toast';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.className = 'inline-toast' + (isError ? ' inline-toast--error' : '');
+            t.classList.add('show');
+            clearTimeout(t._t);
+            t._t = setTimeout(() => t.classList.remove('show'), 2800);
+        }
     </script>
     <!-- Mobile Bottom Navigation -->
     <nav class="bnav" id="bottom-nav" aria-label="Mobile navigation">
@@ -822,11 +1075,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="bnav-icon"><i class="fas fa-shopping-bag"></i></span>
             <span class="bnav-label">Shop</span>
         </a>
-        <a href="order.html" class="bnav-tab bnav-tab--active" data-tab="alerts" aria-label="Orders">
+        <a href="order.html" class="bnav-tab bnav-tab--active" data-tab="orders" aria-label="Orders">
             <span class="bnav-icon"><i class="fas fa-receipt"></i></span>
             <span class="bnav-label">Orders</span>
         </a>
-        <a href="signout.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
+        <a href="order.html#profile" class="bnav-tab" data-tab="profile" aria-label="Profile">
             <span class="bnav-icon"><i class="fas fa-user"></i></span>
             <span class="bnav-label">Profile</span>
         </a>

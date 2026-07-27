@@ -1005,3 +1005,253 @@ textarea.payment-input { resize: vertical; min-height: 80px; }
     .card { border: 1px solid #ccc; box-shadow: none; }
     .card h3 { color: #000; }
 }
+
+/* ==================== MERGED ORDER + CHECKOUT CARD ==================== */
+.order-checkout-card { border-color: rgba(212,175,55,0.35); }
+
+.inline-checkout {
+    margin-top: 1.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(212,175,55,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.inline-checkout-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.checkout-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.checkout-total-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(212,175,55,0.07);
+    border: 1px solid var(--gold-border);
+    border-radius: 50px;
+    padding: 0.45rem 1rem;
+}
+
+.checkout-total-preview span:first-child {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.checkout-total-amount {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+}
+
+.cart-action-row {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.cart-btn-pending {
+    flex: 1;
+    padding: 0.7rem 0.75rem;
+    background: transparent;
+    color: rgba(255,152,0,0.85);
+    border: 1.5px solid rgba(255,152,0,0.4);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    transition: all 0.2s;
+}
+
+.cart-btn-pending:hover { background: rgba(255,152,0,0.1); border-color: #ff9800; color: #ff9800; }
+
+.cart-action-row .btn-primary {
+    flex: 2;
+    padding: 0.7rem 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 1.2px;
+}
+
+/* ==================== SETTINGS CARD ==================== */
+.settings-group {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.settings-group:last-child { border-bottom: none; margin-bottom: 0; }
+
+.settings-group-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent-gold);
+    opacity: 0.7;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 0.75rem;
+}
+
+.setting-row:last-child { border-bottom: none; }
+
+.setting-label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    flex: 1;
+}
+
+.setting-row--link {
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-radius: 8px;
+    padding: 0.6rem 0.4rem;
+    margin: 0 -0.4rem;
+}
+
+.setting-row--link:hover { background: rgba(212,175,55,0.06); color: var(--text-light); }
+
+.setting-chevron { color: rgba(224,224,224,0.3); font-size: 0.75rem; flex-shrink: 0; }
+
+.setting-row--danger .setting-label { color: rgba(231,76,60,0.8); }
+.setting-row--danger .setting-chevron { color: rgba(231,76,60,0.4); }
+.setting-row--danger:hover { background: rgba(231,76,60,0.07); }
+
+.setting-select {
+    background: rgba(10,25,47,0.7);
+    border: 1.5px solid var(--gold-border);
+    border-radius: 8px;
+    color: var(--text-light);
+    padding: 0.35rem 0.65rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+    outline: none;
+    min-width: 100px;
+}
+
+.setting-select option { background: var(--card-bg); }
+
+/* Toggle switch */
+.toggle-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; cursor: pointer; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: all 0.25s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 2px; top: 2px;
+    background: rgba(224,224,224,0.5);
+    border-radius: 50%;
+    transition: transform 0.25s, background 0.25s;
+}
+
+.toggle-switch input:checked + .toggle-slider { background: rgba(212,175,55,0.25); border-color: var(--accent-gold); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); background: var(--accent-gold); }
+
+/* Inline password panel */
+.inline-panel {
+    background: rgba(10,25,47,0.6);
+    border: 1px solid var(--gold-border);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.inline-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+}
+
+.inline-panel-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 2px;
+    transition: color 0.2s;
+}
+
+.inline-panel-close:hover { color: var(--error-red); }
+
+.form-label-small {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--accent-gold);
+    margin-bottom: 0.4rem;
+}
+
+/* Inline toast */
+.inline-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid var(--gold-border);
+    border-radius: 50px;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    white-space: nowrap;
+}
+
+.inline-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.inline-toast--error { border-color: var(--error-red); color: #ff6b6b; }
+
+@media (max-width: 768px) {
+    .inline-checkout-meta { flex-direction: column; align-items: flex-start; }
+    .checkout-total-preview { width: 100%; justify-content: space-between; }
+}

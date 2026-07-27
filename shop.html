@@ -1152,20 +1152,84 @@
             function applyFilter(filter) {
                 const productCards = document.querySelectorAll('.product-card');
                 const favs = getFavourites();
+                // preserve any active search query
+                const activeSearch = (document.querySelector('.search-input')?.value || '').trim().toLowerCase();
+
                 productCards.forEach(card => {
-                    const type = card.dataset.type || 'all';
+                    const type   = card.dataset.type || 'all';
                     const isBest = card.classList.contains('best-seller');
-                    const isNew = card.classList.contains('new');
-                    const name = card.querySelector('.product-name')?.textContent.trim();
-                    const isFav = favs.some(f => f.name === name);
-                    const show = filter === 'all'
+                    const isNew  = card.classList.contains('new');
+                    const name   = card.querySelector('.product-name')?.textContent.trim();
+                    const isFav  = favs.some(f => f.name === name);
+
+                    const passesFilter = filter === 'all'
                         || type === filter
-                        || (filter === 'best' && isBest)
-                        || (filter === 'new' && isNew)
+                        || (filter === 'best'      && isBest)
+                        || (filter === 'new'       && isNew)
                         || (filter === 'favorites' && isFav);
-                    card.style.display = show ? '' : 'none';
+
+                    const passesSearch = !activeSearch
+                        || name?.toLowerCase().includes(activeSearch)
+                        || type?.toLowerCase().includes(activeSearch);
+
+                    card.style.display = (passesFilter && passesSearch) ? '' : 'none';
                 });
                 refreshShopCount();
+            }
+
+            function applySearch(query) {
+                const productCards  = document.querySelectorAll('.product-card');
+                // get the current active filter from the active cat-tab
+                const activeTab    = document.querySelector('.cat-tab.active');
+                const activeFilter = activeTab ? activeTab.dataset.filter : 'all';
+                const favs         = getFavourites();
+
+                let visibleCount = 0;
+
+                productCards.forEach(card => {
+                    const name   = card.querySelector('.product-name')?.textContent.trim() || '';
+                    const type   = card.dataset.type || '';
+                    const desc   = card.querySelector('.product-description')?.textContent.trim() || '';
+                    const isBest = card.classList.contains('best-seller');
+                    const isNew  = card.classList.contains('new');
+                    const isFav  = favs.some(f => f.name === name);
+
+                    const passesSearch = !query
+                        || name.toLowerCase().includes(query)
+                        || type.toLowerCase().includes(query)
+                        || desc.toLowerCase().includes(query);
+
+                    const passesFilter = activeFilter === 'all'
+                        || type === activeFilter
+                        || (activeFilter === 'best'      && isBest)
+                        || (activeFilter === 'new'       && isNew)
+                        || (activeFilter === 'favorites' && isFav);
+
+                    const show = passesSearch && passesFilter;
+                    card.style.display = show ? '' : 'none';
+                    if (show) visibleCount++;
+                });
+
+                // Update count display
+                const countEl = document.querySelector('.shop-count');
+                if (countEl) countEl.textContent = `Showing ${visibleCount} product${visibleCount !== 1 ? 's' : ''}${query ? ` for "${query}"` : ''}`;
+
+                // Show/hide no-results message
+                let noResults = document.getElementById('search-no-results');
+                if (query && visibleCount === 0) {
+                    if (!noResults) {
+                        noResults = document.createElement('div');
+                        noResults.id = 'search-no-results';
+                        noResults.className = 'search-no-results';
+                        noResults.innerHTML = `<i class="fas fa-search"></i><p>No products found for <strong>"${query}"</strong></p><span>Try a different keyword or browse by category.</span>`;
+                        document.querySelector('.container')?.appendChild(noResults);
+                    } else {
+                        noResults.querySelector('p strong').textContent = `"${query}"`;
+                        noResults.style.display = 'flex';
+                    }
+                } else if (noResults) {
+                    noResults.style.display = 'none';
+                }
             }
 
             function setActiveFilter(_button) { /* handled by cat-tabs */ }
@@ -1252,9 +1316,36 @@
                         btn.classList.add('active');
                         const filter = btn.dataset.filter;
                         applyFilter(filter);
-                        // update breadcrumb
                         const labelEl = document.getElementById('breadcrumb-current');
                         if (labelEl) labelEl.textContent = btn.querySelector('.cat-label').textContent;
+                    });
+                });
+
+                // ---- Live search ----
+                const searchInputs = document.querySelectorAll('.search-input');
+                searchInputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        const query = input.value.trim().toLowerCase();
+                        // Mirror query across all search inputs
+                        searchInputs.forEach(i => { if (i !== input) i.value = input.value; });
+                        applySearch(query);
+                    });
+
+                    // Clear on Escape
+                    input.addEventListener('keydown', e => {
+                        if (e.key === 'Escape') {
+                            input.value = '';
+                            searchInputs.forEach(i => i.value = '');
+                            applySearch('');
+                        }
+                    });
+                });
+
+                // Search button click
+                document.querySelectorAll('.search-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const input = btn.closest('.header-search')?.querySelector('.search-input');
+                        if (input) applySearch(input.value.trim().toLowerCase());
                     });
                 });
 
@@ -1572,14 +1663,13 @@
             </span>
             <span class="bnav-label">Cart</span>
         </button>
-        <button class="bnav-tab" data-tab="alerts" id="bnav-alerts-tab" aria-label="Alerts">
+        <a href="order.html" class="bnav-tab" data-tab="orders" aria-label="Orders">
             <span class="bnav-icon">
-                <i class="fas fa-bell"></i>
-                <span class="bnav-dot" id="bnav-alert-dot"></span>
+                <i class="fas fa-receipt"></i>
             </span>
-            <span class="bnav-label">Alerts</span>
-        </button>
-        <a href="signout.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
+            <span class="bnav-label">Orders</span>
+        </a>
+        <a href="order.html#profile" class="bnav-tab" data-tab="profile" aria-label="Profile">
             <span class="bnav-icon"><i class="fas fa-user"></i></span>
             <span class="bnav-label">Profile</span>
         </a>

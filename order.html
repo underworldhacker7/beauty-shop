@@ -71,7 +71,7 @@
                     <!-- Total row -->
                     <div class="cart-total-row">
                         <span class="total-label">Subtotal</span>
-                        <strong class="total-value">$<span id="cart-grand-total">0.00</span></strong>
+                        <strong class="total-value" id="cart-grand-total">—</strong>
                     </div>
 
                     <!-- Inline checkout section -->
@@ -80,7 +80,7 @@
                             <span class="checkout-note">Standard shipping &amp; taxes at next step</span>
                             <div class="checkout-total-preview">
                                 <span>Cart Total</span>
-                                <span class="checkout-total-amount">$<span id="checkout-preview-total">0.00</span></span>
+                                <span class="checkout-total-amount" id="checkout-preview-total">—</span>
                             </div>
                         </div>
                         <div class="cart-action-row">
@@ -111,30 +111,86 @@
             </main>
 
             <aside id="profile">
-                <section class="card">
-                    <h3><i class="fas fa-user-circle card-icon"></i> Customer Profile</h3>
-                    <div id="user-details">
-                        <div class="profile-loading">
-                            <i class="fas fa-circle-notch fa-spin"></i> Authenticating...
-                        </div>
-                    </div>
-                    <div class="profile-actions">
-                        <button id="edit-profile-btn" class="btn-secondary">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </button>
-                        <button id="delete-account-btn" class="btn-danger">
-                            <i class="fas fa-trash"></i> Delete Account
-                        </button>
-                    </div>
-                </section>
+                <!-- Profile Tabs -->
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="account">
+                        <i class="fas fa-user"></i> Account
+                    </button>
+                    <button class="profile-tab" data-tab="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
 
-                <!-- Settings Card -->
-                <section class="card settings-card">
-                    <h3><i class="fas fa-cog card-icon"></i> Settings</h3>
+                <!-- ===== ACCOUNT TAB ===== -->
+                <div class="profile-tab-content active" id="tab-account">
+
+                    <!-- Account Details -->
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-id-card card-icon"></i> Account Details</h3>
+                        <div id="user-details">
+                            <div class="profile-loading">
+                                <i class="fas fa-circle-notch fa-spin"></i> Authenticating...
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Account Settings -->
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-sliders-h card-icon"></i> Account Settings</h3>
+
+                        <div class="setting-row setting-row--link" id="edit-profile-btn">
+                            <span class="setting-label"><i class="fas fa-edit" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Edit Profile</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </div>
+                        <div class="setting-row setting-row--link" id="change-password-btn">
+                            <span class="setting-label"><i class="fas fa-key" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Change Password</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </div>
+                        <div class="setting-row setting-row--link" id="two-factor-btn">
+                            <span class="setting-label"><i class="fas fa-shield-alt" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Two-Factor Auth</span>
+                            <label class="toggle-switch" onclick="event.stopPropagation()">
+                                <input type="checkbox" id="two-factor-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row setting-row--link" id="two-factor-btn">
+                            <span class="setting-label"><i class="fas fa-history" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Login Activity</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </div>
+
+                        <!-- Password change panel -->
+                        <div id="change-password-panel" class="inline-panel" style="display:none;">
+                            <div class="inline-panel-header">
+                                <span>Change Password</span>
+                                <button class="inline-panel-close" id="close-pw-panel"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label-small">New Password</label>
+                                <input type="password" id="new-password" class="payment-input" placeholder="Min 8 characters">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label-small">Confirm Password</label>
+                                <input type="password" id="confirm-new-password" class="payment-input" placeholder="Repeat password">
+                            </div>
+                            <button class="btn-primary" id="save-password-btn" style="margin-top:0.5rem;">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </div>
+
+                        <div class="profile-actions" style="margin-top:1rem;">
+                            <button id="delete-account-btn" class="btn-danger">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ===== SETTINGS TAB ===== -->
+                <div class="profile-tab-content" id="tab-settings">
 
                     <!-- Notifications -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-bell"></i> Notifications</p>
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-bell card-icon"></i> Notifications</h3>
                         <div class="setting-row">
                             <span class="setting-label">Order updates</span>
                             <label class="toggle-switch">
@@ -156,58 +212,59 @@
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
-                    </div>
+                        <div class="setting-row">
+                            <span class="setting-label">SMS alerts</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notif-sms">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </section>
 
                     <!-- Currency & Region -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-globe"></i> Currency &amp; Region</p>
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-globe card-icon"></i> Currency &amp; Region</h3>
                         <div class="setting-row">
                             <span class="setting-label">Currency</span>
                             <select id="pref-currency" class="setting-select">
                                 <option value="USD">USD $</option>
-                                <option value="KES">KES</option>
+                                <option value="KES">KES Ksh</option>
                                 <option value="GBP">GBP £</option>
                                 <option value="EUR">EUR €</option>
                             </select>
                         </div>
-                    </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Language</span>
+                            <select class="setting-select" id="pref-language">
+                                <option value="en">English</option>
+                                <option value="sw">Swahili</option>
+                            </select>
+                        </div>
+                    </section>
 
                     <!-- Shipping Address -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-map-marker-alt"></i> Shipping Address</p>
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-map-marker-alt card-icon"></i> Shipping Address</h3>
                         <div class="form-group" style="margin-bottom:0.6rem;">
                             <input type="text" id="shipping-address" class="payment-input" placeholder="Street address">
                         </div>
-                        <div class="form-row">
+                        <div class="form-row" style="margin-bottom:0.6rem;">
                             <input type="text" id="shipping-city" class="payment-input" placeholder="City">
                             <input type="text" id="shipping-country" class="payment-input" placeholder="Country">
                         </div>
-                        <button class="btn-secondary" id="save-address-btn" style="margin-top:0.75rem;width:100%;justify-content:center;">
+                        <div class="form-group">
+                            <input type="text" id="shipping-zip" class="payment-input" placeholder="ZIP / Postal code">
+                        </div>
+                        <button class="btn-secondary" id="save-address-btn" style="margin-top:0.5rem;width:100%;justify-content:center;">
                             <i class="fas fa-save"></i> Save Address
                         </button>
-                    </div>
-
-                    <!-- Security -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-shield-alt"></i> Security</p>
-                        <div class="setting-row setting-row--link" id="change-password-btn">
-                            <span class="setting-label">Change Password</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </div>
-                        <div class="setting-row setting-row--link" id="two-factor-btn">
-                            <span class="setting-label">Two-Factor Authentication</span>
-                            <label class="toggle-switch" onclick="event.stopPropagation()">
-                                <input type="checkbox" id="two-factor-toggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
+                    </section>
 
                     <!-- Privacy -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-user-shield"></i> Privacy</p>
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-user-shield card-icon"></i> Privacy</h3>
                         <div class="setting-row">
-                            <span class="setting-label">Share order data for recommendations</span>
+                            <span class="setting-label">Personalised recommendations</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="privacy-recs" checked>
                                 <span class="toggle-slider"></span>
@@ -220,46 +277,55 @@
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
-                    </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Analytics &amp; cookies</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="privacy-analytics" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <!-- Appearance -->
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-palette card-icon"></i> Appearance</h3>
+                        <div class="setting-row">
+                            <span class="setting-label">Compact product cards</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="pref-compact">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Show product prices</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="pref-show-prices" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </section>
 
                     <!-- Quick Links -->
-                    <div class="settings-group">
-                        <p class="settings-group-label"><i class="fas fa-link"></i> Quick Links</p>
+                    <section class="card profile-section-card">
+                        <h3><i class="fas fa-link card-icon"></i> Quick Links</h3>
                         <a href="shop.html" class="setting-row setting-row--link">
-                            <span class="setting-label">Continue Shopping</span>
+                            <span class="setting-label"><i class="fas fa-shopping-bag" style="margin-right:0.5rem;opacity:0.5;"></i> Continue Shopping</span>
                             <i class="fas fa-chevron-right setting-chevron"></i>
                         </a>
                         <a href="index.html#contact" class="setting-row setting-row--link">
-                            <span class="setting-label">Contact Support</span>
+                            <span class="setting-label"><i class="fas fa-headset" style="margin-right:0.5rem;opacity:0.5;"></i> Contact Support</span>
+                            <i class="fas fa-chevron-right setting-chevron"></i>
+                        </a>
+                        <a href="index.html" class="setting-row setting-row--link">
+                            <span class="setting-label"><i class="fas fa-home" style="margin-right:0.5rem;opacity:0.5;"></i> Go to Homepage</span>
                             <i class="fas fa-chevron-right setting-chevron"></i>
                         </a>
                         <div class="setting-row setting-row--link setting-row--danger" id="logout-settings-btn">
-                            <span class="setting-label">Sign Out</span>
+                            <span class="setting-label"><i class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i> Sign Out</span>
                             <i class="fas fa-sign-out-alt setting-chevron"></i>
                         </div>
-                    </div>
-                </section>
-
-                <!-- Change Password Modal trigger panel (inline) -->
-                <div id="change-password-panel" class="inline-panel" style="display:none;">
-                    <div class="inline-panel-header">
-                        <span>Change Password</span>
-                        <button class="inline-panel-close" id="close-pw-panel"><i class="fas fa-times"></i></button>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label-small">New Password</label>
-                        <input type="password" id="new-password" class="payment-input" placeholder="Min 8 characters">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label-small">Confirm New Password</label>
-                        <input type="password" id="confirm-new-password" class="payment-input" placeholder="Repeat password">
-                    </div>
-                    <button class="btn-primary" id="save-password-btn" style="margin-top:0.5rem;">
-                        <i class="fas fa-key"></i> Update Password
-                    </button>
+                    </section>
                 </div>
-
-                <!-- change password inline panel below settings -->
             </aside>
         </div>
     </div>
@@ -528,15 +594,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4>Order Summary</h4>
                     <div class="summary-row">
                         <span>Subtotal:</span>
-                        <span>$<span id="modal-subtotal">0.00</span></span>
+                        <span id="modal-subtotal">—</span>
                     </div>
                     <div class="summary-row">
                         <span>Shipping:</span>
-                        <span>$5.00</span>
+                        <span id="modal-shipping">—</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total:</span>
-                        <span>$<span id="modal-total">0.00</span></span>
+                        <span id="modal-total">—</span>
                     </div>
                 </div>
             </div>
@@ -616,6 +682,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const CART_KEY = 'cart';
         let currentUser = null;
 
+        // ============================================================
+        //  CURRENCY HELPERS
+        // ============================================================
+        const RATES = { USD: 1, KES: 130, GBP: 0.79, EUR: 0.92 };
+        const SYMBOLS = { USD: '$', KES: 'Ksh ', GBP: '£', EUR: '€' };
+        const DECIMALS = { USD: 2, KES: 0, GBP: 2, EUR: 2 };
+
+        function getCurrency() {
+            return localStorage.getItem('selectedCurrency') || 'USD';
+        }
+
+        function formatOrderPrice(usdAmount) {
+            const cur  = getCurrency();
+            const rate = RATES[cur] || 1;
+            const sym  = SYMBOLS[cur] || '$';
+            const dec  = DECIMALS[cur] ?? 2;
+            const val  = (parseFloat(usdAmount) || 0) * rate;
+            return sym + val.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
         // Check Authentication
         firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
@@ -650,62 +736,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Render Cart
         function renderCart() {
-            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            const cart    = JSON.parse(localStorage.getItem(CART_KEY)) || [];
             const tbody   = document.getElementById('cart-items-body');
             const mCards  = document.getElementById('cart-cards-mobile');
             const preview = document.getElementById('checkout-preview-total');
-            let total = 0;
+            let totalUSD  = 0;
 
             if (cart.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" class="empty-cell">Your cart is empty</td></tr>`;
                 if (mCards) mCards.innerHTML = `<div class="cart-empty-state"><i class="fas fa-shopping-cart"></i><p>Your cart is empty</p><a href="shop.html" class="btn-shop-link">Browse Products</a></div>`;
-                document.getElementById('cart-grand-total').textContent = '0.00';
-                if (preview) preview.textContent = '0.00';
+                document.getElementById('cart-grand-total').textContent = formatOrderPrice(0);
+                if (preview) preview.textContent = formatOrderPrice(0);
                 document.getElementById('clear-cart-btn').style.display = 'none';
                 return;
             }
 
             document.getElementById('clear-cart-btn').style.display = 'flex';
 
-            // Desktop table rows
+            // Calculate total first
+            totalUSD = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || i.quantity || 1), 0);
+
+            // Desktop table
             tbody.innerHTML = cart.map(item => {
                 const qty       = item.qty || item.quantity || 1;
-                const lineTotal = item.price * qty;
-                total += lineTotal;
+                const lineTotal = parseFloat(item.price) * qty;
                 return `
                     <tr>
                         <td>${item.name}</td>
                         <td class="qty-cell">${qty}</td>
-                        <td>$${parseFloat(item.price).toFixed(2)}</td>
-                        <td class="total-cell">$${lineTotal.toFixed(2)}</td>
+                        <td>${formatOrderPrice(item.price)}</td>
+                        <td class="total-cell">${formatOrderPrice(lineTotal)}</td>
                     </tr>`;
             }).join('');
 
-            // Mobile cart cards
-            total = 0;
+            // Mobile cards
             if (mCards) {
                 mCards.innerHTML = cart.map(item => {
                     const qty       = item.qty || item.quantity || 1;
-                    const lineTotal = item.price * qty;
-                    total += lineTotal;
+                    const lineTotal = parseFloat(item.price) * qty;
                     return `
                     <div class="cart-item-card">
                         <div class="cart-item-info">
                             <p class="cart-item-name">${item.name}</p>
-                            <p class="cart-item-meta">Qty: <strong>${qty}</strong> &nbsp;·&nbsp; $${parseFloat(item.price).toFixed(2)} each</p>
+                            <p class="cart-item-meta">Qty: <strong>${qty}</strong> &nbsp;·&nbsp; ${formatOrderPrice(item.price)} each</p>
                         </div>
-                        <p class="cart-item-total">$${lineTotal.toFixed(2)}</p>
+                        <p class="cart-item-total">${formatOrderPrice(lineTotal)}</p>
                     </div>`;
                 }).join('');
-            } else {
-                cart.forEach(item => {
-                    const qty = item.qty || item.quantity || 1;
-                    total += item.price * qty;
-                });
             }
 
-            document.getElementById('cart-grand-total').textContent = total.toFixed(2);
-            if (preview) preview.textContent = total.toFixed(2);
+            document.getElementById('cart-grand-total').textContent = formatOrderPrice(totalUSD);
+            if (preview) preview.textContent = formatOrderPrice(totalUSD);
         }
 
         // Load Order History
@@ -741,7 +822,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p class="order-items-list">${itemsList}</p>
                             <div class="history-footer">
                                 <span class="order-payment-method"><i class="fas fa-credit-card"></i> ${order.paymentMethod || 'Card'}</span>
-                                <span class="order-total-badge">$${order.total?.toFixed(2) || '0.00'}</span>
+                                <span class="order-total-badge">${formatOrderPrice(order.total || 0)}</span>
                             </div>
                         </div>`;
                     }).join('');
@@ -799,14 +880,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         placeOrderBtn.addEventListener('click', () => {
             const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-            if (cart.length === 0) {
-                alert('Your cart is empty');
-                return;
-            }
-
-            const total = parseFloat(document.getElementById('cart-grand-total').textContent);
-            document.getElementById('modal-subtotal').textContent = total.toFixed(2);
-            document.getElementById('modal-total').textContent = (total + 5).toFixed(2);
+            if (cart.length === 0) { alert('Your cart is empty'); return; }
+            const totalUSD = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
+            document.getElementById('modal-subtotal').textContent = formatOrderPrice(totalUSD);
+            document.getElementById('modal-shipping').textContent  = formatOrderPrice(5);
+            document.getElementById('modal-total').textContent    = formatOrderPrice(totalUSD + 5);
             modal.style.display = 'flex';
         });        function closePaymentModal() {
             modal.style.display = 'none';
@@ -829,7 +907,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Confirm Payment
         document.getElementById('confirm-payment').addEventListener('click', async () => {
             const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-            const total = parseFloat(document.getElementById('cart-grand-total').textContent) + 5;
+            const cartRaw = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            const total = cartRaw.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0) + 5;
 
             // Create order object
             const order = {
@@ -955,13 +1034,28 @@ document.addEventListener('DOMContentLoaded', function() {
         //  SETTINGS PANEL
         // ============================================================
         function initSettings() {
-            // Wire pending button
+            // ---- Profile tab switching ----
+            document.querySelectorAll('.profile-tab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.profile-tab').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                });
+            });
+
+            // If URL hash is #profile-settings, auto-switch to settings tab
+            if (window.location.hash === '#profile-settings') {
+                document.querySelector('.profile-tab[data-tab="settings"]')?.click();
+            }
+
+            // ---- Wire pending button ----
             const pendingBtn = document.getElementById('save-pending-btn');
             if (pendingBtn) {
                 pendingBtn.addEventListener('click', () => {
                     const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
                     if (cart.length === 0) { showInlineToast('Cart is empty', true); return; }
-                    const total    = cart.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+                    const total    = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
                     const orderRef = 'GG-P-' + Date.now().toString(36).toUpperCase();
                     const orders   = JSON.parse(localStorage.getItem('gg_orders')) || [];
                     orders.unshift({ ref: orderRef, items: cart, total, status: 'pending', time: new Date().toISOString() });
@@ -981,7 +1075,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (el && saved[id] !== undefined) el.checked = saved[id];
                 if (el) el.addEventListener('change', savePref);
             });
-            document.getElementById('pref-currency').addEventListener('change', savePref);
+            document.getElementById('pref-currency').addEventListener('change', () => {
+                savePref();
+                // Re-render all amounts in new currency
+                renderCart();
+                loadOrderHistory();
+            });
 
             // Save address
             document.getElementById('save-address-btn').addEventListener('click', () => {

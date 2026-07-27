@@ -19,6 +19,18 @@
 
 html { scroll-behavior: smooth; }
 
+/* Hide scrollbar site-wide — scroll still works */
+html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     background: var(--primary-blue);
@@ -1254,4 +1266,88 @@ textarea.payment-input { resize: vertical; min-height: 80px; }
 @media (max-width: 768px) {
     .inline-checkout-meta { flex-direction: column; align-items: flex-start; }
     .checkout-total-preview { width: 100%; justify-content: space-between; }
+}
+
+/* ==================== PROFILE TABS ==================== */
+.profile-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--gold-border);
+    border-radius: 50px;
+    padding: 4px;
+}
+
+.profile-tab {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 50px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: all 0.25s ease;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.profile-tab:hover {
+    color: var(--accent-gold);
+    background: rgba(212,175,55,0.06);
+}
+
+.profile-tab.active {
+    background: linear-gradient(135deg, var(--accent-gold), #c9a227);
+    color: var(--primary-blue);
+    font-weight: 700;
+    box-shadow: 0 2px 12px rgba(212,175,55,0.3);
+}
+
+/* Tab content panels */
+.profile-tab-content {
+    display: none;
+    animation: fadeIn 0.22s ease;
+}
+
+.profile-tab-content.active {
+    display: block;
+}
+
+/* Each section card inside the profile tabs */
+.profile-section-card {
+    margin-bottom: 1rem;
+    border-radius: 16px;
+}
+
+.profile-section-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Smaller heading inside profile section cards */
+.profile-section-card h3 {
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-section-card h3::after {
+    width: 28px;
+    height: 1.5px;
+}
+
+/* Compact card padding for profile sections */
+.profile-section-card.card {
+    padding: 1.1rem 1.2rem;
+}
+
+@media (max-width: 480px) {
+    .profile-section-card.card { padding: 0.9rem 1rem; }
+    .profile-tab { font-size: 0.76rem; padding: 0.5rem 0.6rem; gap: 0.3rem; }
 }

@@ -49,7 +49,7 @@
                     <i class="fas fa-shopping-bag" aria-hidden="true"></i>
                     <span class="cart-count" id="cart-count">0</span>
                 </button>
-                <a href="signout.html" class="hdr-icon-btn" aria-label="Account">
+                <a href="profile.html" class="hdr-icon-btn" aria-label="Account">
                     <i class="fas fa-user" aria-hidden="true"></i>
                 </a>
                 <button class="hdr-icon-btn" id="menu-toggle" aria-label="Toggle Navigation" aria-expanded="false">
@@ -1669,7 +1669,7 @@
             </span>
             <span class="bnav-label">Orders</span>
         </a>
-        <a href="order.html#profile" class="bnav-tab" data-tab="profile" aria-label="Profile">
+        <a href="profile.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
             <span class="bnav-icon"><i class="fas fa-user"></i></span>
             <span class="bnav-label">Profile</span>
         </a>
@@ -1856,7 +1856,7 @@
 
             // Mark active tab
             const page   = window.location.pathname.split('/').pop() || 'index.html';
-            const map    = { 'index.html': 'home', 'shop.html': 'cart', 'signout.html': 'profile' };
+            const map    = { 'index.html': 'home', 'shop.html': 'cart', 'profile.html': 'profile' };
             const active = map[page] || 'cart';
             document.querySelectorAll('.bnav-tab[data-tab="' + active + '"]').forEach(t => {
                 t.classList.add('bnav-tab--active');

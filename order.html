@@ -36,11 +36,11 @@
 
     <div class="order-container">
         <header>
-            <h1>My Account</h1>
-            <p>Review your selection and order history</p>
+            <h1>My Orders</h1>
+            <p>Track and manage your orders</p>
         </header>
 
-        <div class="order-grid">
+        <div class="order-main-only">
             <main>
                 <!-- Merged: Current Order + Checkout -->
                 <section class="card order-checkout-card">
@@ -108,225 +108,24 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Order Notifications -->
+                <section class="card" id="order-alerts-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell card-icon"></i> Order Notifications</h3>
+                        <button class="btn-secondary" id="clear-alerts-btn" style="display:none;">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
+                    </div>
+                    <div id="order-alerts-list">
+                        <div class="empty-state">
+                            <i class="fas fa-bell-slash"></i>
+                            <p>No order notifications yet.</p>
+                        </div>
+                    </div>
+                </section>
             </main>
 
-            <aside id="profile">
-                <!-- Profile Tabs -->
-                <div class="profile-tabs">
-                    <button class="profile-tab active" data-tab="account">
-                        <i class="fas fa-user"></i> Account
-                    </button>
-                    <button class="profile-tab" data-tab="settings">
-                        <i class="fas fa-cog"></i> Settings
-                    </button>
-                </div>
-
-                <!-- ===== ACCOUNT TAB ===== -->
-                <div class="profile-tab-content active" id="tab-account">
-
-                    <!-- Account Details -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-id-card card-icon"></i> Account Details</h3>
-                        <div id="user-details">
-                            <div class="profile-loading">
-                                <i class="fas fa-circle-notch fa-spin"></i> Authenticating...
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Account Settings -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-sliders-h card-icon"></i> Account Settings</h3>
-
-                        <div class="setting-row setting-row--link" id="edit-profile-btn">
-                            <span class="setting-label"><i class="fas fa-edit" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Edit Profile</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </div>
-                        <div class="setting-row setting-row--link" id="change-password-btn">
-                            <span class="setting-label"><i class="fas fa-key" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Change Password</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </div>
-                        <div class="setting-row setting-row--link" id="two-factor-btn">
-                            <span class="setting-label"><i class="fas fa-shield-alt" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Two-Factor Auth</span>
-                            <label class="toggle-switch" onclick="event.stopPropagation()">
-                                <input type="checkbox" id="two-factor-toggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row setting-row--link" id="two-factor-btn">
-                            <span class="setting-label"><i class="fas fa-history" style="color:var(--accent-gold);margin-right:0.5rem;"></i> Login Activity</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </div>
-
-                        <!-- Password change panel -->
-                        <div id="change-password-panel" class="inline-panel" style="display:none;">
-                            <div class="inline-panel-header">
-                                <span>Change Password</span>
-                                <button class="inline-panel-close" id="close-pw-panel"><i class="fas fa-times"></i></button>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label-small">New Password</label>
-                                <input type="password" id="new-password" class="payment-input" placeholder="Min 8 characters">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label-small">Confirm Password</label>
-                                <input type="password" id="confirm-new-password" class="payment-input" placeholder="Repeat password">
-                            </div>
-                            <button class="btn-primary" id="save-password-btn" style="margin-top:0.5rem;">
-                                <i class="fas fa-key"></i> Update Password
-                            </button>
-                        </div>
-
-                        <div class="profile-actions" style="margin-top:1rem;">
-                            <button id="delete-account-btn" class="btn-danger">
-                                <i class="fas fa-trash"></i> Delete Account
-                            </button>
-                        </div>
-                    </section>
-                </div>
-
-                <!-- ===== SETTINGS TAB ===== -->
-                <div class="profile-tab-content" id="tab-settings">
-
-                    <!-- Notifications -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-bell card-icon"></i> Notifications</h3>
-                        <div class="setting-row">
-                            <span class="setting-label">Order updates</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="notif-orders" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Promotions &amp; offers</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="notif-promos">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Wishlist restocks</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="notif-wishlist" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">SMS alerts</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="notif-sms">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </section>
-
-                    <!-- Currency & Region -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-globe card-icon"></i> Currency &amp; Region</h3>
-                        <div class="setting-row">
-                            <span class="setting-label">Currency</span>
-                            <select id="pref-currency" class="setting-select">
-                                <option value="USD">USD $</option>
-                                <option value="KES">KES Ksh</option>
-                                <option value="GBP">GBP £</option>
-                                <option value="EUR">EUR €</option>
-                            </select>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Language</span>
-                            <select class="setting-select" id="pref-language">
-                                <option value="en">English</option>
-                                <option value="sw">Swahili</option>
-                            </select>
-                        </div>
-                    </section>
-
-                    <!-- Shipping Address -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-map-marker-alt card-icon"></i> Shipping Address</h3>
-                        <div class="form-group" style="margin-bottom:0.6rem;">
-                            <input type="text" id="shipping-address" class="payment-input" placeholder="Street address">
-                        </div>
-                        <div class="form-row" style="margin-bottom:0.6rem;">
-                            <input type="text" id="shipping-city" class="payment-input" placeholder="City">
-                            <input type="text" id="shipping-country" class="payment-input" placeholder="Country">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="shipping-zip" class="payment-input" placeholder="ZIP / Postal code">
-                        </div>
-                        <button class="btn-secondary" id="save-address-btn" style="margin-top:0.5rem;width:100%;justify-content:center;">
-                            <i class="fas fa-save"></i> Save Address
-                        </button>
-                    </section>
-
-                    <!-- Privacy -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-user-shield card-icon"></i> Privacy</h3>
-                        <div class="setting-row">
-                            <span class="setting-label">Personalised recommendations</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="privacy-recs" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Marketing emails</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="privacy-marketing">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Analytics &amp; cookies</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="privacy-analytics" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </section>
-
-                    <!-- Appearance -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-palette card-icon"></i> Appearance</h3>
-                        <div class="setting-row">
-                            <span class="setting-label">Compact product cards</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="pref-compact">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <span class="setting-label">Show product prices</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="pref-show-prices" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </section>
-
-                    <!-- Quick Links -->
-                    <section class="card profile-section-card">
-                        <h3><i class="fas fa-link card-icon"></i> Quick Links</h3>
-                        <a href="shop.html" class="setting-row setting-row--link">
-                            <span class="setting-label"><i class="fas fa-shopping-bag" style="margin-right:0.5rem;opacity:0.5;"></i> Continue Shopping</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </a>
-                        <a href="index.html#contact" class="setting-row setting-row--link">
-                            <span class="setting-label"><i class="fas fa-headset" style="margin-right:0.5rem;opacity:0.5;"></i> Contact Support</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </a>
-                        <a href="index.html" class="setting-row setting-row--link">
-                            <span class="setting-label"><i class="fas fa-home" style="margin-right:0.5rem;opacity:0.5;"></i> Go to Homepage</span>
-                            <i class="fas fa-chevron-right setting-chevron"></i>
-                        </a>
-                        <div class="setting-row setting-row--link setting-row--danger" id="logout-settings-btn">
-                            <span class="setting-label"><i class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i> Sign Out</span>
-                            <i class="fas fa-sign-out-alt setting-chevron"></i>
-                        </div>
-                    </section>
-                </div>
-            </aside>
         </div>
     </div>
 
@@ -1027,124 +826,73 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('DOMContentLoaded', () => {
             renderCart();
             checkCartAndHistory();
-            initSettings();
+            renderOrderAlerts();
         });
 
         // ============================================================
-        //  SETTINGS PANEL
+        //  ORDER ALERTS (order-specific notifications from localStorage)
         // ============================================================
-        function initSettings() {
-            // ---- Profile tab switching ----
-            document.querySelectorAll('.profile-tab').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.profile-tab').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-                });
-            });
+        function renderOrderAlerts() {
+            const all    = JSON.parse(localStorage.getItem('gg_alerts') || '[]');
+            const alerts = all.filter(a => ['order','payment','tracking','pending'].includes(a.type));
+            const list   = document.getElementById('order-alerts-list');
+            const clearBtn = document.getElementById('clear-alerts-btn');
+            if (!list) return;
 
-            // If URL hash is #profile-settings, auto-switch to settings tab
-            if (window.location.hash === '#profile-settings') {
-                document.querySelector('.profile-tab[data-tab="settings"]')?.click();
+            if (alerts.length === 0) {
+                list.innerHTML = `<div class="empty-state"><i class="fas fa-bell-slash"></i><p>No order notifications yet.</p></div>`;
+                return;
             }
 
-            // ---- Wire pending button ----
-            const pendingBtn = document.getElementById('save-pending-btn');
-            if (pendingBtn) {
-                pendingBtn.addEventListener('click', () => {
-                    const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-                    if (cart.length === 0) { showInlineToast('Cart is empty', true); return; }
-                    const total    = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
-                    const orderRef = 'GG-P-' + Date.now().toString(36).toUpperCase();
-                    const orders   = JSON.parse(localStorage.getItem('gg_orders')) || [];
-                    orders.unshift({ ref: orderRef, items: cart, total, status: 'pending', time: new Date().toISOString() });
-                    localStorage.setItem('gg_orders', JSON.stringify(orders));
-                    showInlineToast(`⏳ Order ${orderRef} saved as Pending`);
-                });
-            }
-            // Restore saved preferences
-            const saved = JSON.parse(localStorage.getItem('gg_settings') || '{}');
-            if (saved.currency) document.getElementById('pref-currency').value = saved.currency;
-            if (saved.shippingAddress) document.getElementById('shipping-address').value = saved.shippingAddress;
-            if (saved.shippingCity)    document.getElementById('shipping-city').value    = saved.shippingCity;
-            if (saved.shippingCountry) document.getElementById('shipping-country').value = saved.shippingCountry;
-            const bools = ['notif-orders','notif-promos','notif-wishlist','privacy-recs','privacy-marketing','two-factor-toggle'];
-            bools.forEach(id => {
-                const el = document.getElementById(id);
-                if (el && saved[id] !== undefined) el.checked = saved[id];
-                if (el) el.addEventListener('change', savePref);
-            });
-            document.getElementById('pref-currency').addEventListener('change', () => {
-                savePref();
-                // Re-render all amounts in new currency
-                renderCart();
-                loadOrderHistory();
-            });
+            if (clearBtn) clearBtn.style.display = 'flex';
 
-            // Save address
-            document.getElementById('save-address-btn').addEventListener('click', () => {
-                savePref();
-                showInlineToast('Address saved ✓');
-            });
+            const icons = { order:'fa-shopping-bag', payment:'fa-credit-card', tracking:'fa-map-marker-alt', pending:'fa-clock' };
+            const colors= { order:'#d4af37', payment:'#27ae60', tracking:'#3498db', pending:'#ff9800' };
 
-            // Change password panel
-            document.getElementById('change-password-btn').addEventListener('click', () => {
-                const panel = document.getElementById('change-password-panel');
-                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-            });
-            document.getElementById('close-pw-panel').addEventListener('click', () => {
-                document.getElementById('change-password-panel').style.display = 'none';
-            });
-            document.getElementById('save-password-btn').addEventListener('click', async () => {
-                const np = document.getElementById('new-password').value;
-                const cp = document.getElementById('confirm-new-password').value;
-                if (!np || np.length < 8) { showInlineToast('Password must be at least 8 characters', true); return; }
-                if (np !== cp)            { showInlineToast('Passwords do not match', true); return; }
-                try {
-                    await currentUser.updatePassword(np);
-                    showInlineToast('Password updated ✓');
-                    document.getElementById('change-password-panel').style.display = 'none';
-                    document.getElementById('new-password').value = '';
-                    document.getElementById('confirm-new-password').value = '';
-                } catch (e) {
-                    showInlineToast(e.message || 'Error updating password', true);
-                }
-            });
-
-            // Settings logout button
-            document.getElementById('logout-settings-btn').addEventListener('click', async () => {
-                await firebase.auth().signOut();
-                localStorage.removeItem('userSignedIn');
-                localStorage.removeItem('token');
-                window.location.href = 'signout.html';
-            });
-
-            // Scroll to profile if #profile hash is present
-            if (window.location.hash === '#profile') {
-                setTimeout(() => {
-                    const el = document.getElementById('profile');
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 400);
-            }
+            list.innerHTML = alerts.map(a => `
+                <div class="history-item">
+                    <div class="history-status-bar">
+                        <i class="fas ${icons[a.type]||'fa-bell'} history-status-icon" style="color:${colors[a.type]||'#d4af37'}"></i>
+                        <div class="history-meta">
+                            <strong class="history-ref">${a.message}</strong>
+                            <span class="history-date">${_relTime(a.time)}</span>
+                        </div>
+                    </div>
+                    ${a.detail ? `<p class="order-items-list">${a.detail}</p>` : ''}
+                </div>`).join('');
         }
 
-        function savePref() {
-            const settings = {
-                currency:        document.getElementById('pref-currency')?.value,
-                shippingAddress: document.getElementById('shipping-address')?.value,
-                shippingCity:    document.getElementById('shipping-city')?.value,
-                shippingCountry: document.getElementById('shipping-country')?.value,
-                'notif-orders':   document.getElementById('notif-orders')?.checked,
-                'notif-promos':   document.getElementById('notif-promos')?.checked,
-                'notif-wishlist': document.getElementById('notif-wishlist')?.checked,
-                'privacy-recs':   document.getElementById('privacy-recs')?.checked,
-                'privacy-marketing': document.getElementById('privacy-marketing')?.checked,
-                'two-factor-toggle': document.getElementById('two-factor-toggle')?.checked,
-            };
-            localStorage.setItem('gg_settings', JSON.stringify(settings));
-            localStorage.setItem('selectedCurrency', settings.currency);
+        function _relTime(iso) {
+            const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+            if (s < 60)    return 'just now';
+            if (s < 3600)  return Math.floor(s/60) + 'm ago';
+            if (s < 86400) return Math.floor(s/3600) + 'h ago';
+            return Math.floor(s/86400) + 'd ago';
         }
+
+        document.getElementById('clear-alerts-btn')?.addEventListener('click', () => {
+            const all = JSON.parse(localStorage.getItem('gg_alerts') || '[]');
+            const kept = all.filter(a => !['order','payment','tracking','pending'].includes(a.type));
+            localStorage.setItem('gg_alerts', JSON.stringify(kept));
+            renderOrderAlerts();
+        });
+
+        // Wire pending button (moved here from initSettings)
+        document.getElementById('save-pending-btn')?.addEventListener('click', () => {
+            const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            if (cart.length === 0) { showInlineToast('Cart is empty', true); return; }
+            const total    = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
+            const orderRef = 'GG-P-' + Date.now().toString(36).toUpperCase();
+            const orders   = JSON.parse(localStorage.getItem('gg_orders')) || [];
+            orders.unshift({ ref: orderRef, items: cart, total, status: 'pending', time: new Date().toISOString() });
+            localStorage.setItem('gg_orders', JSON.stringify(orders));
+            // Add alert
+            const al = JSON.parse(localStorage.getItem('gg_alerts') || '[]');
+            al.unshift({ id: Date.now(), type:'pending', message:`Order ${orderRef} saved as Pending`, detail:`${cart.length} item(s) · ${formatOrderPrice(total)}`, time: new Date().toISOString(), read: false });
+            localStorage.setItem('gg_alerts', JSON.stringify(al.slice(0,50)));
+            showInlineToast(`⏳ ${orderRef} saved as Pending`);
+            renderOrderAlerts();
+        });
 
         function showInlineToast(msg, isError = false) {
             let t = document.getElementById('inline-toast');
@@ -1178,10 +926,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="bnav-icon"><i class="fas fa-receipt"></i></span>
             <span class="bnav-label">Orders</span>
         </a>
-        <a href="order.html#profile" class="bnav-tab" data-tab="profile" aria-label="Profile">
+        <a href="profile.html" class="bnav-tab" data-tab="profile" aria-label="Profile">
             <span class="bnav-icon"><i class="fas fa-user"></i></span>
             <span class="bnav-label">Profile</span>
         </a>
+    </nav>
     </nav>
 
     <script src="scripts.js"></script>

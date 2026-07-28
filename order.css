@@ -188,19 +188,16 @@ body {
     letter-spacing: 1px;
 }
 
-/* Grid */
-.order-grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 1.5rem;
-    align-items: start;
+/* Grid — now single column since aside moved to profile.html */
+.order-main-only {
+    display: block;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-@media (max-width: 992px) { .order-grid { grid-template-columns: 1fr; } }
-
-/* Sticky aside */
-aside { position: sticky; top: 80px; height: fit-content; }
-@media (max-width: 992px) { aside { position: static; } }
+/* Keep old .order-grid in case referenced elsewhere */
+.order-grid { display: block; }
 
 /* ==================== CARDS ==================== */
 .card {
